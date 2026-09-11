@@ -1,0 +1,12 @@
+# 1. Ignore everything
+*
+
+# 2. Do not ignore directories (otherwise Git won't look inside them for .cpp files)
+!*/
+
+# 3. Do not ignore .cpp files
+!*.cpp
+
+# 4. Optional: Do not ignore the .gitignore file itself
+!.gitignore
+
