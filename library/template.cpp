@@ -1,6 +1,11 @@
 #pragma GCC optimize ("O3")
-#pragma GCC target ("sse4")
- 
+
+#if defined(__x86_64__) || defined(__i386__)
+    #pragma GCC target ("sse4")
+#elif defined(__aarch64__)
+    #pragma GCC target ("arch=armv8-a+crc")
+#endif 
+
 #include <bits/stdc++.h>
  
 using namespace std;

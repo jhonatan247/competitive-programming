@@ -4,8 +4,10 @@
 # 2. Do not ignore directories (otherwise Git won't look inside them for .cpp files)
 !*/
 
-# 3. Do not ignore .cpp files
+# 3. Do not ignore code files
 !*.cpp
+!*.sh
+!*.py
 
 # 4. Optional: Do not ignore the .gitignore file itself
 !.gitignore
