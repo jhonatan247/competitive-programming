@@ -42,14 +42,14 @@ autocmd FileType tex :set tw=110
  
 " Plugin Management Settings
 set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+call plug#begin('~/.vim/plugged')
 
 " Declare your plugin here
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'lervag/vimtex'
-Plugin 'octol/vim-cpp-enhanced-highlight'
+Plug 'VundleVim/Vundle.vim'
+Plug 'lervag/vimtex'
+Plug 'bfrg/vim-c-cpp-modern'
 
-call vundle#end()
+call plug#end()
 filetype plugin indent on
 
 " VimTeX Configuration
