@@ -65,10 +65,10 @@ echo
 # ---------- Compile ----------
 #   -DLOCAL              enable local-only debug code
 #   -O2                  optimization level
-#   -std=c++17           language standard
+#   -std=c++20           language standard
 #   -Wall -Wextra        useful warnings
 #   -Wno-unknown-pragmas silence pragma warnings on ARM (no SSE4)
-"$GPP" -DLOCAL -O2 -std=c++17 -Wall -Wextra -Wno-unknown-pragmas \
+"$GPP" -DLOCAL -O2 -std=c++20 -Wall -Wextra -Wno-unknown-pragmas \
     -o "$PROBLEM" "$SRC"
 
 echo

@@ -8,6 +8,7 @@
 !*.cpp
 !*.sh
 !*.py
+!*.vimrc
 
 # 4. Optional: Do not ignore the .gitignore file itself
 !.gitignore

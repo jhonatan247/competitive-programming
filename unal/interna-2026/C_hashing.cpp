@@ -5,7 +5,7 @@
 #elif defined(__aarch64__)
     #pragma GCC target ("arch=armv8-a+crc")
 #endif 
- 
+
 #include <bits/stdc++.h>
  
 using namespace std;
@@ -54,15 +54,35 @@ const int MOD = 1000000007;
 const char nl = '\n';
 const int MX = 100001; 
  
+vector<int> powsOf27;
+
+int addToHash(char letter, int position, int currentHash){
+    int letterNumber = letter - 'a' + 1;
+    if(ssize(powsOf27) == position){
+        powsOf27.push_back((powsOf27[position - 1] * 27) % MOD);
+    }
+    return (currentHash + (letterNumber * powsOf27[position]) % MOD) % MOD;
+}
+
 void solve() {
+    powsOf27.push_back(1); 
+    set<int> hashes;
+
     int n;
     string s;
+    
     cin >> n;
+
     while(n--){
         cin >> s;
-        if(s == "BdnaDars") cout << "Enough!" << endl;
-        else cout << "OK" << endl;
+        int currentHash = 0;
+        for(int i = s.size() - 1; i >= 0; i--){
+            int position = s.size() - 1 - i;
+            currentHash = addToHash(s[i], position, currentHash);
+            hashes.insert(currentHash);
+        }
     }
+    cout << hashes.size();
  
 }
  
