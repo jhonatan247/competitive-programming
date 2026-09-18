@@ -1,40 +1,40 @@
 #pragma GCC optimize ("O3")
 
 #if defined(__x86_64__) || defined(__i386__)
-    #pragma GCC target ("sse4")
+#pragma GCC target ("sse4")
 #elif defined(__aarch64__)
-    #pragma GCC target ("arch=armv8-a+crc")
+#pragma GCC target ("arch=armv8-a+crc")
 #endif 
 
 #include <bits/stdc++.h>
- 
+
 using namespace std;
- 
+
 typedef long long ll;
 typedef long double ld;
 typedef complex<ld> cd;
- 
+
 typedef pair<int, int> pi;
 typedef pair<ll,ll> pl;
 typedef pair<ld,ld> pd;
- 
+
 typedef vector<int> vi;
 typedef vector<ld> vd;
 typedef vector<ll> vl;
 typedef vector<pi> vpi;
 typedef vector<pl> vpl;
 typedef vector<cd> vcd;
- 
+
 template<class T> using pq = priority_queue<T>;
 template<class T> using pqg = priority_queue<T, vector<T>, greater<T>>;
- 
+
 #define FOR(i, a, b) for (int i=a; i<(b); i++)
 #define F0R(i, a) for (int i=0; i<(a); i++)
 #define FORd(i,a,b) for (int i = (b)-1; i >= a; i--)
 #define F0Rd(i,a) for (int i = (a)-1; i >= 0; i--)
 #define trav(a,x) for (auto& a : x)
 #define uid(a, b) uniform_int_distribution<int>(a, b)(rng)
- 
+
 #define sz(x) (int)(x).size()
 #define mp make_pair
 #define pb push_back
@@ -46,46 +46,38 @@ template<class T> using pqg = priority_queue<T, vector<T>, greater<T>>;
 #define ins insert
 #define pii pair<int,int>
 
- 
+
 template<class T> bool ckmin(T& a, const T& b) { return b < a ? a = b, 1 : 0; }
 template<class T> bool ckmax(T& a, const T& b) { return a < b ? a = b, 1 : 0; }
- 
+
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
- 
+
 const int MOD = 1000000007;
 const char nl = '\n';
 const int MX = 100001;
 
 const int CAMEL = 46;
 const int HOLE = 79;
- 
+
 pii pairDiff(pii a, pii b){
     return mp(a.fr - b.fr, a.sc - b.sc);
 }
 
-bool isContainedMorphology(vector<pii>& contained,vector<pii>& container){
-    if(!sz(contained)) return true;
-    F0R(i,sz(container)){
-        if(sz(container) - i < sz(contained)) return false;
-        
-        pii prevContainer = container[i];
-        pii currContainer = container[i];
-        
-        pii prevContained = contained[0];
-        pii currContained = contained[0];
-
-        bool isContained = true;
-
-        FOR(j, 1, sz(contained)){
-            currContainer = container[i + j];
-            currContained = contained[j];
-            if(pairDiff(prevContainer, currContainer) != pairDiff(prevContained, currContained)){
-                isContained = false;
+bool isContainedMorphology(vector<pii>& contained, vector<pii>& container){
+    if (contained.size() > container.size()) return false;
+    set<pii> containerSet(container.begin(), container.end());
+    pii anchor = contained[0];
+    for (auto& base : container) {
+        pii shift = {base.first - anchor.first, base.second - anchor.second};
+        bool ok = true;
+        for (auto& cell : contained) {
+            pii translated = {cell.first + shift.first, cell.second + shift.second};
+            if (containerSet.find(translated) == containerSet.end()) {
+                ok = false;
                 break;
-            }          
+            }
         }
-        if(isContained) return true;
-
+        if (ok) return true;
     }
     return false;
 }
@@ -117,7 +109,7 @@ void solve() {
 
     vector<vector<bool>> grouped(n, vector<bool>(m, false));
     vector<vector<pii>> groups;
-
+    
     F0R(i,n){
         F0R(j,m){
             if(grouped[i][j] or gameboard[i][j] == HOLE) continue;
@@ -156,9 +148,8 @@ void solve() {
                 if(contained) break;
                 continue;
             }
-            contained=isContainedMorphology(groups[i], groups[j]);
+            contained = isContainedMorphology(groups[i], groups[j]);
             memory[i][j] = contained;
-
             if(contained){
                 memory[j][i] = sz(groups[j]) == sz(groups[i]);
                 break;
@@ -166,10 +157,9 @@ void solve() {
         }
         if(!contained) winnerCount += sz(groups[i]);
     }
-
     cout << winnerCount << endl;
 }
- 
+
 int main() {
     cin.tie(0)->sync_with_stdio(0); 
     cin.exceptions(cin.failbit);

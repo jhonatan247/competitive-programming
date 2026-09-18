@@ -1,3 +1,4 @@
+
 #pragma GCC optimize ("O3")
 
 #if defined(__x86_64__) || defined(__i386__)
@@ -44,7 +45,15 @@ template<class T> using pqg = priority_queue<T, vector<T>, greater<T>>;
 #define ub upper_bound
 #define all(x) x.begin(), x.end()
 #define ins insert
+
+#define vb vector<bool>
+#define vvb vector<vector<bool>>
+#define vi vector<int>
+#define vvi vector<vector<int>>
 #define pii pair<int,int>
+#define vpii vector<pair<int,int>>
+#define vvpii vector<vector<pair<int,int>>>
+#define vvvpii vector<vector<vector<pair<int,int>>>>
 
  
 template<class T> bool ckmin(T& a, const T& b) { return b < a ? a = b, 1 : 0; }
@@ -63,7 +72,7 @@ pii pairDiff(pii a, pii b){
     return mp(a.fr - b.fr, a.sc - b.sc);
 }
 
-bool isContainedMorphology(vector<pii>& contained,vector<pii>& container){
+bool isContainedMorphology(vpii& contained,vpii& container){
     if(!sz(contained)) return true;
     F0R(i,sz(container)){
         if(sz(container) - i < sz(contained)) return false;
@@ -76,13 +85,32 @@ bool isContainedMorphology(vector<pii>& contained,vector<pii>& container){
 
         bool isContained = true;
 
-        FOR(j, 1, sz(contained)){
-            currContainer = container[i + j];
-            currContained = contained[j];
-            if(pairDiff(prevContainer, currContainer) != pairDiff(prevContained, currContained)){
+        int ignored = 0;
+        FOR(j, 1, sz(contained) + ignored){
+            if(i + j == sz(container)){
                 isContained = false;
                 break;
-            }          
+            }
+            currContainer = container[i + j];
+            currContained = contained[j - ignored];
+
+            pii containerDiff = pairDiff(currContainer, prevContainer);
+            pii containedDiff = pairDiff(currContained, prevContained);
+            
+            if(containerDiff != containedDiff){
+                if(containerDiff.sc != 0){
+                    prevContainer = currContainer;
+                    prevContained.fr += containerDiff.fr;
+                    prevContained.sc += containerDiff.sc;
+                    ignored++;
+                }else{
+                    isContained = false;
+                    break;
+                }
+            }else{
+                prevContainer = currContainer;
+                prevContained = currContained;
+            }
         }
         if(isContained) return true;
 
@@ -93,7 +121,7 @@ bool isContainedMorphology(vector<pii>& contained,vector<pii>& container){
 void solve() {
     int n, m;
     cin >> n >> m;
-    vector<vector<vector<pii>>> adj(n, vector<vector<pii>>(m));
+    vvvpii adj(n, vvpii(m));
     vector<string> gameboard(n);
 
     F0R(i,n){
@@ -115,14 +143,14 @@ void solve() {
         }
     }
 
-    vector<vector<bool>> grouped(n, vector<bool>(m, false));
-    vector<vector<pii>> groups;
+    vvb grouped(n, vb(m, false));
+    vvpii groups;
 
     F0R(i,n){
         F0R(j,m){
             if(grouped[i][j] or gameboard[i][j] == HOLE) continue;
             queue<pii> bfs;
-            vector<pii> group;
+            vpii group;
             group.pb(mp(i,j));
             grouped[i][j] = true;
             bfs.push(mp(i, j));
@@ -143,7 +171,7 @@ void solve() {
         }
     }
 
-    vector<vector<int>> memory(sz(groups), vector<int>(sz(groups), -1));
+    vvi memory(sz(groups), vi(sz(groups), -1));
 
     int winnerCount = 0;
 
