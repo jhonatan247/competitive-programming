@@ -55,7 +55,16 @@ const char nl = '\n';
 const int MX = 100001; 
  
 void solve() {
-
+    int n = uid(90, 100);
+    cout << n << endl;
+    while(n--){
+        int l = uid(1e5, 3 * 1e5);
+        while(l--){
+            char c = uid(0, 25) + 'a';
+            cout << c;
+        }
+        cout << endl;
+    }
 }
  
 int main() {
@@ -70,4 +79,5 @@ int main() {
 
     return 0;
 }
+
 

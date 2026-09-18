@@ -55,19 +55,34 @@ const char nl = '\n';
 const int MX = 100001; 
  
 void solve() {
+    int n;
+    char c;
+    cin >> n;
 
+    set<char> letters = {'c', 'o', 'd', 'f', 'e', 's', 'r'};
+
+    while(n--){
+        cin >> c;
+        if(letters.count(c)){
+            cout << "YES" << nl;
+        }else{
+            cout << "NO" << nl;
+        }
+    }
+ 
 }
  
 int main() {
     cin.tie(0)->sync_with_stdio(0); 
     cin.exceptions(cin.failbit);
-
+ 
     int T = 1;
 //    cin >> T;
     while(T--) {
         solve();
     }
-
-    return 0;
+ 
+	return 0;
 }
+
 

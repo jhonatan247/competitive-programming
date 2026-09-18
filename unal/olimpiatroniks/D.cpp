@@ -55,19 +55,38 @@ const char nl = '\n';
 const int MX = 100001; 
  
 void solve() {
+    int n, m;
+    cin >> n >> m;
+    vector<string> s(n);
+    for(int i = 0; i < n; i++){
+        cin >> s[i];
+    }
 
+    int minD = n * m * 27;
+
+    for(int i = 0; i < n; i++){
+        for(int j = i + 1; j < n; j++){
+            int distance = 0;
+            for(int k = 0; k < m; k++){
+                distance += abs(s[i][k] - s[j][k]);
+            }
+            minD = min(minD, distance);
+        }
+    }
+    cout << minD << endl;
 }
  
 int main() {
     cin.tie(0)->sync_with_stdio(0); 
     cin.exceptions(cin.failbit);
-
+ 
     int T = 1;
-//    cin >> T;
+    cin >> T;
     while(T--) {
         solve();
     }
-
-    return 0;
+ 
+	return 0;
 }
+
 

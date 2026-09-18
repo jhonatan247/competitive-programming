@@ -12,6 +12,8 @@ set shellslash
 set number
 set relativenumber
 set cino+=L0 
+set scrolloff=999
+set clipboard=unnamedplus
 syntax on
 filetype indent on
 filetype off
@@ -30,10 +32,31 @@ autocmd BufNewFile *.cpp 0r ~/cp/library/template.cpp
 
 "Compile and run
 "Note that this line requires the build.sh script!
-autocmd FileType cpp nnoremap <F9> :w <bar> !build.sh %:r <CR> 
 autocmd FileType cpp nnoremap <buffer> <F10> :!./%:t:r < in<CR>
+autocmd FileType cpp nnoremap <F9> :w <bar> !build.sh %:r <CR> 
 autocmd FileType cpp nnoremap <buffer> <F8>
   \ :w <bar> execute '!build.sh ' . shellescape(expand('%:r')) . ' && ./' . shellescape(expand('%:t:r')) . ' < in'<CR>
+
+function! RunStress(compile)
+    let n = input('tests: ', '100')     " Enter accepts 100
+    if n !~# '^\d\+$' | let n = '100' | endif   " sanity: fall back on garbage
+
+    let base = split(expand('%:t:r'), '_')[0]
+    let dir  = expand('%:p:h')
+    let cmd  = '!cd ' . dir
+
+    if a:compile
+        let cmd .= ' && build.sh ' . base
+              \ . ' && build.sh ' . base . '_slow'
+              \ . ' && build.sh ' . base . '_gen'
+    endif
+
+    let cmd .= ' && stress.sh ' . base . ' ' . base . '_slow ' . base . '_gen ' . n
+    execute cmd
+endfunction
+
+autocmd FileType cpp nnoremap <F7> :w <bar> call RunStress(0)<CR>
+autocmd FileType cpp nnoremap <F6> :w <bar> call RunStress(1)<CR>
 
 "LaTeX settings
 autocmd FileType tex :NoMatchParen

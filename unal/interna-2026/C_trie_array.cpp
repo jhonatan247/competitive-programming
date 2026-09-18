@@ -53,21 +53,75 @@ mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 const int MOD = 1000000007;
 const char nl = '\n';
 const int MX = 100001; 
- 
-void solve() {
 
+struct TrieNode {
+    TrieNode* children[26] = {};
+
+    TrieNode* findChild(char value){
+        return children[value - 'a'];
+    } 
+
+    TrieNode* addChild(char value){
+        TrieNode* newNode = new TrieNode();
+        children[value - 'a'] = newNode;
+
+        return newNode;
+    }
+};
+
+struct Trie {
+    TrieNode* root = new TrieNode();
+    int nodeCount = 0;
+
+    void insertWord(string word){
+        TrieNode* current = root;
+
+        for(char letter : word){
+            TrieNode* next = current->findChild(letter);
+            if(next){
+                current = next;
+            }
+            else{
+                current = current->addChild(letter);
+                nodeCount ++;
+            }
+        }
+    }
+
+    int size(){
+        return nodeCount;
+    }
+};
+
+void solve() {
+    int n;
+    string s;
+
+    Trie trie;
+
+    cin >> n;
+
+    while(n--){
+        cin >> s;
+        
+        reverse(all(s));
+        trie.insertWord(s);
+        
+    }
+
+    cout << sz(trie) << endl; 
 }
  
 int main() {
     cin.tie(0)->sync_with_stdio(0); 
     cin.exceptions(cin.failbit);
-
+ 
     int T = 1;
 //    cin >> T;
     while(T--) {
         solve();
     }
-
-    return 0;
+ 
+	return 0;
 }
 

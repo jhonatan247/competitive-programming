@@ -55,6 +55,45 @@ const char nl = '\n';
 const int MX = 100001; 
  
 void solve() {
+    int n;
+    cin >> n;
+    string s;
+    vector<vector<int>> adj(n);
+
+    F0R(i, n){
+        cin>>s;
+        F0R(j, n){
+            if(s[j] == '?' or s[j] == 'W'){
+                adj[i].pb(j);
+            }
+        }
+    }
+    
+    vector<int> winners;
+
+    F0R(i, n){
+        vector<bool> visited(n, 0);
+        visited[i] = 1;
+        int count = 1;
+        queue<int> bfs;
+        bfs.push(i);
+        while(sz(bfs)){
+            int current = bfs.front();
+            bfs.pop();
+            trav(child,adj[current]){
+                if(!visited[child]){
+                    visited[child] = true;
+                    count++;
+                    bfs.push(child);
+                }
+            }
+            if(count == n) break;
+
+        }
+        if(count == n) winners.pb(i + 1);
+    }
+
+    trav(winner,winners) cout<<winner<<nl;
 
 }
  
@@ -70,4 +109,5 @@ int main() {
 
     return 0;
 }
+
 

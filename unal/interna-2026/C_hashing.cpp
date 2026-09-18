@@ -6,6 +6,7 @@
     #pragma GCC target ("arch=armv8-a+crc")
 #endif 
 
+#include <iterator> 
 #include <bits/stdc++.h>
  
 using namespace std;
@@ -38,8 +39,8 @@ template<class T> using pqg = priority_queue<T, vector<T>, greater<T>>;
 #define sz(x) (int)(x).size()
 #define mp make_pair
 #define pb push_back
-#define f first
-#define s second
+#define fs first
+#define sc second
 #define lb lower_bound
 #define ub upper_bound
 #define all(x) x.begin(), x.end()
@@ -50,23 +51,29 @@ template<class T> bool ckmax(T& a, const T& b) { return a < b ? a = b, 1 : 0; }
  
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
  
-const int MOD = 1000000007;
+const ll MOD1 = 1000000007;
+const ll MOD2 = 1000000009;
 const char nl = '\n';
 const int MX = 100001; 
  
-vector<int> powsOf27;
+vector<pair<ll, ll>> powsOf27;
 
-int addToHash(char letter, int position, int currentHash){
+pair<int, int> addToHash(char letter, int position, pair<int, int> currentHash){
     int letterNumber = letter - 'a' + 1;
-    if(ssize(powsOf27) == position){
-        powsOf27.push_back((powsOf27[position - 1] * 27) % MOD);
+    if(sz(powsOf27) == position){
+        ll firstPow = (powsOf27[position - 1].fs * 27) % MOD1;
+        ll secondPow = (powsOf27[position - 1].sc * 27) % MOD2;
+        powsOf27.pb(mp(firstPow,secondPow));
     }
-    return (currentHash + (letterNumber * powsOf27[position]) % MOD) % MOD;
+    int firstHash = (currentHash.fs + (letterNumber * powsOf27[position].fs) % MOD1) % MOD1;
+    int secondHash = (currentHash.sc + (letterNumber * powsOf27[position].sc) % MOD2) % MOD2;
+    return mp(firstHash, secondHash);
 }
 
 void solve() {
-    powsOf27.push_back(1); 
-    set<int> hashes;
+    powsOf27.push_back(mp(1,1)); 
+    
+    set<pair<int, int>> hashes;
 
     int n;
     string s;
@@ -75,15 +82,14 @@ void solve() {
 
     while(n--){
         cin >> s;
-        int currentHash = 0;
+        pair<int,int> currentHash = {0, 0};
         for(int i = s.size() - 1; i >= 0; i--){
             int position = s.size() - 1 - i;
             currentHash = addToHash(s[i], position, currentHash);
             hashes.insert(currentHash);
         }
     }
-    cout << hashes.size();
- 
+    cout << hashes.size() << endl;
 }
  
 int main() {

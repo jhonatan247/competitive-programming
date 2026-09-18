@@ -55,19 +55,36 @@ const char nl = '\n';
 const int MX = 100001; 
  
 void solve() {
+    int n, k;
 
+    cin >> n >> k;
+
+    string s;
+    cin >> s;
+
+    int i = 0, op = 0;
+    while(i < n){
+        if(s[i] == 'W'){
+            i++;
+        }else{
+            op++;
+            i+= k;
+        }
+    }
+    cout << op << endl;
 }
  
 int main() {
     cin.tie(0)->sync_with_stdio(0); 
     cin.exceptions(cin.failbit);
-
+ 
     int T = 1;
-//    cin >> T;
+    cin >> T;
     while(T--) {
         solve();
     }
-
-    return 0;
+ 
+	return 0;
 }
+
 

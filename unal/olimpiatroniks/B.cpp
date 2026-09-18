@@ -55,19 +55,45 @@ const char nl = '\n';
 const int MX = 100001; 
  
 void solve() {
+    int n;
+    string s;
+    int x = 0, y = 0;
+    cin >> n >> s;
 
+    for(char dir: s){
+        if(dir == 'U'){
+            y++;
+        }
+        else if (dir == 'D'){
+            y--;
+        }
+        else if(dir == 'L'){
+            x--;
+        }
+        else if(dir == 'R'){
+            x++;
+        }
+
+        if(x == 1 && y == 1){
+            cout << "YES" << nl;
+            return;
+        }
+    }
+
+    cout << "NO" << nl;
 }
  
 int main() {
     cin.tie(0)->sync_with_stdio(0); 
     cin.exceptions(cin.failbit);
-
+ 
     int T = 1;
-//    cin >> T;
+    cin >> T;
     while(T--) {
         solve();
     }
-
-    return 0;
+ 
+	return 0;
 }
+
 
