@@ -86,12 +86,11 @@ void solve() {
     for(int i = 3; i <= maxTree; i += 2){
         vpi newTree;
         
-        trav(tree, sol){
-            for(int j = 1; j <= i / 2; j++){
-                tree.pb(mp(i, j));
-                newTree.pb(mp(i, i - j));
-                newTree.pb(mp(i, j));
-            }
+        F0R(k, sz(sol)){
+            sol[k].pb(mp(i, k + 1));
+        }
+        for(int j = 1; j < i; j++){
+            newTree.pb(mp(i, j));
         }
         if(trees.count(i)){
             sols[i] = sol;
@@ -100,21 +99,23 @@ void solve() {
 
         vpi nextTree;
 
-        trav(tree, sol){
-            for(int j = 1; j <= i / 2; j++){
-                tree.pb(mp(i + 1, i - j));
+        F0R(k, sz(sol)){
+            sol[k].pb(mp(i + 1, i - k - 1));
+        }
+        for(int j = 1; j < i; j++){
+            if(j <= i/2){
                 nextTree.pb(mp(i + 1, j));
-                nextTree.pb(mp(i,i - j));
+            }else{
+                nextTree.pb(mp(i,j));
             }
         }
 
         nextTree.pb(mp(i, i + 1));
 
+        sol.pb(nextTree);
         if(trees.count(i + 1)){
             sols[i + 1] = sol;
-            sols[i + 1].pb(nextTree);
         }
-        sol = sols[i + 1]; 
     }
 
     trav(query,queries){
