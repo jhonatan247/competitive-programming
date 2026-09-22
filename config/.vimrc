@@ -107,22 +107,28 @@ nnoremap <Tab> %
     autocmd BufNewFile *.cpp 0r ~/cp/library/template.cpp
 "   C++ compile & run (using your build.sh workflow)
     autocmd FileType cpp setlocal makeprg=g++\ -std=c++17\ -O2\ -Wall\ -Wextra\ -o\ %:r\ %
-    autocmd FileType cpp nnoremap <buffer> <F10> :w <bar> execute 
-        \ '!build.sh ' . 
-        \ shellescape(expand('%:r')) . 
-        \ ' --verbose --debug && ./' . 
-        \ shellescape(expand('%:t:r')) . 
-        \ ' < in'<CR>
-    autocmd FileType cpp nnoremap <buffer> <F9> :w <bar> execute 
-        \ '!build.sh ' . 
-        \ shellescape(expand('%:r')) . 
-        \ ' --verbose --debug && ./' . 
-        \ shellescape(expand('%:t:r'))<CR>
-    autocmd FileType cpp nnoremap <buffer> <F8> :w <bar> execute 
-        \ '!build.sh ' . shellescape(expand('%:r')) . 
-        \ ' --verbose --debug'<CR>
+    function! BuildCpp(flags, run) abort
+        update
+        let l:src = shellescape(expand('%:r'))   " filename without extension
+        let l:bin = shellescape(expand('%:t:r')) " basename without extension
+        let l:cmd = '!build.sh ' . l:src . ' ' . a:flags
+        if a:run
+            let l:cmd .= ' && ./' . l:bin . ' < in'
+        endif
+        execute l:cmd
+    endfunction
+    autocmd FileType cpp nnoremap <buffer> <F10> <Cmd>call BuildCpp('--debug', 1)<CR>
+    autocmd FileType cpp inoremap <buffer> <F10> <Cmd>call BuildCpp('--debug', 1)<CR>
+    autocmd FileType cpp vnoremap <buffer> <F10> <Cmd>call BuildCpp('--debug', 1)<CR>
+    autocmd FileType cpp nnoremap <buffer> <F9>  <Cmd>call BuildCpp('--verbose --debug', 1)<CR>
+    autocmd FileType cpp inoremap <buffer> <F9>  <Cmd>call BuildCpp('--verbose --debug', 1)<CR>
+    autocmd FileType cpp vnoremap <buffer> <F9>  <Cmd>call BuildCpp('--verbose --debug', 1)<CR>
+    autocmd FileType cpp nnoremap <buffer> <F8>  <Cmd>call BuildCpp('', 0)<CR>
+    autocmd FileType cpp inoremap <buffer> <F8>  <Cmd>call BuildCpp('', 0)<CR>
+    autocmd FileType cpp vnoremap <buffer> <F8>  <Cmd>call BuildCpp('', 0)<CR>
 "   Stress tests
-    function! RunStress(compile)
+    function! RunStress(compile) abort
+        update
         let n = input('tests: ', '100')
         if n !~# '^\d\+$' | let n = '100' | endif
 
@@ -139,8 +145,12 @@ nnoremap <Tab> %
         let cmd .= ' && stress.sh ' . base . ' ' . base . '_slow ' . base . '_gen ' . n
         execute cmd
     endfunction
-    autocmd FileType cpp nnoremap <F7> :w <bar> call RunStress(0)<CR>
-    autocmd FileType cpp nnoremap <F6> :w <bar> call RunStress(1)<CR>
+    autocmd FileType cpp nnoremap <buffer> <F7>  <Cmd>call RunStress(0)<CR>
+    autocmd FileType cpp inoremap <buffer> <F7>  <Cmd>call RunStress(0)<CR>
+    autocmd FileType cpp vnoremap <buffer> <F7>  <Cmd>call RunStress(0)<CR>
+    autocmd FileType cpp nnoremap <buffer> <F6>  <Cmd>call RunStress(1)<CR>
+    autocmd FileType cpp inoremap <buffer> <F6>  <Cmd>call RunStress(1)<CR>
+    autocmd FileType cpp vnoremap <buffer> <F6>  <Cmd>call RunStress(1)<CR>
 
 
 " Plugin management (vim-plug only)

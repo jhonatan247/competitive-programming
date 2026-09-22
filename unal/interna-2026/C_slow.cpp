@@ -69,16 +69,16 @@ struct TrieNode {
     char value;
     unordered_set<TrieNode*, TrieNodeHash, TrieNodeEq> children;
     
-    TrieNode(char value = '\0') : value(value) {}
+    TrieNode(char v = '\0') : value(v) {}
 
-    TrieNode* findChild(char value){
-        TrieNode nodeToFind(value);
+    TrieNode* findChild(char v){
+        TrieNode nodeToFind(v);
         auto it = children.find(&nodeToFind);
         return it == children.end() ? nullptr : *it;
     }
 
-    TrieNode* addChild(char value){
-        TrieNode* child = new TrieNode(value);
+    TrieNode* addChild(char v){
+        TrieNode* child = new TrieNode(v);
         children.ins(child);
         return child;
     }

@@ -22,10 +22,16 @@ typedef long double _ld;
 #define sz(x) (int)(x).size()
 #define all(x) x.begin(), x.end()
 
+#define uid(a, b) uniform_int_distribution<_ll>(a, b)(rng)
+
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+
 const char nl = '\n';
 const int MX = 100001; 
  
 void solve() {
+    _ll n = uid(1e8, 1e11), k = uid(1e8, 1e11), p = uid(1e8, 1e11);
+    cout << n << " " << k << " " << p << endl;
 
 }
  
@@ -49,3 +55,4 @@ int32_t main() {
 
     return 0;
 }
+

@@ -15,105 +15,8 @@
 using namespace std;
 
 #ifdef LOCAL
-template<class T> void debug_print(const T& x);
-
-void debug_print(const string& s) { cerr << quoted(s); }
-void debug_print(string_view s) { cerr << quoted(s); }
-
-void debug_print(const char* s) {
-    if (s) cerr << quoted(s);
-    else   cerr << "nullptr";
-}
-void debug_print(char* s) { debug_print((const char*)s); }
-
-template<size_t N>
-void debug_print(const char (&s)[N]) { cerr << quoted(s); }
-
-void debug_print(char c) { cerr << '\'' << c << '\''; }
-void debug_print(bool b) { cerr << (b ? "true" : "false"); }
-void debug_print(nullptr_t) { cerr << "nullptr"; }
-
-template<class A, class B>
-void debug_print(const pair<A, B>& p) {
-    cerr << '(';
-    debug_print(p.first);
-    cerr << ", ";
-    debug_print(p.second);
-    cerr << ')';
-}
-
-template<class... Ts>
-void debug_print(const tuple<Ts...>& t) {
-    cerr << '(';
-    apply([&](const auto&... xs) {
-        bool first = true;
-        ((cerr << (first ? "" : ", "), first = false, debug_print(xs)), ...);
-    }, t);
-    cerr << ')';
-}
-
-void debug_print(const vector<bool>& v) {
-    cerr << '{';
-    bool first = true;
-    for (bool x : v) {
-        if (!first) cerr << ", ";
-        first = false;
-        debug_print(x);
-    }
-    cerr << '}';
-}
-
-template<class T, class C>
-void debug_print(const queue<T, C>& q0) {
-    auto q = q0;
-    vector<T> v;
-    while (!q.empty()) v.push_back(q.front()), q.pop();
-    debug_print(v);
-}
-
-template<class T, class C>
-void debug_print(const stack<T, C>& s0) {
-    auto s = s0;
-    vector<T> v;
-    while (!s.empty()) v.push_back(s.top()), s.pop();
-    debug_print(v);
-}
-
-template<class T, class C, class Comp>
-void debug_print(const priority_queue<T, C, Comp>& pq0) {
-    auto pq = pq0;
-    vector<T> v;
-    while (!pq.empty()) v.push_back(pq.top()), pq.pop();
-    debug_print(v);
-}
-
-template<class T>
-void debug_print(const T& x) {
-    if constexpr (is_integral_v<T>) {
-        cerr << +x;          // avoid unsigned char printing as a char
-    } else if constexpr (is_floating_point_v<T>) {
-        cerr << x;
-    } else {
-        cerr << '{';
-        bool first = true;
-        for (const auto& e : x) {
-            if (!first) cerr << ", ";
-            first = false;
-            debug_print(e);
-        }
-        cerr << '}';
-    }
-}
-
-void debug_out() {}
-
 template<class T, class... Ts>
-void debug_out(const T& x, const Ts&... xs) {
-    cerr << ' ';
-    debug_print(x);
-    debug_out(xs...);
-}
-
+void debug_out(const T& x, const Ts&... xs);
 #define debug(...) do { \
     cerr << "@@@ " << #__VA_ARGS__ << " ="; \
     debug_out(__VA_ARGS__); \
@@ -126,11 +29,12 @@ void debug_out(const T& x, const Ts&... xs) {
 typedef long long _ll;
 typedef long double _ld;
  
-#define FOREACH(a,x) for (auto& a : x)
-#define F0R(i,a) for (int i=0; i<(a); i++)
+#define F0R(i, a) for (int i=0; i<(a); i++)
 #define F0Rd(i,a) for (int i = (a)-1; i >= 0; i--)
-#define FOR(i,a,b) for (int i=a; i<(b); i++)
+#define FOR(i, a, b) for (int i=a; i<(b); i++)
 #define FORd(i,a,b) for (int i = (b)-1; i >= a; i--)
+#define TRAV(a,x) for (auto& a : x)
+#define TRAVd(a,x) for (auto a = x.rbegin(); a != x.rend(); ++a)
 
 #define sz(x) (int)(x).size()
 #define all(x) x.begin(), x.end()
@@ -146,7 +50,7 @@ int minSort(string& s, int i, int j){
         if(k > f0 and s[k] == '0') f0 = k;
         if(k < l1 and s[k] == '1') l1 = k;
     }
-    debug(i, j, f0, l1);
+    debug(i,j,f0,l1);
     if(f0 < l1)
         return 0;
 
@@ -158,10 +62,7 @@ void solve() {
     string s;
     cin >> n;
     cin >> s;
-
-   for (auto it = s.rbegin(); it != s.rend(); ++it) {
-    cout << *it << ' ';
-} 
+   
     if(s[0] == '1'){
         int cnt = 0;
         F0R(i, n){
@@ -194,3 +95,89 @@ int32_t main() {
     return 0;
 }
 
+#ifdef LOCAL
+void debug_print(const string& s) { cerr << quoted(s); }
+void debug_print(string_view s) { cerr << quoted(s); }
+void debug_print(const char* s) {
+    if (s) cerr << quoted(s);
+    else   cerr << "nullptr";
+}
+void debug_print(char* s) { debug_print((const char*)s); }
+template<size_t N>
+void debug_print(const char (&s)[N]) { cerr << quoted(s); }
+void debug_print(char c) { cerr << '\'' << c << '\''; }
+void debug_print(bool b) { cerr << (b ? "true" : "false"); }
+void debug_print(nullptr_t) { cerr << "nullptr"; }
+template<class A, class B>
+void debug_print(const pair<A, B>& p) {
+    cerr << '(';
+    debug_print(p.first);
+    cerr << ", ";
+    debug_print(p.second);
+    cerr << ')';
+}
+template<class... Ts>
+void debug_print(const tuple<Ts...>& t) {
+    cerr << '(';
+    apply([&](const auto&... xs) {
+        bool first = true;
+        ((cerr << (first ? "" : ", "), first = false, debug_print(xs)), ...);
+    }, t);
+    cerr << ')';
+}
+void debug_print(const vector<bool>& v) {
+    cerr << '{';
+    bool first = true;
+    for (bool x : v) {
+        if (!first) cerr << ", ";
+        first = false;
+        debug_print(x);
+    }
+    cerr << '}';
+}
+template<class T, class C>
+void debug_print(const queue<T, C>& q0) {
+    auto q = q0;
+    vector<T> v;
+    while (!q.empty()) v.push_back(q.front()), q.pop();
+    debug_print(v);
+}
+template<class T, class C>
+void debug_print(const stack<T, C>& s0) {
+    auto s = s0;
+    vector<T> v;
+    while (!s.empty()) v.push_back(s.top()), s.pop();
+    debug_print(v);
+}
+template<class T, class C, class Comp>
+void debug_print(const priority_queue<T, C, Comp>& pq0) {
+    auto pq = pq0;
+    vector<T> v;
+    while (!pq.empty()) v.push_back(pq.top()), pq.pop();
+    debug_print(v);
+}
+template<class T>
+void debug_print(const T& x) {
+    if constexpr (is_integral_v<T>) {
+        cerr << +x;
+    } else if constexpr (is_floating_point_v<T>) {
+        cerr << x;
+    } else {
+        cerr << '{';
+        bool first = true;
+        for (const auto& e : x) {
+            if (!first) cerr << ", ";
+            first = false;
+            debug_print(e);
+        }
+        cerr << '}';
+    }
+}
+void debug_out() {}
+template<class T, class... Ts>
+void debug_out(const T& x, const Ts&... xs) {
+    cerr << ' ';
+    debug_print(x);
+    debug_out(xs...);
+}
+#endif

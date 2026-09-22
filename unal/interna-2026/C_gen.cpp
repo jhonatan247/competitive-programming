@@ -58,7 +58,7 @@ void solve() {
     int n = uid(90, 100);
     cout << n << endl;
     while(n--){
-        int l = uid(1e5, 3 * 1e5);
+        int l = uid(1, 100);
         while(l--){
             char c = uid(0, 25) + 'a';
             cout << c;

@@ -99,16 +99,16 @@ fi
 
 # ---------- Assemble flags ----------
 # Base flags: always applied.
-FLAGS=(-O2 -std=c++17 -Wno-unknown-pragmas)
+FLAGS=(-O2 -std=c++17 -Wno-unknown-pragmas -Wno-unused-result -Wall -Wshadow)
 
 # --debug: define LOCAL for #ifdef LOCAL blocks (freopen, dbg macros, etc.)
 if [ "$DEBUG" -eq 1 ]; then
-    FLAGS+=(-DLOCAL -g -fsanitize=address,undefined)
+    FLAGS+=(-DLOCAL)
 fi
 
 # --verbose: enable comprehensive warnings, tuned per OS.
 if [ "$VERBOSE" -eq 1 ]; then
-    FLAGS+=(-Wall -Wextra -Wshadow -Wconversion)
+    FLAGS+=(-g -Wextra -Wconversion -fsanitize=address,undefined)
 
     if [ "$OS" = "Darwin" ] && [ "$ARCH" = "arm64" ]; then
         # Apple Silicon: GCC/clang here has no SSE4, so <x86intrin.h> pragmas
