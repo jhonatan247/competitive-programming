@@ -7,8 +7,7 @@ do
     ./$1 < input > outWrong
     H1=`md5sum outWrong`
     H2=`md5sum outSlow`
-    if !(cmp -s "outWrong" "outSlow")
-    then
+    if ! diff -w -s "outWrong" "outSlow" > /dev/null; then
         echo "Error found!"
         echo "Input:"
         cat input
