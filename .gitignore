@@ -9,6 +9,7 @@
 !*.sh
 !*.py
 !*.vimrc
+!*.snippets
 
 # 4. Optional: Do not ignore the .gitignore file itself
 !.gitignore

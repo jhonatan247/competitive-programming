@@ -16,38 +16,41 @@ using namespace std;
  
 typedef long long _ll;
 typedef long double _ld;
- 
-#define F0R(i, a) for (int i=0; i<(a); i++)
-#define F0Rd(i,a) for (int i = (a)-1; i >= 0; i--)
-#define FOR(i, a, b) for (int i=a; i<(b); i++)
-#define FORd(i,a,b) for (int i = (b)-1; i >= a; i--)
-#define TRAV(a,x) for (auto& a : x)
-#define TRAVd(a,x) for (auto a = x.rbegin(); a != x.rend(); ++a)
 
+template<class T> using pq = priority_queue<T>;
+template<class T> using pqg = priority_queue<T, vector<T>, greater<T>>;
+
+#define F0R(i, a) for (int i=0; i<(a); i++)
+ 
 #define sz(x) (int)(x).size()
 #define all(x) x.begin(), x.end()
-
-#define uid(a, b) uniform_int_distribution<int>(a, b)(rng)
-
-mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 const char nl = '\n';
 const int MX = 100001; 
  
 void solve() {
-    int t = uid(1, 1e5);
-    cout << t << nl;
-    while(t--){
-        int b = uid(2, 99999);
-        int a = uid(1, b - 1);
-        bool isMissing = uid(0, 100) > 5;
-        int missing = uid(a, b);
-        FOR(i, a, b + 1) {
-            if(i == missing and isMissing) continue;
-            cout << i;
-        }
-        cout << nl;
-    }
+   int n, m;
+   cin >> n >> m;
+   
+   vector<_ll> arr(n);
+   F0R (i, n) {
+       cin >> arr[i];
+   }
+   
+   pq<_ll> availablePosts;
+   _ll sum = 0, answer = LLONG_MIN;
+   F0R(i, n) {
+       if(sz(availablePosts) == m - 1){
+            answer = max(answer, m * arr[i] - sum);
+       }
+       availablePosts.push(arr[i]);
+       sum += arr[i];
+       if(sz(availablePosts) == m){
+            sum -= availablePosts.top();
+            availablePosts.pop();
+       }
+   }
+   cout << answer << nl;
 }
  
 int32_t main() {
@@ -55,7 +58,7 @@ int32_t main() {
     cin.exceptions(cin.failbit);
 
     int T = 1;
-    //cin >> T;
+    cin >> T;
     while(T--) {
         solve();
         #ifdef LOCAL

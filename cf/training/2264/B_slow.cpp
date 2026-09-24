@@ -18,36 +18,37 @@ typedef long long _ll;
 typedef long double _ld;
  
 #define F0R(i, a) for (int i=0; i<(a); i++)
-#define F0Rd(i,a) for (int i = (a)-1; i >= 0; i--)
-#define FOR(i, a, b) for (int i=a; i<(b); i++)
-#define FORd(i,a,b) for (int i = (b)-1; i >= a; i--)
-#define TRAV(a,x) for (auto& a : x)
-#define TRAVd(a,x) for (auto a = x.rbegin(); a != x.rend(); ++a)
-
+ 
 #define sz(x) (int)(x).size()
 #define all(x) x.begin(), x.end()
-
-#define uid(a, b) uniform_int_distribution<int>(a, b)(rng)
-
-mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 const char nl = '\n';
 const int MX = 100001; 
  
 void solve() {
-    int t = uid(1, 1e5);
-    cout << t << nl;
-    while(t--){
-        int b = uid(2, 99999);
-        int a = uid(1, b - 1);
-        bool isMissing = uid(0, 100) > 5;
-        int missing = uid(a, b);
-        FOR(i, a, b + 1) {
-            if(i == missing and isMissing) continue;
-            cout << i;
+    int n, m;
+    cin >> n >> m;
+
+    vector<_ll> a(n);
+    for (_ll &x : a) cin >> x;
+
+    priority_queue<_ll> pq;
+    _ll sum = 0, ans = LLONG_MIN;
+
+    for (int i = 0; i < n; ++i) {
+        if ((int)pq.size() == m - 1) {
+            ans = max(ans, m * a[i] - sum);
         }
-        cout << nl;
+
+        pq.push(a[i]);
+        sum += a[i];
+        if ((int)pq.size() == m) {
+            sum -= pq.top();
+            pq.pop();
+        }
     }
+
+    cout << ans << '\n';
 }
  
 int32_t main() {
@@ -55,7 +56,7 @@ int32_t main() {
     cin.exceptions(cin.failbit);
 
     int T = 1;
-    //cin >> T;
+    cin >> T;
     while(T--) {
         solve();
         #ifdef LOCAL

@@ -11,8 +11,6 @@
 #endif 
 
 #include <bits/stdc++.h>
- 
-using namespace std;
 
 #ifdef LOCAL
 template<class T, class... Ts>
@@ -26,11 +24,18 @@ void debug_out(const T& x, const Ts&... xs);
 #define debug(...) ((void)0)
 #endif
 
+using namespace std;
+ 
 typedef long long _ll;
 typedef long double _ld;
  
 #define F0R(i, a) for (int i=0; i<(a); i++)
- 
+#define F0Rd(i,a) for (int i = (a)-1; i >= 0; i--)
+#define FOR(i, a, b) for (int i=a; i<(b); i++)
+#define FORd(i,a,b) for (int i = (b)-1; i >= a; i--)
+#define TRAV(a,x) for (auto& a : x)
+#define TRAVd(a,x) for (auto a = x.rbegin(); a != x.rend(); ++a) 
+
 #define sz(x) (int)(x).size()
 #define all(x) x.begin(), x.end()
 
@@ -43,77 +48,59 @@ typedef long double _ld;
 #define ins insert
 
 const char nl = '\n';
-const int MX = 100001; 
+const _ll MX = 1e14; 
  
 void solve() {
-    string s;
-    cin>>s;
+    int n, m;
+    cin >> n >> m;
     
-    vector<int> missings;
-    for(int digits=1; digits <= min(5, sz(s)); digits++){
-        string firstNumber="";
-        for(int j=0;j<digits;j++){
-            firstNumber += s[j];
-        }
-        int start = stoi(firstNumber);
-        int next= start+1;
-        string snext= to_string(next);
-        int missing = -1;
-        bool success = true;
-        int position = digits;
-        if(sz(firstNumber) != sz(s))
-        {     
-           while(true){
-                if(position + sz(snext) > sz(s)){
-                    success = false;
-                    break;
-                }
-                debug(position, snext);
-                bool isEqual=true;
-                for(int j=0; j < sz(snext); j++){
-                    if(snext[j] != s[position+j]){
-                        isEqual=false;
-                        break;
-                    }
-                }
-                if(!isEqual && missing == -1){
-                    missing = next;
-                }
-                else if(!isEqual){
-                    missing = -1;
-                    success = false;
-                    break;
-                }else{
-                    position += sz(snext);
-                }
+    set<int> drafts;
+    vector<_ll> arr(n);
+    F0R (i, n) {
+        cin >> arr[i];
+        drafts.ins(i);
+    }
 
-                next += 1;
-                snext=to_string(next);
-                if(position == sz(s) && isEqual){
-                    break;
-                }
+    while(sz(drafts) > m){
+        _ll minRest = MX;
+        int minRestI = -1;
+        int prevI = 0;
+        int position = 1;
+        for(auto& index: drafts) {
+            _ll rest = 0;
+            if(position == 1){
+                rest += position * arr[index];
+            }
+            else{
+                rest += position * (arr[index] - arr[prevI]);
+            }
+            if (position < sz(drafts)){
+               rest -=  (position + 1) * arr[index];
+            }
+            debug(index, arr[index], rest, position, arr[prevI]);
+            position ++;
+            prevI = index;
+            if(minRest > rest){
+                minRest = rest;
+                minRestI = index;
             }
         }
+        debug("=======================");
+        debug(sz(drafts), m, minRest, minRestI, position);
+        debug("=======================");
+        drafts.erase(minRestI);
+    }
 
-        if(success){
-            if(missing != -1){
-                missings.pb(missing);
-            }else{
-                if(start - 1 > 0)
-                    missings.pb(start - 1);
-                if(next <= 99999)
-                    missings.pb(next);
-            }
+    _ll score = 0;
+    int position = 1;
+    for(auto& index: drafts) {
+        score += position * arr[index];
+        if(position < m){
+            score -= (position + 1) * arr[index];
         }
     }
-    sort(all(missings));
-    cout << sz(missings) << endl;
-    
-    F0R(i, sz(missings)) {
-        if(i) cout << ' ';
-        cout << missings[i];
-    }
-    cout << nl;
+
+    cout << score << endl;
 }
  
 int32_t main() {
@@ -136,6 +123,7 @@ int32_t main() {
 
     return 0;
 }
+
 
 #ifdef LOCAL
     void debug_print(const string& s) { cerr << quoted(s); }
