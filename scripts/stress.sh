@@ -2,6 +2,8 @@
  
 for ((testNum=0;testNum<$4;testNum++))
 do
+    echo "Test: " $testNum
+    echo "----------------------"
     ./$3 > input
     ./$2 < input > outSlow
     ./$1 < input > outWrong
