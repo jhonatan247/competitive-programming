@@ -113,7 +113,7 @@ nnoremap <Tab> %
         let l:bin = shellescape(expand('%:t:r')) " basename without extension
         let l:cmd = '!build.sh ' . l:src . ' ' . a:flags
         if a:run
-            let l:cmd .= ' && ./' . l:bin . ' < in'
+            let l:cmd .= ' && ./' . l:bin . ' < ~/in'
         endif
         execute l:cmd
     endfunction
