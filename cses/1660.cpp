@@ -2,6 +2,8 @@
     #define _GLIBCXX_DEBUG
 #endif
 
+#pragma GCC optimize ("O3")
+
 #include <bits/stdc++.h>
  
 using namespace std;
@@ -18,7 +20,30 @@ const char nl = '\n';
 const int MX = 100001; 
  
 void solve() {
+    _ll n, x;
+    cin >> n >> x;
 
+    vector<_ll> arr(n);
+    F0R (i, n) {
+        cin >> arr[i];
+    }
+
+    int i = 0;
+    _ll sum = 0;
+    int cnt = 0;
+    F0R(j, n) {
+        sum += arr[j];
+        if(sum < x){
+            continue;
+        }
+        while(sum > x){
+            sum -= arr[i++];
+        }
+        if (sum == x){
+            cnt++;
+        }
+    }
+    cout << cnt << nl;
 }
  
 int32_t main() {
@@ -41,3 +66,4 @@ int32_t main() {
 
     return 0;
 }
+

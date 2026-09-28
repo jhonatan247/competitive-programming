@@ -1,6 +1,7 @@
 snippet snips "all snippets"
 /*
 {
+bits
 cycles
 debug
 debugh
@@ -20,11 +21,14 @@ inf
 minimal
 minmax
 modulo
+optimize
 priority
 rand
 rawfor
 rawford
 read
+read2
+read3
 readvec
 shorts
 types
@@ -36,7 +40,7 @@ endsnippet
 
 snippet { "block"
 {
-    $0
+	$0
 }
 endsnippet
 
@@ -54,95 +58,95 @@ endsnippet
 
 snippet debug "debug utility without headers"
 #ifdef LOCAL
-    template<class T>
-    void debug_print(const T& x);
-    void debug_print(const string& s) { cerr << quoted(s); }
-    void debug_print(string_view s) { cerr << quoted(s); }
-    void debug_print(const char* s) {
-        if (s) cerr << quoted(s);
-        else   cerr << "nullptr";
-    }
-    void debug_print(char* s) { debug_print((const char*)s); }
-    template<size_t N>
-    void debug_print(const char (&s)[N]) { cerr << quoted(s); }
-    template<class A, class B>
-    void debug_print(const pair<A, B>& p) {
-        cerr << '(';
-        debug_print(p.first);
-        cerr << ", ";
-        debug_print(p.second);
-        cerr << ')';
-    }
-    template<class... Ts>
-    void debug_print(const tuple<Ts...>& t) {
-        cerr << '(';
-        apply([&](const auto&... xs) {
-            bool first = true;
-            ((cerr << (first ? "" : ", "), first = false, debug_print(xs)), ...);
-        }, t);
-        cerr << ')';
-    }
-    void debug_print(const vector<bool>& v) {
-        cerr << '{';
-        bool first = true;
-        for (bool x : v) {
-            if (!first) cerr << ", ";
-            first = false;
-            debug_print(x);
-        }
-        cerr << '}';
-    }
-    template<class T, class C>
-    void debug_print(const queue<T, C>& q0) {
-        auto q = q0;
-        vector<T> v;
-        while (!q.empty()) v.push_back(q.front()), q.pop();
-        debug_print(v);
-    }
-    template<class T, class C>
-    void debug_print(const stack<T, C>& s0) {
-        auto s = s0;
-        vector<T> v;
-        while (!s.empty()) v.push_back(s.top()), s.pop();
-        debug_print(v);
-    }
-    template<class T, class C, class Comp>
-    void debug_print(const priority_queue<T, C, Comp>& pq0) {
-        auto pq = pq0;
-        vector<T> v;
-        while (!pq.empty()) v.push_back(pq.top()), pq.pop();
-        debug_print(v);
-    }
-    template<class T>
-    void debug_print(const T& x) {
-        if constexpr (is_same_v<T, char>) {
-            cerr << '\'' << x << '\'';
-        } else if constexpr (is_same_v<T, bool>) {
-            cerr << (x ? "true" : "false");
-        } else if constexpr (is_same_v<T, nullptr_t>) {
-            cerr << "nullptr";
-        } else if constexpr (is_integral_v<T>) {
-            cerr << +x;
-        } else if constexpr (is_floating_point_v<T>) {
-            cerr << x;
-        } else {
-            cerr << '{';
-            bool first = true;
-            for (const auto& e : x) {
-                if (!first) cerr << ", ";
-                first = false;
-                debug_print(e);
-            }
-            cerr << '}';
-        }
-    }
-    void debug_out() {}
-    template<class T, class... Ts>
-    void debug_out(const T& x, const Ts&... xs) {
-        cerr << ' ';
-        debug_print(x);
-        debug_out(xs...);
-    }
+	template<class T>
+	void debug_print(const T& x);
+	void debug_print(const string& s) { cerr << quoted(s); }
+	void debug_print(string_view s) { cerr << quoted(s); }
+	void debug_print(const char* s) {
+		if (s) cerr << quoted(s);
+		else   cerr << "nullptr";
+	}
+	void debug_print(char* s) { debug_print((const char*)s); }
+	template<size_t N>
+	void debug_print(const char (&s)[N]) { cerr << quoted(s); }
+	template<class A, class B>
+	void debug_print(const pair<A, B>& p) {
+		cerr << '(';
+		debug_print(p.first);
+		cerr << ", ";
+		debug_print(p.second);
+		cerr << ')';
+	}
+	template<class... Ts>
+	void debug_print(const tuple<Ts...>& t) {
+		cerr << '(';
+		apply([&](const auto&... xs) {
+			bool first = true;
+			((cerr << (first ? "" : ", "), first = false, debug_print(xs)), ...);
+		}, t);
+		cerr << ')';
+	}
+	void debug_print(const vector<bool>& v) {
+		cerr << '{';
+		bool first = true;
+		for (bool x : v) {
+			if (!first) cerr << ", ";
+			first = false;
+			debug_print(x);
+		}
+		cerr << '}';
+	}
+	template<class T, class C>
+	void debug_print(const queue<T, C>& q0) {
+		auto q = q0;
+		vector<T> v;
+		while (!q.empty()) v.push_back(q.front()), q.pop();
+		debug_print(v);
+	}
+	template<class T, class C>
+	void debug_print(const stack<T, C>& s0) {
+		auto s = s0;
+		vector<T> v;
+		while (!s.empty()) v.push_back(s.top()), s.pop();
+		debug_print(v);
+	}
+	template<class T, class C, class Comp>
+	void debug_print(const priority_queue<T, C, Comp>& pq0) {
+		auto pq = pq0;
+		vector<T> v;
+		while (!pq.empty()) v.push_back(pq.top()), pq.pop();
+		debug_print(v);
+	}
+	template<class T>
+	void debug_print(const T& x) {
+		if constexpr (is_same_v<T, char>) {
+			cerr << '\'' << x << '\'';
+		} else if constexpr (is_same_v<T, bool>) {
+			cerr << (x ? "true" : "false");
+		} else if constexpr (is_same_v<T, nullptr_t>) {
+			cerr << "nullptr";
+		} else if constexpr (is_integral_v<T>) {
+			cerr << +x;
+		} else if constexpr (is_floating_point_v<T>) {
+			cerr << x;
+		} else {
+			cerr << '{';
+			bool first = true;
+			for (const auto& e : x) {
+				if (!first) cerr << ", ";
+				first = false;
+				debug_print(e);
+			}
+			cerr << '}';
+		}
+	}
+	void debug_out() {}
+	template<class T, class... Ts>
+	void debug_out(const T& x, const Ts&... xs) {
+		cerr << ' ';
+		debug_print(x);
+		debug_out(xs...);
+	}
 #endif
 endsnippet
 
@@ -150,15 +154,15 @@ endsnippet
 
 snippet debugh "debug utility headers"
 #ifdef LOCAL
-template<class T, class... Ts>
-void debug_out(const T& x, const Ts&... xs);
-#define debug(...) do { \
-    cerr << "@@@ " << #__VA_ARGS__ << " ="; \
-    debug_out(__VA_ARGS__); \
-    cerr << nl; \
-} while (0)
+	template<class T, class... Ts>
+	void debug_out(const T& x, const Ts&... xs);
+	#define debug(...) do { \
+		cerr << "@@@ " << #__VA_ARGS__ << " ="; \
+		debug_out(__VA_ARGS__); \
+		cerr << nl; \
+	} while (0)
 #else
-#define debug(...) ((void)0)
+	#define debug(...) ((void)0)
 #endif
 endsnippet
 
@@ -248,11 +252,11 @@ endsnippet
 snippet gcd "gcd"
 template<typename T>
 T gcd(T a, T b) {
-while (a) {
-b %= a;
-swap(a, b);
-}
-return b;
+	while (a) {
+		b %= a;
+		swap(a, b);
+	}
+	return b;
 }
 endsnippet
 
@@ -272,7 +276,7 @@ using namespace std;
 typedef long long ll;
 
 int32_t main() {
-$0
+	$0
 }
 endsnippet
 
@@ -288,6 +292,16 @@ endsnippet
 snippet modulo "modulo utilities"
 const int MOD7 = 1000000007;
 const int MOD9 = 1000000009;
+// TODO: Fermat's little theorem
+// TODO: MOD operations
+endsnippet
+
+
+
+snippet optimize "optimization instructions"
+#pragma GCC optimize ("O3")
+#pragma GCC optimize("unroll-loops")
+#pragma GCC target("popcnt")
 endsnippet
 
 
@@ -323,11 +337,25 @@ endsnippet
 
 
 
-snippet read "read first variable"
+snippet read "read 1 variable"
 ${1:int} ${2:n};
-if (!(cin >> $2)) {
-return 1;
-}
+cin >> $2;
+$0
+endsnippet
+
+
+
+snippet read2 "read 2 variables"
+${1:int} ${2:n}, ${3:m};
+cin >> $2 >> $3;
+$0
+endsnippet
+
+
+
+snippet read3 "read 3 variables"
+${1:int} ${2:n}, ${3:m}, ${4:l};
+cin >> $2 >> $3 >> $4;
 $0
 endsnippet
 

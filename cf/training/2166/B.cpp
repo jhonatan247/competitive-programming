@@ -2,6 +2,14 @@
     #define _GLIBCXX_DEBUG
 #endif
 
+#pragma GCC optimize ("O3")
+
+#if defined(__x86_64__) || defined(__i386__)
+    #pragma GCC target ("sse4")
+#elif defined(__aarch64__)
+    #pragma GCC target ("arch=armv8-a+crc")
+#endif 
+
 #include <bits/stdc++.h>
  
 using namespace std;
@@ -18,7 +26,20 @@ const char nl = '\n';
 const int MX = 100001; 
  
 void solve() {
+    int a, b, n;
 
+    cin >> a >> b >> n;
+
+    if(b >= a){
+        cout << 1 << endl;
+        return;
+    }
+    int movs = 1;
+    if(n > a / b) {
+        movs++;
+    } 
+    
+    cout << movs << endl;
 }
  
 int32_t main() {
@@ -26,7 +47,7 @@ int32_t main() {
     cin.exceptions(cin.failbit);
 
     int T = 1;
-    //cin >> T;
+    cin >> T;
     while(T--) {
         solve();
         #ifdef LOCAL
@@ -41,3 +62,4 @@ int32_t main() {
 
     return 0;
 }
+
