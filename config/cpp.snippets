@@ -30,6 +30,7 @@ read
 read2
 read3
 readvec
+sets
 shorts
 types
 while
@@ -292,8 +293,57 @@ endsnippet
 snippet modulo "modulo utilities"
 const int MOD7 = 1000000007;
 const int MOD9 = 1000000009;
-// TODO: Fermat's little theorem
-// TODO: MOD operations
+const int MOD = MOD7;
+
+// Normalize x into the range [0, mod).
+_ll norm_mod(_ll x) {
+	x %= MOD;
+	if (x < 0) x += MOD;
+	return x;
+}
+// (a + b) % MOD
+_ll add_mod(_ll a, _ll b) {
+	a = norm_mod(a);
+	b = norm_mod(b);
+	_ll res = a + b;
+	if (res >= MOD) res -= MOD;
+	return res;
+}
+// (a - b) % MOD
+_ll sub_mod(_ll a, _ll b) {
+	a = norm_mod(a);
+	b = norm_mod(b);
+	_ll res = a - b;
+	if (res < 0) res += MOD;
+	return res;
+}
+// (a * b) % MOD, safe against overflow using __int128.
+_ll mul_mod(_ll a, _ll b) {
+	a = norm_mod(a);
+	b = norm_mod(b);
+	return (_i128)a * b % MOD;
+}
+//  TODO: research
+// base^exp % MOD using binary exponentiation.
+_ll pow_mod(_ll base, _ll exp) {
+	base = norm_mod(base);
+	_ll result = 1 % MOD;
+	while (exp > 0) {
+		if (exp & 1) result = mul_mod(result, base);
+		base = mul_mod(base, base);
+		exp >>= 1;
+	}
+	return result;
+}
+// Modular inverse for prime modulus using Fermat's little theorem:
+// a^(p-2) ≡ a^{-1} (mod p) for prime p and a not divisible by p.
+_ll inv_mod_prime(_ll a) {
+	a = norm_mod(a);
+	if (a == 0) {
+		throw invalid_argument("0 has no inverse modulo prime");
+	}
+	return pow_mod(a, MOD - 2);
+}
 endsnippet
 
 
@@ -322,7 +372,7 @@ endsnippet
 
 
 snippet rawfor "raw for cycle"
-for(int ${1:i} = ${2:0}; i < ${3:n}; i++) {
+for(int ${1:i} = ${2:0}; $1 < ${3:n}; $1${4:++}) {
 	$0
 }
 endsnippet
@@ -330,7 +380,7 @@ endsnippet
 
 
 snippet rawford "raw decreasing for cycle"
-for(int ${1:i} = ${2:n-1}; i >= ${3:0}; i--) {
+for(int ${1:i} = ${2:n-1}; $1 >= ${3:0}; $1${4:--}) {
 	$0
 }
 endsnippet
@@ -371,6 +421,14 @@ endsnippet
 
 
 
+snippet sets "set utilities"
+// TODO: set utilities
+// TODO: unordered set hashing
+// TODO: disjoint sets
+endsnippet
+
+
+
 snippet shorts "short expressions"
 #define mp make_pair
 #define pb push_back
@@ -385,6 +443,7 @@ endsnippet
 
 snippet types "all shorted types"
 typedef complex<_ld> _cd;
+typedef __int128_t _i128;
 
 typedef pair<int, int> _pi;
 typedef pair<_ll,_ll> _pl;

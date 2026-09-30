@@ -22,67 +22,40 @@ typedef long double _ld;
 const char nl = '\n';
 const int MX = 100001; 
  
-int * parent;
-int * sizes;
-int cnt = 0;
-int maxsz = 1;
+void solve() {
+    int n;
+    cin >> n;
+    vector<int> arr(n);
 
-int find(int a) {
-    if(parent[a] == a) return a;
+    F0R (i, n) {
+        cin >> arr[i];
+    }
 
-    return parent[a] = find(parent[a]);
-}
-
-void union_(int a, int b) {
-    a = find(a);
-    b = find(b);
-    if(a == b) return;
+    _ll maxSum = LLONG_MIN;
     
-    if(sizes[a] > sizes[b]){
-        parent[b] = a;
-        sizes[a] += sizes[b];
-        maxsz = max(maxsz, sizes[a]);
-    }
-    else {
-        parent[a] = b;
-        sizes[b] += sizes[a];
-        maxsz = max(maxsz, sizes[b]);
-    }
-    cnt--;
-}
-
-void solve(int n, int p) {
-    parent = new int[n + 1];
-    sizes = new int[n + 1];
-    cnt = n;
-    maxsz = 1;
     FOR(i, 1, n + 1) {
-        parent[i] = i;
-        sizes[i] = 1;
+        for(int j = 0; j < n - i + 1; j++) {
+            _ll sum = 0;
+            FOR(k, j, j + i) {
+                sum += arr[k];
+            }
+            maxSum = max(maxSum, sum);
+        }
     }
-
-    F0R(i, p) {
-        int u , v;
-        cin >> u >> v;
-        
-        union_(u, v);
-    }
-
-    cout << cnt << ' ' << maxsz << nl;
+    cout << maxSum << nl;
 }
  
 int32_t main() {
     cin.tie(0)->sync_with_stdio(0); 
     cin.exceptions(cin.failbit);
 
-    int n, p;
-    cin >> n >> p;
-    while(n != 0 and p != 0) {
-        solve(n, p);
+    int T = 1;
+    //cin >> T;
+    while(T--) {
+        solve();
         #ifdef LOCAL
             cout << "__________________________" << endl;
         #endif
-        cin >> n >> p;
     }
     #ifdef LOCAL
         cerr << endl << "finished in "
