@@ -5,6 +5,7 @@
 #include <bits/stdc++.h>
  
 using namespace std;
+
 #ifdef LOCAL
     template<class T, class... Ts>
     void debug_out(const T& x, const Ts&... xs);
@@ -16,10 +17,43 @@ using namespace std;
 #else
     #define debug(...) ((void)0)
 #endif
-
+ 
 typedef long long _ll;
 typedef long double _ld;
- 
+typedef complex<_ld> _cd;
+typedef __int128_t _i128;
+
+typedef pair<int, int> _pi;
+typedef pair<_ll,_ll> _pl;
+typedef pair<_ld,_ld> _pd;
+
+typedef vector<int> _vi;
+typedef vector<string> _vs;
+typedef vector<_ld> _vd;
+typedef vector<_ll> _vl;
+typedef vector<_cd> _vcd;
+typedef vector<_pi> _vpi;
+typedef vector<_pl> _vpl;
+
+typedef vector<_vi> _vvi;
+typedef vector<_vs> _vvs;
+typedef vector<_vd> _vvd;
+typedef vector<_vl> _vvl;
+typedef vector<_vcd> _vvcd;
+typedef vector<_vpi> _vvpi;
+typedef vector<_vpl> _vvpl;
+
+typedef vector<_vvi> _vvvi;
+typedef vector<_vvs> _vvvs;
+typedef vector<_vvd> _vvvd;
+typedef vector<_vvl> _vvvl;
+typedef vector<_vvcd> _vvvcd;
+typedef vector<_vvpi> _vvvpi;
+typedef vector<_vvpl> _vvvpl;
+
+template<class T> using pq = priority_queue<T>;
+template<class T> using pqg = priority_queue<T, vector<T>, greater<T>>;
+
 #define F0R(i, a) for (int i=0; i<(a); i++)
 #define F0Rd(i,a) for (int i = (a)-1; i >= 0; i--)
 #define FOR(i, a, b) for (int i=a; i<(b); i++)
@@ -29,27 +63,93 @@ typedef long double _ld;
 
 #define sz(x) (int)(x).size()
 #define all(x) x.begin(), x.end()
+#define mp make_pair
+#define pb push_back
+#define fr first
+#define sc second
+#define lb lower_bound
+#define ub upper_bound
+#define ins insert
 
 const char nl = '\n';
 const int MX = 100001; 
  
 void solve() {
-    int n;
-    cin >> n;
-    vector<_ll> arr(n);
-    cin >> arr[0];
-
-    _ll current_max = arr[0];
-    _ll global_max = arr[0];
-
-    FOR (i, 1, n) {
-        cin >> arr[i];
-
-        current_max = max(arr[i], current_max + arr[i]);
-        global_max = max(global_max, current_max);
-    }
+    int n, m, k, s, d;
+    cin >> n >> m >> k >> s >> d;
     
-    cout << global_max << nl;
+    debug(n , m, k, s, d);
+
+    vector<map<int, _ll>> adj(n + 1, map<int, _ll>());
+
+    F0R(i, m) {
+        int v1 , v2, p;
+        cin >> v1 >> v2 >> p;
+        debug(v1, v2, p);   
+        adj[v1][v2] = p;
+        adj[v2][v1] = p;
+    }
+
+    F0R(i, k) {
+        _vl dist(n + 1, LLONG_MAX);
+        _vi parents(n + 1, 0);
+
+        dist[s] = 0;
+        pqg<pair<_ll, int>> nodes;
+        nodes.push(mp(0, s));
+
+        while(!nodes.empty()){
+            pair<_ll, int> curr = nodes.top();
+            
+            nodes.pop();
+
+            debug(curr);
+            
+            _ll currdist = curr.fr;
+
+            for(const auto& [v, vd]: adj[curr.sc]) {
+                _ll nextdist = currdist + vd;
+                if(nextdist < dist[v]){
+                    parents[v] = curr.sc;
+                    dist[v] = nextdist;
+                    if(v != d) {
+                        nodes.push(mp(nextdist, v));
+                    }
+                }
+            }
+        }
+
+        int currNode = d;
+
+        while(i < k - 1 && currNode != s){
+            debug(currNode);
+            int parent = parents[currNode];
+            adj[parent].erase(currNode);
+            adj[currNode].erase(parent);
+            currNode = parent;
+        }
+
+        if(i == k - 1) {
+            _vi kpath;
+
+            while(currNode != 0) {
+                kpath.pb(currNode);
+                currNode = parents[currNode];
+            }
+
+            cout << dist[d] << endl;
+
+            F0Rd(j, sz(kpath)) {
+                if(sz(kpath) - j - 1){
+                    cout << " - ";
+                }
+                cout << kpath[j];
+            }
+            cout << nl;
+
+        }
+
+    }
 }
  
 int32_t main() {
@@ -58,7 +158,7 @@ int32_t main() {
 
     int T = 1;
     #ifdef LOCAL
-        cin >> T;
+    cin >> T;
     #endif
     while(T--) {
         solve();
@@ -75,6 +175,7 @@ int32_t main() {
     return 0;
 }
 
+// TODO: Print pointer arrays
 #ifdef LOCAL
     template<class T>
     void debug_print(const T& x);

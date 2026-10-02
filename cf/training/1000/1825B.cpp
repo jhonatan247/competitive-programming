@@ -2,14 +2,6 @@
     #define _GLIBCXX_DEBUG
 #endif
 
-#pragma GCC optimize ("O3")
-
-#if defined(__x86_64__) || defined(__i386__)
-    #pragma GCC target ("sse4")
-#elif defined(__aarch64__)
-    #pragma GCC target ("arch=armv8-a+crc")
-#endif 
-
 #include <bits/stdc++.h>
  
 using namespace std;
@@ -29,26 +21,27 @@ void solve() {
     int n, m;
     cin >> n >> m;
 
-    vector<_ll> a(n);
-    for (_ll &x : a) cin >> x;
-
-    priority_queue<_ll> pq;
-    _ll sum = 0, ans = LLONG_MIN;
-
-    for (int i = 0; i < n; ++i) {
-        if ((int)pq.size() == m - 1) {
-            ans = max(ans, m * a[i] - sum);
-        }
-
-        pq.push(a[i]);
-        sum += a[i];
-        if ((int)pq.size() == m) {
-            sum -= pq.top();
-            pq.pop();
-        }
+    vector<_ll> arr(n*m);
+    F0R (i, n*m) {
+        cin >> arr[i];
     }
+    
+    sort(all(arr));
 
-    cout << ans << '\n';
+    _ll min1 = arr[0];
+    _ll min2 = arr[1];
+    _ll max1 = arr[sz(arr) - 1];
+    _ll max2 = arr[sz(arr) - 2];
+
+    int n_ = min(n, m);
+    int m_ = max(n, m);
+
+    _ll ans1 = (max1 -  min1) * (n_ * (m_ - 1)) + (max2 - min1)*(n_ - 1);
+    
+    _ll ans2 = (max1 -  min1) * (n_ * (m_ - 1)) + (max1 - min2)*(n_ - 1);
+    
+    cout << max(ans1, ans2) << endl;
+    
 }
  
 int32_t main() {

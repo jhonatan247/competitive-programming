@@ -58,6 +58,7 @@ endsnippet
 
 
 snippet debug "debug utility without headers"
+// TODO: Print pointer arrays
 #ifdef LOCAL
 	template<class T>
 	void debug_print(const T& x);
@@ -218,7 +219,7 @@ endsnippet
 
 
 snippet ford "custom decreasing for"
-FORd(${1:i}, ${2:1}, ${2:n}) {
+FORd(${1:i}, ${2:1}, ${3:n}) {
 	$0
 }
 endsnippet
@@ -226,7 +227,7 @@ endsnippet
 
 
 snippet fordz "custom decreasing for from sz(arr)"
-FORd(${1:i}, ${2:1}, sz(${2:arr})) {
+FORd(${1:i}, ${2:1}, sz(${3:arr})) {
 	$0
 }
 endsnippet

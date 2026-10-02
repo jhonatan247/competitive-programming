@@ -2,73 +2,34 @@
     #define _GLIBCXX_DEBUG
 #endif
 
-#pragma GCC optimize ("O3")
-
-#if defined(__x86_64__) || defined(__i386__)
-    #pragma GCC target ("sse4")
-#elif defined(__aarch64__)
-    #pragma GCC target ("arch=armv8-a+crc")
-#endif 
-
 #include <bits/stdc++.h>
  
 using namespace std;
 
 #ifdef LOCAL
-template<class T, class... Ts>
-void debug_out(const T& x, const Ts&... xs);
-#define debug(...) do { \
-    cerr << "@@@ " << #__VA_ARGS__ << " ="; \
-    debug_out(__VA_ARGS__); \
-    cerr << nl; \
-} while (0)
+    template<class T, class... Ts>
+    void debug_out(const T& x, const Ts&... xs);
+    #define debug(...) do { \
+        cerr << "@@@ " << #__VA_ARGS__ << " ="; \
+        debug_out(__VA_ARGS__); \
+        cerr << nl; \
+    } while (0)
 #else
-#define debug(...) ((void)0)
+    #define debug(...) ((void)0)
 #endif
- 
+
 typedef long long _ll;
 typedef long double _ld;
-typedef complex<_ld> _cd;
-
-typedef pair<int, int> _pi;
-typedef pair<_ll,_ll> _pl;
-typedef pair<_ld,_ld> _pd;
-
-typedef vector<int> _vi;
-typedef vector<string> _vs;
-typedef vector<_ld> _vd;
-typedef vector<_ll> _vl;
-typedef vector<_cd> _vcd;
-typedef vector<_pi> _vpi;
-typedef vector<_pl> _vpl;
-
-typedef vector<_vi> _vvi;
-typedef vector<_vs> _vvs;
-typedef vector<_vd> _vvd;
-typedef vector<_vl> _vvl;
-typedef vector<_vcd> _vvcd;
-typedef vector<_vpi> _vvpi;
-typedef vector<_vpl> _vvpl;
-
-typedef vector<_vvi> _vvvi;
-typedef vector<_vvs> _vvvs;
-typedef vector<_vvd> _vvvd;
-typedef vector<_vvl> _vvvl;
-typedef vector<_vvcd> _vvvcd;
-typedef vector<_vvpi> _vvvpi;
-typedef vector<_vvpl> _vvvpl;
-
-#define F0R(i, a) for (int i=0; i<(a); i++)
  
+#define F0R(i, a) for (int i=0; i<(a); i++)
+#define F0Rd(i,a) for (int i = (a)-1; i >= 0; i--)
+#define FOR(i, a, b) for (int i=a; i<(b); i++)
+#define FORd(i,a,b) for (int i = (b)-1; i >= a; i--)
+#define TRAV(a,x) for (auto& a : x)
+#define TRAVd(a,x) for (auto a = x.rbegin(); a != x.rend(); ++a)
+
 #define sz(x) (int)(x).size()
 #define all(x) x.begin(), x.end()
-#define mp make_pair
-#define pb push_back
-#define fr first
-#define sc second
-#define lb lower_bound
-#define ub upper_bound
-#define ins insert
 
 const char nl = '\n';
 const int MX = 100001; 
@@ -76,62 +37,72 @@ const int MX = 100001;
 void solve() {
     int n;
     cin >> n;
-    _vpi a(n);
-    _vi arr(n);
-    F0R(i, n) {
-        int duck;
-        cin >> duck;
-        a[i] = mp(duck, i);
-        arr[i] = duck;
-    }
-    _vpi b(n);
-    F0R(i, n) {
-        int duck;
-        cin >> duck;
-        b[i] = mp(duck, i);
-    }
-
-
-    sort(all(a));
-    sort(all(b));
     
-    debug(a, b);
-
-    vector<bool> used(n, 0);
-    int cnt = 0;
+    string s_;
+    cin >> s_;
+    
+    vector<bool> s(n);
+    vector<int> psum(n, 0);
+    vector<int> ssum(n, 0);
+    int zcnt = 0;
+    int ocnt = 0;
     F0R(i, n) {
-        if(a[i].fr > b[i].fr){
-            cout << -1 << nl;
-            return;
+        s[i] = s_[i] == '1';
+        if(i) {
+            psum[i] = psum[i - 1] + s[i];
+        } else {
+            psum[i] = s[i];
+        }
+        zcnt += !s[i];
+        ocnt += s[i];
+    }
+
+    if(s[0]){
+        cout << zcnt << nl;
+        return;
+    }
+
+    F0Rd(i, n) {
+        if(n - i - 1) {
+            ssum[i] = ssum[i + 1] + s[i];
+        } else {
+            ssum[i] = s[i];
         }
     }
 
-    F0R(i, n) {
-        int minCnt = n + 1;
-        int minIndx = -1;
-        F0R(j, n) {
-            if(used[j] or arr[j] > b[i].fr) continue;
-            if(used[j]) continue;
-            int currCnt = abs(j - b[i].sc);
-            if(currCnt < minCnt){
-                minCnt = currCnt;
-                minIndx = a[j].sc;
-            }
+    debug(s);
+    debug(psum);
+    debug(ssum);
+
+    int findx = -1;
+
+    F0Rd(i, n) {
+        if(ssum[i] > psum[i] and s[i]) {
+            findx = i;
+            break;
         }
-        while(minIndx != b[i].sc){
-            if(minIndx < b[i].sc){
-                swap(arr[minIndx], arr[minIndx + 1]);
-                minIndx++;
-            }else{
-                swap(arr[minIndx], arr[minIndx - 1]);
-                minIndx--;
-            }
-            cnt++;
-        }
-        used[minIndx] = true;
+    }
+
+    if(findx == -1){
+        cout << ocnt << nl;
+        return;
+    }
+
+    int cnt = 0;
+
+    FOR(i, findx, n) {
+        cnt += !s[i];
+    }
+
+    while(s[findx]) findx --;
+
+
+    F0Rd(i, findx) {
+        cnt += s[i];
     }
 
     cout << cnt << nl;
+
 
 }
  

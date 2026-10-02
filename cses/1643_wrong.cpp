@@ -18,6 +18,35 @@ const char nl = '\n';
 const int MX = 100001; 
  
 void solve() {
+    int n;
+    cin >> n;
+    vector<int> arr(n);
+    vector<_ll> acum(n);
+    F0R (i, n) {
+        cin >> arr[i];
+        if(i) acum[i] = acum[i - 1] +  arr[i];
+        else acum[i] = arr[i];
+    }
+    vector<_ll> acumr(n);
+    
+    F0Rd(i, n) {
+        if(i < n - 1) acumr[i] = acumr[i + 1] + arr[i];
+        else acumr[i] = arr[i];
+    }
+
+    _ll minR = LLONG_MAX;
+    int minrIndx = -1;
+    _ll minL = LLONG_MAX;
+    int minlIndx = -1;
+
+    F0R(i, n) {
+        if(acum[i] < minR){
+            minR
+        }
+    }
+
+
+    
 
 }
  
@@ -26,9 +55,7 @@ int32_t main() {
     cin.exceptions(cin.failbit);
 
     int T = 1;
-    #ifdef LOCAL
-    cin >> T;
-    #endif
+    //cin >> T;
     while(T--) {
         solve();
         #ifdef LOCAL
@@ -43,3 +70,4 @@ int32_t main() {
 
     return 0;
 }
+

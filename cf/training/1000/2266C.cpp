@@ -18,7 +18,37 @@ const char nl = '\n';
 const int MX = 100001; 
  
 void solve() {
+    int n;
+    cin >> n;
+    string s_;
+    cin >> s_;
+    
+    int left = 0, right = 0;
+    
+    bool * s = new bool[n];
+    F0R(i, n) {
+        s[i] = s_[i] == '1';
+        right += !s[i];
+    }
+    if(s[0]){
+        cout << right << nl;
+        return;
+    }
 
+    int i = 0;
+    int minsum = INT_MAX;
+    while(true) {
+        while(i < n and !s[i]) {
+            i++;
+            right--;
+        }
+        if(i >= n) break;
+        minsum = min(minsum, left + right);
+        left++;
+        i++;
+    }
+
+    cout << min(minsum, left) << nl;
 }
  
 int32_t main() {
@@ -26,9 +56,7 @@ int32_t main() {
     cin.exceptions(cin.failbit);
 
     int T = 1;
-    #ifdef LOCAL
     cin >> T;
-    #endif
     while(T--) {
         solve();
         #ifdef LOCAL
@@ -43,3 +71,4 @@ int32_t main() {
 
     return 0;
 }
+

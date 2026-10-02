@@ -3,8 +3,9 @@
 #endif
 
 #include <bits/stdc++.h>
- 
+
 using namespace std;
+
 #ifdef LOCAL
     template<class T, class... Ts>
     void debug_out(const T& x, const Ts&... xs);
@@ -21,12 +22,7 @@ typedef long long _ll;
 typedef long double _ld;
  
 #define F0R(i, a) for (int i=0; i<(a); i++)
-#define F0Rd(i,a) for (int i = (a)-1; i >= 0; i--)
-#define FOR(i, a, b) for (int i=a; i<(b); i++)
-#define FORd(i,a,b) for (int i = (b)-1; i >= a; i--)
-#define TRAV(a,x) for (auto& a : x)
-#define TRAVd(a,x) for (auto a = x.rbegin(); a != x.rend(); ++a)
-
+ 
 #define sz(x) (int)(x).size()
 #define all(x) x.begin(), x.end()
 
@@ -34,22 +30,32 @@ const char nl = '\n';
 const int MX = 100001; 
  
 void solve() {
-    int n;
-    cin >> n;
-    vector<_ll> arr(n);
-    cin >> arr[0];
+    _ld r, R, h;
+    cin >> r >> R >> h;
 
-    _ll current_max = arr[0];
-    _ll global_max = arr[0];
+    _ld down = 0, up = h;
+    _ld epsilon = 0.000000001;
 
-    FOR (i, 1, n) {
-        cin >> arr[i];
+    while(up - down > epsilon) {
+        _ld H = (up - down) / 2 + down;
+        _ld x = h / H;
 
-        current_max = max(arr[i], current_max + arr[i]);
-        global_max = max(global_max, current_max);
+        _ld midR = r + (R -r) / x;
+
+        _ld vdown = H * ( midR*midR + r*r + midR*r);
+        _ld vup = (h - H) * ( R*R + midR*midR + R*midR);
+        
+        debug(up, down, H, x, midR, vdown, vup);
+
+        if(vdown > vup){
+            up = H;
+        } else {
+            down = H;
+        }
+
     }
-    
-    cout << global_max << nl;
+
+    cout << setprecision(9) << down << nl;
 }
  
 int32_t main() {
@@ -57,9 +63,7 @@ int32_t main() {
     cin.exceptions(cin.failbit);
 
     int T = 1;
-    #ifdef LOCAL
-        cin >> T;
-    #endif
+    cin >> T;
     while(T--) {
         solve();
         #ifdef LOCAL

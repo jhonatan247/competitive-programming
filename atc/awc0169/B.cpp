@@ -2,14 +2,6 @@
     #define _GLIBCXX_DEBUG
 #endif
 
-#pragma GCC optimize ("O3")
-
-#if defined(__x86_64__) || defined(__i386__)
-    #pragma GCC target ("sse4")
-#elif defined(__aarch64__)
-    #pragma GCC target ("arch=armv8-a+crc")
-#endif 
-
 #include <bits/stdc++.h>
  
 using namespace std;
@@ -22,27 +14,41 @@ typedef long double _ld;
 #define sz(x) (int)(x).size()
 #define all(x) x.begin(), x.end()
 
-#define uid(a, b) uniform_int_distribution<int>(a, b)(rng)
-
-mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
-
 const char nl = '\n';
 const int MX = 100001; 
  
 void solve() {
-    int t = uid(1, 10);
-    cout << t << nl;
-    while(t--) {
-        int m = uid(1, 10);
-        int n = uid(m, 10);
-        cout << n << " " << m << nl;
-        F0R(i, n) {
-            if(i) cout << ' ';
-            int a = uid(-10, 10);
-            cout << a;
-        }
-        cout << nl;
+    int n, m, k;
+    cin >> n >> m >> k;
+
+    vector<int> w(n);
+    F0R (i, n) {
+        cin >> w[i];
     }
+    
+    vector<int> r(m);
+    F0R (i, m) {
+        cin >> r[i];
+    }
+
+    sort(all(w), greater<int>());
+    sort(all(r), greater<int>());
+
+    int j = 0;
+    F0R(i, k) {
+       int curr = w[i];
+       while(j < m and curr - r[j] >= 0){
+            curr -= r[j];
+            j++;
+       }
+       if(j == m) break;
+       r[j] -= curr;
+    }
+
+    if(j == m) cout << "Yes";
+    else cout << "No";
+    cout << nl;
+    
 
 }
  
@@ -51,7 +57,9 @@ int32_t main() {
     cin.exceptions(cin.failbit);
 
     int T = 1;
-    //cin >> T;
+    #ifdef LOCAL
+        cin >> T;
+    #endif
     while(T--) {
         solve();
         #ifdef LOCAL
