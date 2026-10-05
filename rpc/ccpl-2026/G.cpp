@@ -3,37 +3,64 @@
 #endif
 
 #include <bits/stdc++.h>
-
+ 
 using namespace std;
-
+ 
 typedef long long _ll;
 typedef long double _ld;
-
+ 
 #define F0R(i, a) for (int i=0; i<(a); i++)
-
+ 
 #define sz(x) (int)(x).size()
 #define all(x) x.begin(), x.end()
+#define mp make_pair
+#define pb push_back
+#define fr first
+#define sc second
+#define lb lower_bound
+#define ub upper_bound
+#define ins insert
 
 const char nl = '\n';
 const int MX = 100001; 
+ 
+void solve(int b, int p) {
+    vector<_ll> arr(p);
+    F0R (i, p) {
+        cin >> arr[i];
+    }
+    
+    sort(all(arr), greater<int>());
+    
+    int hiredCount = 0;
+    _ll budg = b;
+    F0R(i, p) {
+        if(budg + arr[i] < 0){
+            break;
+        }
+        budg += arr[i];
+        if(arr[i] <= 0){
+            hiredCount++;
+        }
+    }
 
-void solve() {
+    cout << hiredCount << nl;
 
 }
-
+ 
 int32_t main() {
     cin.tie(0)->sync_with_stdio(0); 
     cin.exceptions(cin.failbit);
 
-    int T = 1;
-    #ifdef LOCAL
-    cin >> T;
-    #endif
-    while(T--) {
-        solve();
+    int b, p;
+    cin >> b >> p;
+    
+    while(b or p) {
+        solve(b, p);
         #ifdef LOCAL
             cout << "__________________________" << endl;
         #endif
+        cin >> b >> p;
     }
     #ifdef LOCAL
         cerr << endl << "finished in "
