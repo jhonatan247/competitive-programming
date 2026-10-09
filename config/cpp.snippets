@@ -16,6 +16,7 @@ fordz
 foreach
 foreachd
 gcd
+i128
 if
 inf
 minimal
@@ -264,6 +265,12 @@ endsnippet
 
 
 
+snippet i128 "int 128 definition"
+typedef __int128_t _i128;
+endsnippet
+
+
+
 snippet inf "infinitive numbers for comparisons"
 const int INF  =  1e9;
 const int NINF = -1e9;
@@ -444,13 +451,13 @@ endsnippet
 
 snippet types "all shorted types"
 typedef complex<_ld> _cd;
-typedef __int128_t _i128;
 
 typedef pair<int, int> _pi;
 typedef pair<_ll,_ll> _pl;
 typedef pair<_ld,_ld> _pd;
 
 typedef vector<int> _vi;
+typedef vector<bool> _vb;
 typedef vector<string> _vs;
 typedef vector<_ld> _vd;
 typedef vector<_ll> _vl;
@@ -459,6 +466,7 @@ typedef vector<_pi> _vpi;
 typedef vector<_pl> _vpl;
 
 typedef vector<_vi> _vvi;
+typedef vector<_vb> _vvb;
 typedef vector<_vs> _vvs;
 typedef vector<_vd> _vvd;
 typedef vector<_vl> _vvl;
@@ -467,6 +475,7 @@ typedef vector<_vpi> _vvpi;
 typedef vector<_vpl> _vvpl;
 
 typedef vector<_vvi> _vvvi;
+typedef vector<_vvb> _vvvb;
 typedef vector<_vvs> _vvvs;
 typedef vector<_vvd> _vvvd;
 typedef vector<_vvl> _vvvl;

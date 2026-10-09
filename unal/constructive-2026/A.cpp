@@ -3,9 +3,9 @@
 #endif
 
 #include <bits/stdc++.h>
- 
+
 using namespace std;
- 
+
 typedef long long _ll;
 typedef long double _ld;
 typedef complex<_ld> _cd;
@@ -39,11 +39,6 @@ typedef vector<_vvpi> _vvvpi;
 typedef vector<_vvpl> _vvvpl;
 
 #define F0R(i, a) for (int i=0; i<(a); i++)
-#define F0Rd(i,a) for (int i = (a)-1; i >= 0; i--)
-#define FOR(i, a, b) for (int i=a; i<(b); i++)
-#define FORd(i,a,b) for (int i = (b)-1; i >= a; i--)
-#define TRAV(a,x) for (auto& a : x)
-#define TRAVd(a,x) for (auto a = x.rbegin(); a != x.rend(); ++a)
 
 #define sz(x) (int)(x).size()
 #define all(x) x.begin(), x.end()
@@ -57,45 +52,35 @@ typedef vector<_vvpl> _vvvpl;
 
 const char nl = '\n';
 const int MX = 100001; 
- 
+
 void solve() {
-    int n, k;
-    cin >> n >> k;
-    if( k >= n - 1) {
+    int n;
+    cin >> n;
+    vector<int> arr(n);
+    _vi even;
+    _vi odd;
+    F0R (i, n) {
+        cin >> arr[i];
+        if(arr[i] % 2) {
+            odd.pb(i + 1);
+        } else {
+            even.pb(i + 1);
+        }
+    }
+
+    if(!sz(even) and sz(odd) <= 1) {
         cout << -1 << nl;
         return;
     }
 
-    int r = n - k;
-    int s1 = r / 2;
-    int s0 = r / 2 + r % 2;
+    if(sz(even)) {
+        cout << 1 << nl << even[0] << nl;
+    } else {
+        cout << 2 << nl << odd[0] << ' ' << odd[1] << nl;
+    }
     
-    _vvi zeros(s0, _vi(1, 0));
-    _vvi ones(s1, _vi(1, 1));
-    int miss0 = n / 2 + n % 2 - s0;
-    int miss1 = n / 2 - s1;
-    
-    F0R(i, miss0) {
-        zeros[0].pb(0);
-    }
-    F0R(i, miss1) {
-        ones[0].pb(1);
-    }
-
-    F0R(i, s0 + s1) {
-        if(i % 2) {
-            TRAV(e, ones[i / 2]) {
-                cout << e;
-            }
-        } else {
-            TRAV(e, zeros[i / 2]) {
-                cout << e;
-            }
-        }
-    }
-    cout << nl;
 }
- 
+
 int32_t main() {
     cin.tie(0)->sync_with_stdio(0); 
     cin.exceptions(cin.failbit);
@@ -116,4 +101,5 @@ int32_t main() {
 
     return 0;
 }
+
 

@@ -3,9 +3,9 @@
 #endif
 
 #include <bits/stdc++.h>
- 
+
 using namespace std;
- 
+
 typedef long long _ll;
 typedef long double _ld;
 typedef complex<_ld> _cd;
@@ -15,6 +15,7 @@ typedef pair<_ll,_ll> _pl;
 typedef pair<_ld,_ld> _pd;
 
 typedef vector<int> _vi;
+typedef vector<bool> _vb;
 typedef vector<string> _vs;
 typedef vector<_ld> _vd;
 typedef vector<_ll> _vl;
@@ -23,6 +24,7 @@ typedef vector<_pi> _vpi;
 typedef vector<_pl> _vpl;
 
 typedef vector<_vi> _vvi;
+typedef vector<_vb> _vvb;
 typedef vector<_vs> _vvs;
 typedef vector<_vd> _vvd;
 typedef vector<_vl> _vvl;
@@ -31,6 +33,7 @@ typedef vector<_vpi> _vvpi;
 typedef vector<_vpl> _vvpl;
 
 typedef vector<_vvi> _vvvi;
+typedef vector<_vvb> _vvvb;
 typedef vector<_vvs> _vvvs;
 typedef vector<_vvd> _vvvd;
 typedef vector<_vvl> _vvvl;
@@ -57,45 +60,44 @@ typedef vector<_vvpl> _vvvpl;
 
 const char nl = '\n';
 const int MX = 100001; 
- 
+
 void solve() {
-    int n, k;
-    cin >> n >> k;
-    if( k >= n - 1) {
+    int n, m;
+    cin >> n >> m;
+    _vvb target(n, _vb(m));
+    int ones = 0;
+    F0R(i, n) {
+        string row;
+        cin >> row;
+        F0R(j, m) {
+            target[i][j] = row[j] == '1';
+            ones += target[i][j];
+        }
+    }
+    if(target[0][0]) {
         cout << -1 << nl;
         return;
     }
-
-    int r = n - k;
-    int s1 = r / 2;
-    int s0 = r / 2 + r % 2;
-    
-    _vvi zeros(s0, _vi(1, 0));
-    _vvi ones(s1, _vi(1, 1));
-    int miss0 = n / 2 + n % 2 - s0;
-    int miss1 = n / 2 - s1;
-    
-    F0R(i, miss0) {
-        zeros[0].pb(0);
+    if(!ones) {
+        cout << 0 << nl;
+        return;
     }
-    F0R(i, miss1) {
-        ones[0].pb(1);
-    }
-
-    F0R(i, s0 + s1) {
-        if(i % 2) {
-            TRAV(e, ones[i / 2]) {
-                cout << e;
-            }
-        } else {
-            TRAV(e, zeros[i / 2]) {
-                cout << e;
+    cout << ones << nl;
+    F0Rd(j, m) {
+        F0Rd(i, n) {
+            if(target[i][j]) {
+                if( j > 0) {
+                    cout << i + 1 << ' ' << j << ' ';
+                    cout << i + 1 << ' ' << j + 1 << nl;
+                } else {
+                    cout << i << ' ' << j + 1 << ' ';
+                    cout << i + 1 << ' ' << j + 1 << nl;
+                }
             }
         }
     }
-    cout << nl;
 }
- 
+
 int32_t main() {
     cin.tie(0)->sync_with_stdio(0); 
     cin.exceptions(cin.failbit);
@@ -116,4 +118,5 @@ int32_t main() {
 
     return 0;
 }
+
 
