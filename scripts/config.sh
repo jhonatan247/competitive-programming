@@ -9,9 +9,14 @@ LINE='export PATH=$PATH:~/cp/scripts/'
 
 grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
 
+LINE='export CPLUS_INCLUDE_PATH=~/cp/library:$CPLUS_INCLUDE_PATH'
+
+grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
+
 chmod +x ~/cp/scripts/build.sh
 chmod +x ~/cp/scripts/interact.sh
 chmod +x ~/cp/scripts/stress.sh
 chmod +x ~/cp/scripts/validate.sh
 chmod +x ~/cp/scripts/runner.py
 
+source ~/.zshrc

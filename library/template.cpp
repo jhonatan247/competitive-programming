@@ -1,8 +1,13 @@
 #ifdef LOCAL
     #define _GLIBCXX_DEBUG
+    #include "local/debug.h"
+#else
+    #define debug(...) ((void)0)
+    #define debug_print(...) ((void)0)
 #endif
 
 #include <bits/stdc++.h>
+#include <cassert>
 
 using namespace std;
 
@@ -29,18 +34,13 @@ int32_t main() {
     #ifdef LOCAL
     cin >> T;
     #endif
+
     while(T--) {
         solve();
-        #ifdef LOCAL
-            cout << "__________________________" << endl;
-        #endif
+        debug_print("TEST_CASE_DIVISION_LINE");
     }
-    #ifdef LOCAL
-        cerr << endl << "finished in "
-            << static_cast<double>(clock()) / CLOCKS_PER_SEC
-            << " sec" << endl;
-    #endif
 
+    debug_print("EXECUTION_TIME");
     return 0;
 }
 

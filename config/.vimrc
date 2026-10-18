@@ -104,7 +104,7 @@ nnoremap <Tab> %
 " Autocmd
 
 "   Append template to new C++ files
-    autocmd BufNewFile *.cpp 0r ~/cp/library/template.cpp
+    autocmd BufNewFile *.cpp 0r ~/cp/library/template.cpp | execute "normal! 26Gi\<Tab>" | startinsert!
 "   C++ compile & run (using your build.sh workflow)
     autocmd FileType cpp setlocal makeprg=g++\ -std=c++17\ -O2\ -Wall\ -Wextra\ -o\ %:r\ %
     function! BuildCpp(flags, run) abort
