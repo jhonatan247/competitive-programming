@@ -29,7 +29,11 @@ rawford
 read
 read2
 read3
+read4
+reads
+read2s
 readvec
+read2vec
 sets
 shorts
 types
@@ -327,10 +331,46 @@ endsnippet
 
 
 
+snippet read4 "read 4 variables"
+${1:int} ${2:n}, ${3:m}, ${4:l}, ${5:k};
+cin >> $2 >> $3 >> $4 >> $5;
+$0
+endsnippet
+
+
+
+snippet reads "read 1 string variable"
+string ${1:s};
+cin >> $1;
+$0
+endsnippet
+
+
+
+snippet read2s "read 2 string variables"
+string ${1:s1}, ${2:s2};
+cin >> $1 >> $2;
+$0
+endsnippet
+
+
+
 snippet readvec "read vector"
 vector<${1:int}> ${2:arr}(${3:n});
 F0R (i, $3) {
 	cin >> $2[i];
+}
+$0
+endsnippet
+
+
+
+snippet read2vec "read vector"
+vector<${1:int}> ${2:arr1}(${3:n});
+vector<$1> ${4:arr2}($3);
+F0R (i, $3) {
+	cin >> $2[i];
+	cin >> $4[i];
 }
 $0
 endsnippet

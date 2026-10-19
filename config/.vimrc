@@ -7,46 +7,46 @@ syntax on
 
 
 " General editing
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set expandtab
 set autoindent
-set smartindent
-set cino+=L0
-set backspace=indent,eol,start
-set ruler
-set showcmd
-set number
-set relativenumber
-set scrolloff=999
-set hidden
-set noswapfile
-set nobackup
-set nowritebackup
-set undofile
-set undodir=~/.vim/undo//
 set autoread
+set backspace=indent,eol,start
 set belloff=all
-set noerrorbells
-set visualbell
-set t_vb=
-set mouse=a
-set incsearch
+set cino+=L0
+set completeopt=menuone,noinsert,noselect
+set expandtab
+set hidden
 set hlsearch
 set ignorecase
-set smartcase
-set wildmenu
-set wildmode=longest:full,full
-set splitright
-set splitbelow
-set completeopt=menuone,noinsert,noselect
+set incsearch
+set mouse=a
+set nobackup
+set nocompatible
+set noerrorbells
+set noswapfile
+set nowritebackup
+set number
+set pastetoggle=<F2>
+set relativenumber
+set ruler
+set scrolloff=999
+set shiftwidth=4
 set shortmess+=c
-set updatetime=300
+set showcmd
+set smartcase
+set smartindent
+set softtabstop=4
+set splitbelow
+set splitright
+set tabstop=4
 set timeoutlen=300
 set ttimeoutlen=10
-set pastetoggle=<F2>
-
+set t_vb=
+set undodir=~/.vim/undo//
+set undofile
+set updatetime=300
+set visualbell
+set wildmenu
+set wildmode=longest:full,full
 
 " Cross-platform clipboard
 if has('mac')
@@ -68,11 +68,29 @@ let g:netrw_localrmdir = 'rm -r'
 
 
 " Keybindings
-inoremap {<CR> {<CR>}<Esc>O
-inoremap {} {}
-inoremap jk <Esc>
-nnoremap <C-a> ggVG
-nnoremap <Tab> %
+"   General
+    inoremap {<CR> {<CR>}<Esc>O
+    inoremap {} {}
+    inoremap jk <Esc>
+    nnoremap <Tab> %
+"   Undo and Redo
+    nnoremap <C-z> u
+    inoremap <C-z> <C-o>u
+    vnoremap <C-z> <Esc>u
+"   Save File
+    nnoremap <C-s> :update<CR>
+    inoremap <C-s> <Esc>:update<CR>gi
+    vnoremap <C-s> <Esc>:update<CR>
+"   Select All
+    nnoremap <C-a> ggVG
+    inoremap <C-a> <Esc>ggVG
+    vnoremap <C-a> <Esc>ggVG
+"   Copy (Yank) Selection to System Clipboard
+    vnoremap <C-c> "+y
+    nnoremap <C-c> "+yy
+"   Cut (Delete) Selection to System Clipboard
+    vnoremap <C-x> "+d
+    nnoremap <C-x> "+dd
 
 
 " Leader mappings

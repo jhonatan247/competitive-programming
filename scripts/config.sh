@@ -30,11 +30,19 @@ grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
 LINE="alias vsrc='vim ~/.zshrc'"
 grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
 
-LINE="alias template='vim ~/cp/library/template.cpp'"
+LINE="alias vtemplate='vim ~/cp/library/template.cpp'"
+grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
+
+LINE="alias vsnippets='vim ~/cp/config/cpp.snippets'"
+grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
+
+LINE="alias vconfig='vim ~/cp/scripts/config.sh'"
+grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
+
+LINE="alias vdebug='vim ~/cp/library/local/debug.h'"
 grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
 
 LINE="alias vimt=\"vim --cmd 'let g:test_cases=1'\""
 grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
-
 
 chmod +x ~/cp/scripts/*
