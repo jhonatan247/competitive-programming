@@ -37,7 +37,7 @@ int32_t main() {
 
     while(T--) {
         solve();
-        debug_print("TEST_CASE_DIVISION_LINE");
+        debug_print("TEST_CASE_DIV_LINE");
     }
 
     debug_print("EXECUTION_TIME");

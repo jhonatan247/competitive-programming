@@ -24,4 +24,17 @@ grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
 LINE="alias src='source ~/.zshrc'"
 grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
 
+LINE="alias vimrc='vim ~/.vimrc'"
+grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
+
+LINE="alias vsrc='vim ~/.zshrc'"
+grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
+
+LINE="alias template='vim ~/cp/library/template.cpp'"
+grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
+
+LINE="alias vimt=\"vim --cmd 'let g:test_cases=1'\""
+grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
+
+
 chmod +x ~/cp/scripts/*
