@@ -78,6 +78,8 @@ nnoremap <Tab> %
 " Leader mappings
 
     let mapleader = "\<Space>"
+"   Save current file
+    nnoremap <Leader>w :write<CR>
 "   Quick comment
     nnoremap <Leader>/ 0i//<ESC>
 "   Select all
@@ -93,7 +95,31 @@ nnoremap <Tab> %
     nnoremap <Leader>b ^
 "   Reload vimrc
     nnoremap <Leader>s :source ~/.vimrc<CR>
-
+"   Pasate yanked text into ~/in
+    nnoremap <Leader>p :call writefile(split(substitute(getreg('+'), "\r", '', 'g'), "\n"), expand('~/in')) \| echom "~\/in updated"<CR>
+"   Reset ~/in to a single line containing 0
+    nnoremap <Leader>r :call writefile(['0'], expand('~/in')) \| echom "~\/in reset to 0"<CR>
+"   Add a test case to ~/in
+    function! s:CPNextTest() abort
+      let l:path  = expand('~/in')
+      " Read existing lines (if any), stripping any stray CRs from the file itself
+      let l:lines = filereadable(l:path)
+            \ ? map(readfile(l:path), 'substitute(v:val, "\r", "", "g")')
+            \ : []
+      " Current counter (0 if file is empty/missing or first line isn't a number)
+      let l:n    = empty(l:lines) ? 0 : str2nr(l:lines[0])
+      let l:rest = empty(l:lines) ? [] : l:lines[1:]
+      " Clipboard contents, CR-stripped and split into lines
+      let l:clip = split(substitute(getreg('+'), "\r", '', 'g'), "\n")
+      " split() leaves one trailing '' when the clipboard ends with a newline; drop it
+      " (only one, so intentional blank lines inside/at the end are preserved)
+      if !empty(l:clip) && l:clip[-1] ==# ''
+        call remove(l:clip, -1)
+      endif
+      call writefile([string(l:n + 1)] + l:rest + l:clip, l:path)
+      echom printf('~/in: case %d, +%d line(s)', l:n + 1, len(l:clip))
+    endfunction
+    nnoremap <Leader>t :call <SID>CPNextTest()<CR>
 
 " Comands
 

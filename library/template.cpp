@@ -20,14 +20,14 @@ typedef long double _ld;
 #define all(x) x.begin(), x.end()
 
 const char nl = '\n';
-const int MX = 100001; 
+const int MX = 100001;
 
 void solve() {
 
 }
 
 int32_t main() {
-    cin.tie(0)->sync_with_stdio(0); 
+    cin.tie(0)->sync_with_stdio(0);
     cin.exceptions(cin.failbit);
 
     int T = 1;
