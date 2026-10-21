@@ -28,14 +28,18 @@ rawfor
 rawford
 read
 read2
+read2s
+read2v
 read3
 read4
 reads
-read2s
-readvec
-read2vec
+readv
+readv1
+readvp
+readvt
 sets
 shorts
+tuples
 types
 while
 */
@@ -168,7 +172,7 @@ endsnippet
 
 
 
-snippet matrix "short datatypes for matrixes"
+snippet matrix "shorted types for matrixes"
 typedef vector<_vi> _vvi;
 typedef vector<_vb> _vvb;
 typedef vector<_vs> _vvs;
@@ -215,55 +219,7 @@ const int MOD7 = 1000000007;
 const int MOD9 = 1000000009;
 const int MOD = MOD7;
 
-// Normalize x into the range [0, mod).
-_ll norm_mod(_ll x) {
-	x %= MOD;
-	if (x < 0) x += MOD;
-	return x;
-}
-// (a + b) % MOD
-_ll add_mod(_ll a, _ll b) {
-	a = norm_mod(a);
-	b = norm_mod(b);
-	_ll res = a + b;
-	if (res >= MOD) res -= MOD;
-	return res;
-}
-// (a - b) % MOD
-_ll sub_mod(_ll a, _ll b) {
-	a = norm_mod(a);
-	b = norm_mod(b);
-	_ll res = a - b;
-	if (res < 0) res += MOD;
-	return res;
-}
-// (a * b) % MOD, safe against overflow using __int128.
-_ll mul_mod(_ll a, _ll b) {
-	a = norm_mod(a);
-	b = norm_mod(b);
-	return (_i128)a * b % MOD;
-}
-//  TODO: research
-// base^exp % MOD using binary exponentiation.
-_ll pow_mod(_ll base, _ll exp) {
-	base = norm_mod(base);
-	_ll result = 1 % MOD;
-	while (exp > 0) {
-		if (exp & 1) result = mul_mod(result, base);
-		base = mul_mod(base, base);
-		exp >>= 1;
-	}
-	return result;
-}
-// Modular inverse for prime modulus using Fermat's little theorem:
-// a^(p-2) ≡ a^{-1} (mod p) for prime p and a not divisible by p.
-_ll inv_mod_prime(_ll a) {
-	a = norm_mod(a);
-	if (a == 0) {
-		throw invalid_argument("0 has no inverse modulo prime");
-	}
-	return pow_mod(a, MOD - 2);
-}
+// TODO: modpow and mod inverse
 endsnippet
 
 
@@ -323,6 +279,38 @@ endsnippet
 
 
 
+snippet read2s "read 2 string variables"
+string ${1:s1}, ${2:s2};
+cin >> $1 >> $2;
+$0
+endsnippet
+
+
+
+snippet read2v "read 2 vectors simultaneously"
+vector<${1:int}> ${2:arr1}(${3:n});
+vector<$1> ${4:arr2}($3);
+F0R(i, $3) {
+	cin >> $2[i];
+	cin >> $4[i];
+}
+$0
+endsnippet
+
+
+
+snippet read2v1 "read 2 vectors simultaneously from 1"
+vector<${1:int}> ${2:arr1}(${3:n + 1});
+vector<$1> ${4:arr2}($3);
+FOR(i, 1, $3) {
+	cin >> $2[i];
+	cin >> $4[i];
+}
+$0
+endsnippet
+
+
+
 snippet read3 "read 3 variables"
 ${1:int} ${2:n}, ${3:m}, ${4:l};
 cin >> $2 >> $3 >> $4;
@@ -347,17 +335,9 @@ endsnippet
 
 
 
-snippet read2s "read 2 string variables"
-string ${1:s1}, ${2:s2};
-cin >> $1 >> $2;
-$0
-endsnippet
-
-
-
-snippet readvec "read vector"
+snippet readv "read vector"
 vector<${1:int}> ${2:arr}(${3:n});
-F0R (i, $3) {
+F0R(i, $3) {
 	cin >> $2[i];
 }
 $0
@@ -365,12 +345,34 @@ endsnippet
 
 
 
-snippet read2vec "read vector"
-vector<${1:int}> ${2:arr1}(${3:n});
-vector<$1> ${4:arr2}($3);
-F0R (i, $3) {
+snippet readv1 "read vector from 1"
+vector<${1:int}> ${2:arr}(${3:n + 1});
+FOR(i, 1, $3) {
 	cin >> $2[i];
-	cin >> $4[i];
+}
+$0
+endsnippet
+
+
+
+snippet readvp "read vector of pairs"
+vector<pair<${1:int},$1>> ${2:arr}(${3:n});
+F0R(i, $3) {
+	$1 fr, sc;
+	cin >> fr >> sc;
+	$2[i] = mp(fr, sc);
+}
+$0
+endsnippet
+
+
+
+snippet readvt "read vector of tuples"
+vector<tuple<${1:int},$1, $1>> ${2:arr}(${3:n});
+F0R(i, $3) {
+	$1 fr, sc, th;
+	cin >> fr >> sc >> th;
+	$2[i] = mt(fr, sc, th);
 }
 $0
 endsnippet
@@ -386,6 +388,9 @@ endsnippet
 
 
 snippet shorts "short expressions"
+#define rall(a) a.rbegin(), a.rend()
+#define fill0(a) memset(a, 0, sizeof a)
+#define fill(a, v) memset(a, v, sizeof a)
 #define mp make_pair
 #define pb push_back
 #define fr first
@@ -397,7 +402,22 @@ endsnippet
 
 
 
-snippet types "all shorted types"
+snippet tuples "short expressions and types for tuples"
+typedef tuple<int,int,int> _ti;
+typedef tuple<_ll,_ll,_ll> _tl;
+typedef vector<_ti> _vti;
+typedef vector<_tl> _vtl;
+
+#define _fr(x) get<0>(x)
+#define _sc(x) get<1>(x)
+#define _th(x) get<2>(x)
+#define _fo(x) get<3>(x)
+#define mt(...) make_tuple(__VA_ARGS__)
+endsnippet
+
+
+
+snippet types "all simple shorted types"
 typedef complex<_ld> _cd;
 
 typedef pair<int, int> _pi;
