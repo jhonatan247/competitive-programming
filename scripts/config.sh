@@ -1,86 +1,92 @@
 #!/bin/bash
 
-ln -s ~/cp/config/.vimrc ~/.vimrc
-ln -s ~/cp/config/cpp.snippets ~/.vim/UltiSnips/cpp.snippets
+# General Configs
+set -euo pipefail
 
+
+# Vim Plugins
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-LINE='export PATH=$PATH:~/cp/scripts/'
-grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
 
-LINE='export CPLUS_INCLUDE_PATH=~/cp/library:$CPLUS_INCLUDE_PATH'
-grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
+# Update ~/.zshrc
+add_to_zshrc() {
+    local line="$1"
+    local file="$HOME/.zshrc"
 
-LINE='export CPLUS_INCLUDE_PATH=~/ac-library:$CPLUS_INCLUDE_PATH'
-grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
+    # If the exact line exists, drop it (safe fixed-string removal + atomic write)
+    if grep -qxF -- "$line" "$file" 2>/dev/null; then
+        local tmp
+        tmp=$(mktemp "${file}.XXXXXX") || return 1
+        grep -vxF -- "$line" "$file" > "$tmp"
+        mv "$tmp" "$file"
+    fi
 
-LINE="alias count='count.sh'"
-grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
-
-LINE="alias in='in.sh'"
-grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
-
-LINE="alias config='config.sh'"
-grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
-
-LINE="alias src='source ~/.zshrc'"
-grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
-
-LINE="alias vimrc='vim ~/.vimrc'"
-grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
-
-LINE="alias vsrc='vim ~/.zshrc'"
-grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
-
-LINE="alias vtemplate='vim ~/cp/library/template.cpp'"
-grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
-
-LINE="alias vsnippets='vim ~/cp/config/cpp.snippets'"
-grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
-
-LINE="alias vconfig='vim ~/cp/scripts/config.sh'"
-grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
-
-LINE="alias vdebug='vim ~/cp/library/local/debug.h'"
-grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
-
-LINE="alias vimt=\"vim --cmd 'let g:test_cases=1'\""
-grep -qxF "$LINE" ~/.zshrc || echo "$LINE" >> ~/.zshrc
-
+    # Append at the end
+    printf '%s\n' "$line" >> "$file"
+}
+add_to_zshrc '# CP settings added by config.sh'
+add_to_zshrc 'ulimit -s unlimited'
+add_to_zshrc 'export PATH=$PATH:~/cp/scripts/'
+add_to_zshrc 'export CPLUS_INCLUDE_PATH=~/cp/library:$CPLUS_INCLUDE_PATH'
+add_to_zshrc "alias count='count.sh'"
+add_to_zshrc "alias in='in.sh'"
+add_to_zshrc "alias config='bash ~/cp/scripts/config.sh'"
+add_to_zshrc "alias src='source ~/.zshrc'"
+add_to_zshrc "alias atc='cd ~/cp/atc'"
+add_to_zshrc "alias cf='cd ~/cp/cf'"
+add_to_zshrc 'alias rpc='"'"'cd ~/cp/rpc && cd "$(ls -d */ | sort | tail -n1)"'"'"''
+add_to_zshrc "alias scripts='cd ~/cp/sctipts && vim .'"
+add_to_zshrc "alias unal='cd ~/cp/unal'"
+add_to_zshrc 'alias train='"'"'cd ~/cp/cf/training && cd "$(ls -d */ | sort | tail -n1)"'"'"''
+add_to_zshrc "alias vimrc='vim ~/.vimrc'"
+add_to_zshrc "alias vsrc='vim ~/.zshrc'"
+add_to_zshrc "alias vtemplate='vim ~/cp/library/template.cpp'"
+add_to_zshrc "alias vsnippets='vim ~/cp/config/cpp.snippets'"
+add_to_zshrc "alias vconfig='vim ~/cp/scripts/config.sh'"
+add_to_zshrc "alias vdebug='vim ~/cp/library/local/debug.h'"
+add_to_zshrc "alias vimt=\"vim --cmd 'let g:test_cases=1'\""
 chmod +x ~/cp/scripts/*
 
 
-#
-# Sync the AtCoder Library (ac-library) repo.
-#   - Clone it if the target directory does not exist.
-#   - Otherwise, run `git pull` to update it.
-#
-set -euo pipefail
+# Download libraries
+clone_or_pull() {
+    local repo_url="$1"
 
-REPO_SSH="git@github.com:atcoder/ac-library.git"
-TARGET_DIR="${1:-ac-library}"   # allow overriding via $1, default: ./ac-library
+    # Make sure git is available
+    if ! command -v git >/dev/null 2>&1; then
+        echo "error: git is not installed or not in PATH" >&2
+        exit 1
+    fi
 
-# Make sure git is available
-if ! command -v git >/dev/null 2>&1; then
-    echo "error: git is not installed or not in PATH" >&2
-    exit 1
-fi
+    local name
+    name=$(basename "${repo_url%.git}")   # strip trailing .git, take last path component
+    local target="$HOME/$name"
 
-if [ ! -e "$TARGET_DIR" ]; then
-    echo "==> '$TARGET_DIR' not found — cloning $REPO_SSH"
-    git clone "$REPO_SSH" "$TARGET_DIR"
-    echo "==> Clone complete."
-elif [ ! -d "$TARGET_DIR" ]; then
-    echo "error: '$TARGET_DIR' exists but is not a directory" >&2
-    exit 1
-elif [ ! -d "$TARGET_DIR/.git" ]; then
-    # Directory exists, but it's not a git repository — refuse to touch it.
-    echo "error: '$TARGET_DIR' exists but is not a git repository" >&2
-    echo "       refusing to pull. Remove it manually if you want a fresh clone." >&2
-    exit 1
-else
-    echo "==> '$TARGET_DIR' already exists — pulling latest changes"
-    git -C "$TARGET_DIR" pull --ff-only
-    echo "==> Update complete."
-fi
+    if [ ! -e "$target" ]; then
+        echo "==> '$target' not found — cloning $repo_url"
+        git clone "$repo_url" "$target"
+        echo "==> Clone complete."
+    elif [ ! -d "$target" ]; then
+        echo "error: '$target' exists but is not a directory" >&2
+        exit 1
+    elif [ ! -d "$target/.git" ]; then
+        echo "error: '$target' exists but is not a git repository" >&2
+        echo "       refusing to pull. Remove it manually if you want a fresh clone." >&2
+        exit 1
+    else
+        echo "==> '$target' already exists — pulling latest changes"
+        git -C "$target" pull --ff-only
+        echo "==> Update complete."
+    fi
+}
+#   AtCoder Library
+    clone_or_pull "git@github.com:atcoder/ac-library.git"
+
+
+# Link files and folders
+ln -s ~/ac-library/atcoder ~/cp/library/atcoder || true
+ln -s ~/cp/config/.vimrc ~/.vimrc || true
+ln -s ~/cp/config/cpp.snippets ~/.vim/UltiSnips/cpp.snippets || true
+
+echo "Config completed succesfully"

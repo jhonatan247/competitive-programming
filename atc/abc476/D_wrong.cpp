@@ -9,6 +9,8 @@
 #include <bits/stdc++.h>
 #include <cassert>
 
+#include <atcoder/all>
+
 using namespace std;
 
 typedef long long _ll;
