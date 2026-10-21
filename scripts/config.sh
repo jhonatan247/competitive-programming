@@ -35,6 +35,7 @@ add_to_zshrc "alias config='bash ~/cp/scripts/config.sh'"
 add_to_zshrc "alias src='source ~/.zshrc'"
 add_to_zshrc "alias atc='cd ~/cp/atc'"
 add_to_zshrc "alias cf='cd ~/cp/cf'"
+add_to_zshrc "alias gym='cd ~/cp/gym'"
 add_to_zshrc 'alias rpc='"'"'cd ~/cp/rpc && cd "$(ls -d */ | sort | tail -n1)"'"'"''
 add_to_zshrc "alias scripts='cd ~/cp/sctipts && vim .'"
 add_to_zshrc "alias unal='cd ~/cp/unal'"
