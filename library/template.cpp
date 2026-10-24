@@ -12,15 +12,13 @@
 using namespace std;
 
 typedef long long _ll;
-typedef long double _ld;
 
-#define F0R(i, a) for (int i=0; i<(a); i++)
+#define F0R(i, a) for (_ll i=0; i<(a); i++)
 
 #define sz(x) (int)(x).size()
 #define all(x) x.begin(), x.end()
 
 const char nl = '\n';
-const int MX = 100001;
 
 void solve() {
 
@@ -32,6 +30,7 @@ int32_t main() {
 
     int T = 1;
     #ifdef LOCAL
+    #warning "LOCAL ONLY: reading T for multi-test"
     cin >> T;
     #endif
 

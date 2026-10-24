@@ -1,0 +1,62 @@
+#ifdef LOCAL
+    #define _GLIBCXX_DEBUG
+    #include "local/debug.h"
+#else
+    #define debug(...) ((void)0)
+    #define debug_print(...) ((void)0)
+#endif
+
+#include <bits/stdc++.h>
+#include <cassert>
+
+using namespace std;
+
+typedef long long _ll;
+
+#define F0R(i, a) for (_ll i=0; i<(a); i++)
+
+#define sz(x) (int)(x).size()
+#define all(x) x.begin(), x.end()
+
+const char nl = '\n';
+
+void solve() {
+    map<string, int> A;
+
+    int q;
+    cin >> q;
+    int next = 1;
+    
+    while(q--) {
+        string s;
+        cin >> s;
+        if(A.count(s)) {
+            cout << A[s] << nl;
+        } else {
+            A[s] = next;
+            cout << next << nl;
+            next++;
+        }
+    }
+}
+
+int32_t main() {
+    cin.tie(0)->sync_with_stdio(0);
+    cin.exceptions(cin.failbit);
+
+    int T = 1;
+    #ifdef LOCAL
+    #warning "LOCAL ONLY: reading T for multi-test"
+    cin >> T;
+    #endif
+
+    while(T--) {
+        solve();
+        debug_print("TEST_CASE_DIV_LINE");
+    }
+
+    debug_print("EXECUTION_TIME");
+    return 0;
+}
+
+
