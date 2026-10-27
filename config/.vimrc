@@ -198,7 +198,26 @@ let g:netrw_localrmdir = 'rm -r'
     autocmd FileType cpp nnoremap <buffer> <F6>  <Cmd>call RunStress(1)<CR>
     autocmd FileType cpp inoremap <buffer> <F6>  <Cmd>call RunStress(1)<CR>
     autocmd FileType cpp vnoremap <buffer> <F6>  <Cmd>call RunStress(1)<CR>
-
+"   Compile inline local includes to *_compiled.cpp
+    function! CPInline()
+        write
+        let src = expand('%:p')
+        let out = fnamemodify(src, ':r') . '_compiled.cpp'
+        let err = system('compile.sh ' . shellescape(src))
+        if v:shell_error
+            echohl ErrorMsg | echomsg substitute(err, '\n', ' ', 'g') | echohl None
+            return
+        endif
+        let @+ = join(readfile(out), "\n")
+        if !has('clipboard')
+            call system('xclip -selection clipboard < ' . shellescape(out))
+        endif
+        execute 'botright vsplit ' . fnameescape(out)
+        echomsg 'Copied ' . fnamemodify(out, ':t')
+    endfunction
+    autocmd FileType cpp nnoremap <silent> <buffer> <F4> <Cmd>call CPInline()<CR>
+    autocmd FileType cpp inoremap <silent> <buffer> <F4> <Cmd>call CPInline()<CR>
+    autocmd FileType cpp vnoremap <silent> <buffer> <F4> <Cmd>call CPInline()<CR>
 
 " Plugin management (vim-plug only)
 call plug#begin('~/.vim/plugged')

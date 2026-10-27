@@ -254,11 +254,11 @@ endsnippet
 
 
 snippet modulo "modulo utilities"
-const int MOD7 = 1000000007;
-const int MOD9 = 1000000009;
-const int MOD = MOD7;
+const _ll MOD7 = 1000000007;
+const _ll MOD9 = 1000000009;
+const _ll MOD = MOD7;
 
-// TODO: modpow and mod inverse
+using Mint = Modular<std::integral_constant<decay<decltype(MOD)>::type, MOD>>;
 endsnippet
 
 

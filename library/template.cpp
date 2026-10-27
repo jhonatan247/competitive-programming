@@ -1,6 +1,6 @@
 #ifdef LOCAL
     #define _GLIBCXX_DEBUG
-    #include "local/debug.h"
+    #include <local/debug.h>
 #else
     #define debug(...) ((void)0)
     #define debug_print(...) ((void)0)
@@ -11,7 +11,7 @@
 
 using namespace std;
 
-typedef long long _ll;
+typedef int64_t _ll;
 
 #define F0R(i, a) for (_ll i=0; i<(a); i++)
 
