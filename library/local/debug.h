@@ -127,6 +127,18 @@ struct is_iterable<T, void_t<
     decltype(end  (declval<T&>()))
 >> : true_type {};
 
+
+// ---------- indentation for matrixes ----------
+constexpr string INDENT_PREFIX = "  ";
+int INDENT_DEPTH = 0;
+string get_debug_indent() {
+    string indent = "";
+    for(int i = 0; i < INDENT_DEPTH; i++) {
+        indent += INDENT_PREFIX;
+    }
+    return indent;
+}
+
 // ---------- main template ----------
 template<class T>
 void debug_print(const T& x) {
@@ -138,16 +150,30 @@ void debug_print(const T& x) {
     } else if constexpr (is_same_v<U, nullptr_t>) {
         cerr << "nullptr";
     } else if constexpr (is_integral_v<U>) {
-        cerr << +x;                       // promote char8_t/int8_t etc.
+        cerr << +x; // promote char8_t/int8_t etc.
     } else if constexpr (is_floating_point_v<U>) {
         cerr << x;
     } else if constexpr (is_iterable<T>::value) {
         cerr << '{';
         bool first = true;
+        bool is_matrix = false;
+
+        INDENT_DEPTH++;
         for (const auto& e : x) {
-            if (!first) cerr << ", ";
+            if (!first) {
+                cerr << ", ";
+            }
+            if constexpr (is_iterable<decltype(e)>::value) {
+                is_matrix = true;
+                cerr << "\n" << get_debug_indent();
+            }
             first = false;
             debug_print(e);
+        }
+        INDENT_DEPTH--;
+
+        if(is_matrix) {
+            cerr << '\n' << get_debug_indent();
         }
         cerr << '}';
     } else {
