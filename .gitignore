@@ -7,11 +7,15 @@
 # 3. Do not ignore code files
 !*.cpp
 !*.h
+!*.hpp
 !*.sh
 !*.py
 !*.vimrc
 !*.snippets
 
+# Keep a normal project-level ignore policy under repository/
+!/repository/
+!/repository/**
+
 # 4. Optional: Do not ignore the .gitignore file itself
 !.gitignore
-

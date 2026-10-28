@@ -1,0 +1,782 @@
+{
+    "learning": {
+        "cses": {
+            "title": "cses",
+            "contents": {
+                "introductory": {
+                    "problems": {
+                        "1068": {
+                            "title": "1068"
+                        },
+                        "1069": {
+                            "title": "1069"
+                        },
+                        "1070": {
+                            "title": "1070"
+                        },
+                        "1083": {
+                            "title": "1083"
+                        },
+                        "1094": {
+                            "title": "1094"
+                        }
+                    },
+                    "title": "introductory"
+                },
+                "mathematics": {
+                    "problems": {
+                        "1713": {
+                            "title": "1713"
+                        }
+                    },
+                    "title": "mathematics"
+                },
+                "sorting-and-searching": {
+                    "problems": {
+                        "1090": {
+                            "title": "1090"
+                        },
+                        "1621": {
+                            "title": "1621"
+                        },
+                        "1640": {
+                            "title": "1640"
+                        },
+                        "1643": {
+                            "title": "1643"
+                        },
+                        "1645": {
+                            "title": "1645"
+                        },
+                        "1660": {
+                            "title": "1660"
+                        }
+                    },
+                    "title": "sorting-and-searching"
+                }
+            }
+        },
+        "unal": {
+            "title": "unal",
+            "contents": {
+                "constructive-2026": {
+                    "problems": {
+                        "A": {
+                            "title": "A"
+                        },
+                        "B": {
+                            "title": "B"
+                        },
+                        "C": {
+                            "title": "C"
+                        },
+                        "D": {
+                            "title": "D"
+                        },
+                        "E": {
+                            "title": "E"
+                        },
+                        "F": {
+                            "title": "F"
+                        },
+                        "G": {
+                            "title": "G"
+                        },
+                        "H": {
+                            "title": "H"
+                        },
+                        "I": {
+                            "title": "I"
+                        },
+                        "J": {
+                            "title": "J"
+                        },
+                        "K": {
+                            "title": "K"
+                        },
+                        "L": {
+                            "title": "L"
+                        },
+                        "M": {
+                            "title": "M"
+                        },
+                        "N": {
+                            "title": "N"
+                        },
+                        "O": {
+                            "title": "O"
+                        },
+                        "P": {
+                            "title": "P"
+                        },
+                        "Q": {
+                            "title": "Q"
+                        },
+                        "R": {
+                            "title": "R"
+                        },
+                        "S": {
+                            "title": "S"
+                        }
+                    },
+                    "title": "constructive-2026"
+                },
+                "num-theory-2026": {
+                    "problems": {
+                        "B": {
+                            "title": "B"
+                        },
+                        "C": {
+                            "title": "C"
+                        },
+                        "D": {
+                            "title": "D"
+                        },
+                        "E": {
+                            "title": "E"
+                        },
+                        "F": {
+                            "title": "F"
+                        },
+                        "G": {
+                            "title": "G"
+                        }
+                    },
+                    "title": "num-theory-2026"
+                }
+            }
+        }
+    },
+    "training": {
+        "atcoder": {
+            "title": "atcoder",
+            "contents": {
+                "abc472": {
+                    "problems": {
+                        "A": {
+                            "title": "A"
+                        },
+                        "B": {
+                            "title": "B"
+                        },
+                        "C": {
+                            "title": "C"
+                        },
+                        "D": {
+                            "title": "D"
+                        }
+                    },
+                    "title": "abc472"
+                },
+                "abc473": {
+                    "problems": {
+                        "A": {
+                            "title": "A"
+                        },
+                        "B": {
+                            "title": "B"
+                        },
+                        "C": {
+                            "title": "C"
+                        },
+                        "D": {
+                            "title": "D"
+                        },
+                        "E": {
+                            "title": "E"
+                        }
+                    },
+                    "title": "abc473"
+                },
+                "abc474": {
+                    "problems": {
+                        "A": {
+                            "title": "A"
+                        },
+                        "B": {
+                            "title": "B"
+                        },
+                        "C": {
+                            "title": "C"
+                        },
+                        "D": {
+                            "title": "D"
+                        },
+                        "E": {
+                            "title": "E"
+                        }
+                    },
+                    "title": "abc474"
+                },
+                "abc475": {
+                    "problems": {
+                        "A": {
+                            "title": "A"
+                        },
+                        "B": {
+                            "title": "B"
+                        },
+                        "C": {
+                            "title": "C"
+                        },
+                        "D": {
+                            "title": "D"
+                        }
+                    },
+                    "title": "abc475"
+                },
+                "abc476": {
+                    "problems": {
+                        "A": {
+                            "title": "A"
+                        },
+                        "B": {
+                            "title": "B"
+                        },
+                        "C": {
+                            "title": "C"
+                        },
+                        "D": {
+                            "title": "D"
+                        }
+                    },
+                    "title": "abc476"
+                },
+                "abc477": {
+                    "problems": {
+                        "A": {
+                            "title": "A"
+                        },
+                        "B": {
+                            "title": "B"
+                        },
+                        "C": {
+                            "title": "C"
+                        },
+                        "D": {
+                            "title": "D"
+                        },
+                        "E": {
+                            "title": "E"
+                        }
+                    },
+                    "title": "abc477"
+                },
+                "abc478": {
+                    "problems": {
+                        "A": {
+                            "title": "A"
+                        },
+                        "B": {
+                            "title": "B"
+                        },
+                        "C": {
+                            "title": "C"
+                        },
+                        "D": {
+                            "title": "D"
+                        }
+                    },
+                    "title": "abc478"
+                },
+                "abc479": {
+                    "problems": {
+                        "A": {
+                            "title": "A"
+                        },
+                        "B": {
+                            "title": "B"
+                        },
+                        "C": {
+                            "title": "C"
+                        },
+                        "D": {
+                            "title": "D"
+                        }
+                    },
+                    "title": "abc479"
+                },
+                "abc480": {
+                    "problems": {
+                        "A": {
+                            "title": "A"
+                        },
+                        "B": {
+                            "title": "B"
+                        },
+                        "C": {
+                            "title": "C"
+                        },
+                        "D": {
+                            "title": "D"
+                        }
+                    },
+                    "title": "abc480"
+                },
+                "abc481": {
+                    "problems": {
+                        "A": {
+                            "title": "A"
+                        },
+                        "B": {
+                            "title": "B"
+                        },
+                        "C": {
+                            "title": "C"
+                        },
+                        "D": {
+                            "title": "D"
+                        },
+                        "E": {
+                            "title": "E"
+                        }
+                    },
+                    "title": "abc481"
+                },
+                "awc0169": {
+                    "problems": {
+                        "A": {
+                            "title": "A"
+                        },
+                        "B": {
+                            "title": "B"
+                        },
+                        "C": {
+                            "title": "C"
+                        }
+                    },
+                    "title": "awc0169"
+                }
+            }
+        },
+        "codeforces": {
+            "title": "codeforces",
+            "contents": {
+                "contests": {
+                    "contents": {
+                        "2259": {
+                            "problems": {
+                                "D": {
+                                    "title": "D"
+                                }
+                            },
+                            "title": "2259"
+                        },
+                        "2266": {
+                            "problems": {
+                                "A": {
+                                    "title": "A"
+                                },
+                                "B": {
+                                    "title": "B"
+                                },
+                                "D": {
+                                    "title": "D"
+                                }
+                            },
+                            "title": "2266"
+                        },
+                        "2275": {
+                            "problems": {
+                                "A": {
+                                    "title": "A"
+                                },
+                                "B": {
+                                    "title": "B"
+                                },
+                                "C": {
+                                    "title": "C"
+                                },
+                                "D": {
+                                    "title": "D"
+                                }
+                            },
+                            "title": "2275"
+                        }
+                    },
+                    "title": "contests"
+                },
+                "problems": {
+                    "contents": {
+                        "0800": {
+                            "title": "0800"
+                        },
+                        "0900": {
+                            "contents": {
+                                "2047": {
+                                    "problems": {
+                                        "B": {
+                                            "title": "B"
+                                        }
+                                    },
+                                    "title": "2047"
+                                },
+                                "2166": {
+                                    "problems": {
+                                        "B": {
+                                            "title": "B"
+                                        }
+                                    },
+                                    "title": "2166"
+                                },
+                                "2216": {
+                                    "problems": {
+                                        "A": {
+                                            "title": "A"
+                                        }
+                                    },
+                                    "title": "2216"
+                                },
+                                "2229": {
+                                    "problems": {
+                                        "C1": {
+                                            "title": "C1"
+                                        }
+                                    },
+                                    "title": "2229"
+                                },
+                                "2238": {
+                                    "problems": {
+                                        "B": {
+                                            "title": "B"
+                                        }
+                                    },
+                                    "title": "2238"
+                                },
+                                "2263": {
+                                    "problems": {
+                                        "B": {
+                                            "title": "B"
+                                        }
+                                    },
+                                    "title": "2263"
+                                }
+                            },
+                            "title": "0900"
+                        },
+                        "1000": {
+                            "problems": {
+                                "1825B": {
+                                    "title": "1825B"
+                                },
+                                "1930B": {
+                                    "title": "1930B"
+                                },
+                                "2144B": {
+                                    "title": "2144B"
+                                },
+                                "2145": {
+                                    "title": "2145"
+                                },
+                                "2148D": {
+                                    "title": "2148D"
+                                },
+                                "2154B": {
+                                    "title": "2154B"
+                                },
+                                "2156B": {
+                                    "title": "2156B"
+                                },
+                                "2162B": {
+                                    "title": "2162B"
+                                },
+                                "2164B": {
+                                    "title": "2164B"
+                                },
+                                "2167D": {
+                                    "title": "2167D"
+                                },
+                                "2176B": {
+                                    "title": "2176B"
+                                },
+                                "2188B": {
+                                    "title": "2188B"
+                                },
+                                "2191B": {
+                                    "title": "2191B"
+                                },
+                                "2192B": {
+                                    "title": "2192B"
+                                },
+                                "2193C": {
+                                    "title": "2193C"
+                                },
+                                "2194B": {
+                                    "title": "2194B"
+                                },
+                                "2199A": {
+                                    "title": "2199A"
+                                },
+                                "2203B": {
+                                    "title": "2203B"
+                                },
+                                "2204C": {
+                                    "title": "2204C"
+                                },
+                                "2217B": {
+                                    "title": "2217B"
+                                },
+                                "2230B": {
+                                    "title": "2230B"
+                                },
+                                "2236C": {
+                                    "title": "2236C"
+                                },
+                                "2237B": {
+                                    "title": "2237B"
+                                },
+                                "2237C": {
+                                    "title": "2237C"
+                                },
+                                "2241C": {
+                                    "title": "2241C"
+                                },
+                                "2242B": {
+                                    "title": "2242B"
+                                },
+                                "2248B": {
+                                    "title": "2248B"
+                                },
+                                "2250B": {
+                                    "title": "2250B"
+                                },
+                                "2254C1": {
+                                    "title": "2254C1"
+                                },
+                                "2256B": {
+                                    "title": "2256B"
+                                },
+                                "2264B": {
+                                    "title": "2264B"
+                                },
+                                "2266C": {
+                                    "title": "2266C"
+                                },
+                                "2269B": {
+                                    "title": "2269B"
+                                }
+                            },
+                            "title": "1000"
+                        },
+                        "1100": {
+                            "problems": {
+                                "2195C": {
+                                    "title": "2195C"
+                                },
+                                "2197B": {
+                                    "title": "2197B"
+                                },
+                                "2208B": {
+                                    "title": "2208B"
+                                },
+                                "2211B": {
+                                    "title": "2211B"
+                                },
+                                "2218D": {
+                                    "title": "2218D"
+                                },
+                                "2225C": {
+                                    "title": "2225C"
+                                },
+                                "2228B": {
+                                    "title": "2228B"
+                                },
+                                "2231B": {
+                                    "title": "2231B"
+                                },
+                                "2240B": {
+                                    "title": "2240B"
+                                },
+                                "2241B": {
+                                    "title": "2241B"
+                                },
+                                "2241D": {
+                                    "title": "2241D"
+                                },
+                                "2244C": {
+                                    "title": "2244C"
+                                },
+                                "2247C": {
+                                    "title": "2247C"
+                                },
+                                "2252B": {
+                                    "title": "2252B"
+                                },
+                                "2253B": {
+                                    "title": "2253B"
+                                },
+                                "2274B": {
+                                    "title": "2274B"
+                                },
+                                "2276C": {
+                                    "title": "2276C"
+                                }
+                            },
+                            "title": "1100"
+                        }
+                    },
+                    "title": "problems"
+                }
+            }
+        },
+        "gym": {
+            "title": "gym",
+            "contents": {
+                "ccpl-2026": {
+                    "problems": {
+                        "B": {
+                            "title": "B"
+                        },
+                        "D": {
+                            "title": "D"
+                        },
+                        "G": {
+                            "title": "G"
+                        },
+                        "H": {
+                            "title": "H"
+                        }
+                    },
+                    "title": "ccpl-2026"
+                },
+                "tap-2019": {
+                    "problems": {
+                        "A": {
+                            "title": "A"
+                        },
+                        "B": {
+                            "title": "B"
+                        },
+                        "C": {
+                            "title": "C"
+                        },
+                        "E": {
+                            "title": "E"
+                        },
+                        "G": {
+                            "title": "G"
+                        },
+                        "I": {
+                            "title": "I"
+                        }
+                    },
+                    "title": "tap-2019"
+                }
+            }
+        },
+        "rpc": {
+            "title": "rpc",
+            "contents": {
+                "2026-09-12": {
+                    "problems": {
+                        "A": {
+                            "title": "A"
+                        },
+                        "B": {
+                            "title": "B"
+                        },
+                        "E": {
+                            "title": "E"
+                        },
+                        "F": {
+                            "title": "F"
+                        },
+                        "G": {
+                            "title": "G"
+                        },
+                        "H": {
+                            "title": "H"
+                        },
+                        "I": {
+                            "title": "I"
+                        },
+                        "L": {
+                            "title": "L"
+                        },
+                        "X": {
+                            "title": "X"
+                        }
+                    },
+                    "title": "2026-09-12"
+                },
+                "2026-09-26": {
+                    "problems": {
+                        "A": {
+                            "title": "A"
+                        },
+                        "B": {
+                            "title": "B"
+                        },
+                        "H": {
+                            "title": "H"
+                        },
+                        "I": {
+                            "title": "I"
+                        },
+                        "J": {
+                            "title": "J"
+                        },
+                        "K": {
+                            "title": "K"
+                        }
+                    },
+                    "title": "2026-09-26"
+                }
+            }
+        },
+        "unal": {
+            "title": "unal",
+            "contents": {
+                "interna-2026": {
+                    "problems": {
+                        "A": {
+                            "title": "A"
+                        },
+                        "B": {
+                            "title": "B"
+                        },
+                        "C": {
+                            "title": "C"
+                        },
+                        "E": {
+                            "title": "E"
+                        },
+                        "F": {
+                            "title": "F"
+                        },
+                        "G": {
+                            "title": "G"
+                        },
+                        "J": {
+                            "title": "J"
+                        },
+                        "M": {
+                            "title": "M"
+                        }
+                    },
+                    "title": "interna-2026"
+                },
+                "olimpiatroniks": {
+                    "problems": {
+                        "A": {
+                            "title": "A"
+                        },
+                        "B": {
+                            "title": "B"
+                        },
+                        "C": {
+                            "title": "C"
+                        },
+                        "D": {
+                            "title": "D"
+                        },
+                        "E": {
+                            "title": "E"
+                        }
+                    },
+                    "title": "olimpiatroniks"
+                }
+            }
+        }
+    }
+}
