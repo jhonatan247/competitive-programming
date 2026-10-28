@@ -1,7 +1,8 @@
 snippet snips "all snippets"
 /*
 {
-bits
+atc
+bin
 compf
 comps
 cross
@@ -54,15 +55,38 @@ endsnippet
 
 
 
+snippet { "block"
+{
+	$0
+}
+endsnippet
+
+
+
 snippet atc "atcoder library utilities"
 #include <atcoder/all>
 endsnippet
 
 
 
-snippet { "block"
-{
-	$0
+snippet bin "binary search functions"
+template <typename T, typename F>
+T first_true(T lo, T hi, F pred) {
+	while (lo < hi) { T mid = lo + (hi - lo) / 2;
+		if (pred(mid)) hi = mid; else lo = mid + 1; }
+	return lo;
+}
+template <typename T, typename F>
+T last_true(T lo, T hi, F pred) {
+	while (lo < hi) { T mid = lo + (hi - lo) / 2;
+		if (pred(mid)) lo = mid + 1; else hi = mid; }
+	return lo - 1;
+}
+template <typename F>
+_ld first_true_real(_ld lo, _ld hi, F pred, int iters = 100) {
+	while (iters--) { _ld mid = (lo + hi) / 2;
+		if (pred(mid)) hi = mid; else lo = mid; }
+	return lo;
 }
 endsnippet
 
@@ -449,7 +473,7 @@ endsnippet
 
 
 
-snippet sieve "Sieve of Eratosthenes to find primes in O(n log log n)"
+snippet sieve "sieve of Eratosthenes to find primes in O(n log log n)"
 vector<${1:int}> sieve($1 n) {
 	vector<bool> is_prime((n / 2) + 1, true);
 	vector<$1> primes;
@@ -470,7 +494,7 @@ endsnippet
 
 
 
-snippet sievel "Sieve of Eratosthenes to compute Smallest Prime Factor O(n)"
+snippet sievel "sieve of Eratosthenes to compute smallest prime factor O(n)"
 $1 LP[MX];
 vector<${1:int}> P;
 
