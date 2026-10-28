@@ -1,0 +1,11 @@
+{
+  "name": "competitive-programming-library",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A local browser manager for competitive programming problems.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "wstart": "node \"%npm_package_json:\\package.json=\\server.js%\""
+  }
+}
