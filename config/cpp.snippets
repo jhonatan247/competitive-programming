@@ -41,6 +41,8 @@ readv
 readv1
 readvp
 readvt
+sieve
+sievel
 sets
 shorts
 treeset
@@ -443,6 +445,47 @@ snippet shorts "short expressions"
 #define lb lower_bound
 #define ub upper_bound
 #define ins insert
+endsnippet
+
+
+
+snippet sieve "Sieve of Eratosthenes to find primes in O(n log log n)"
+vector<${1:int}> sieve($1 n) {
+	vector<bool> is_prime((n / 2) + 1, true);
+	vector<$1> primes;
+	if (n >= 2) primes.push_back(2);
+	for ($1 i = 3; i * i <= n; i += 2) {
+		if (is_prime[i / 2]) {
+			for ($1 j = i * i; j <= n; j += 2 * i) {
+				is_prime[j / 2] = false;
+			}
+		}
+	}
+	for ($1 i = 3; i <= n; i += 2) {
+		if (is_prime[i / 2]) primes.push_back(i);
+	}
+	return primes;
+}
+endsnippet
+
+
+
+snippet sievel "Sieve of Eratosthenes to compute Smallest Prime Factor O(n)"
+$1 LP[MX];
+vector<${1:int}> P;
+
+void linear_sieve($1 n) {
+	for ($1 i = 2; i <= n; ++i) {
+		if (LP[i] == 0) {
+			LP[i] = i;
+			P.push_back(i);
+		}
+		for ($1 p : P) {
+			if (p > LP[i] || i * p > n) break;
+			LP[i * p] = p;
+		}
+	}
+}
 endsnippet
 
 
