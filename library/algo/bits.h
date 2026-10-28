@@ -1,3 +1,8 @@
+#pragma once
+
+#include <bits/stdc++.h>
+using namespace std;
+
 // All functions assume unsigned 64-bit input unless noted.
 // For 32-bit values, cast up: bit::popcount((unsigned long long)x).
 // Functions marked UB require the precondition x != 0.

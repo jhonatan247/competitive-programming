@@ -1,9 +1,4 @@
-// ============================================================
-//                    SET TOOLKIT FOR CP
-// ============================================================
-//  All functions use descriptive names so you can USE first,
-//  then read the implementation to UNDERSTAND.
-// ============================================================
+#pragma once
 
 #include <bits/stdc++.h>
 using namespace std;

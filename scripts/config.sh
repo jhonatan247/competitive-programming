@@ -29,25 +29,25 @@ add_to_zshrc '# CP settings added by config.sh'
 add_to_zshrc 'ulimit -s unlimited'
 add_to_zshrc 'export PATH=$PATH:~/cp/scripts/'
 add_to_zshrc 'export CPLUS_INCLUDE_PATH=~/cp/library:$CPLUS_INCLUDE_PATH'
-add_to_zshrc "alias count='count.sh'"
-add_to_zshrc "alias in='in.sh'"
-add_to_zshrc "alias config='bash ~/cp/scripts/config.sh'"
-add_to_zshrc "alias src='source ~/.zshrc'"
 add_to_zshrc "alias atc='cd ~/cp/contests/atcoder'"
 add_to_zshrc "alias cf='cd ~/cp/contests/codeforces'"
+add_to_zshrc "alias code='code.sh'"
+add_to_zshrc "alias config='bash ~/cp/scripts/config.sh'"
+add_to_zshrc "alias count='count.sh'"
+add_to_zshrc "alias in='in.sh'"
 add_to_zshrc "alias gym='cd ~/cp/contests/gym'"
 add_to_zshrc "alias lib='cd ~/cp/library && vim .'"
 add_to_zshrc 'alias rpc='"'"'cd ~/cp/contests/rpc && cd "$(ls -d */ | sort | tail -n1)"'"'"''
 add_to_zshrc "alias scripts='cd ~/cp/scripts && vim .'"
-add_to_zshrc "alias unal='cd ~/cp/contests/unal'"
+add_to_zshrc "alias src='source ~/.zshrc'"
 add_to_zshrc 'alias train='"'"'cd ~/cp/contests/codeforces/training && cd "$(ls -d */ | sort | tail -n1)"'"'"''
-add_to_zshrc "alias vimrc='vim ~/.vimrc'"
-add_to_zshrc "alias vsrc='vim ~/.zshrc'"
-add_to_zshrc "alias vtemp='vim ~/cp/library/template.cpp'"
-add_to_zshrc "alias vsnip='vim ~/cp/config/cpp.snippets'"
+add_to_zshrc "alias unal='cd ~/cp/contests/unal'"
 add_to_zshrc "alias vconfig='vim ~/cp/scripts/config.sh'"
 add_to_zshrc "alias vdebug='vim ~/cp/library/local/debug.h'"
-add_to_zshrc "alias vimt=\"vim --cmd 'let g:test_cases=1'\""
+add_to_zshrc "alias vimrc='vim ~/.vimrc'"
+add_to_zshrc "alias vsnip='vim ~/cp/config/cpp.snippets'"
+add_to_zshrc "alias vsrc='vim ~/.zshrc'"
+add_to_zshrc "alias vtemp='vim ~/cp/library/template.cpp'"
 chmod +x ~/cp/scripts/*
 
 

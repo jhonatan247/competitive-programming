@@ -148,7 +148,7 @@ let g:netrw_localrmdir = 'rm -r'
 " Autocmd
 
 "   Append template to new C++ files
-    autocmd BufNewFile *.cpp 0r ~/cp/library/template.cpp | 
+    autocmd BufNewFile *.cpp 0r ~/cp/library/templates/problem.cpp | 
         \ if get(g:, 'test_cases', 0) | 35delete | 32,33delete | endif | 
         \ execute "normal! 24Gi\<Tab>" | 
         \ startinsert!
