@@ -1,5 +1,5 @@
 const STORAGE_KEY = "competitive-programming.problem-library";
-const DATA_URL = "/data/problem-library.json";
+const DATA_URL = "data/problem-library.json";
 
 const state = {
   data: null,

@@ -16,6 +16,8 @@
 # Keep a normal project-level ignore policy under repository/
 !/repository/
 !/repository/**
+!/.github/
+!/.github/**
 
 # 4. Optional: Do not ignore the .gitignore file itself
 !.gitignore
