@@ -60,7 +60,12 @@ if [ -z "$NAME" ]; then
     exit 1
 fi
 
-if [ "$MULTI_TEST" -eq 0 ]; then
+if [ -n "$FOLDER" ]; then
+    mkdir -p -- "$FOLDER"
+    cd -- "$FOLDER"
+fi
+
+if [ "$MULTI_TEST" -eq 0 ] && [ ! -e "${NAME}.cpp" ]; then
     printf 'Is this a multi-test problem? [y/N] '
     if ! IFS= read -r answer; then
         echo >&2
@@ -73,11 +78,6 @@ if [ "$MULTI_TEST" -eq 0 ]; then
             MULTI_TEST=1
             ;;
     esac
-fi
-
-if [ -n "$FOLDER" ]; then
-    mkdir -p -- "$FOLDER"
-    cd -- "$FOLDER"
 fi
 
 VIM_ARGS=()
