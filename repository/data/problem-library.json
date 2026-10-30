@@ -140,6 +140,18 @@
                         },
                         "G": {
                             "title": "G"
+                        },
+                        "A": {
+                            "title": "A"
+                        },
+                        "H": {
+                            "title": "H"
+                        },
+                        "I": {
+                            "title": "I"
+                        },
+                        "J": {
+                            "title": "J"
                         }
                     },
                     "title": "num-theory-2026"
@@ -346,6 +358,28 @@
                         }
                     },
                     "title": "awc0169"
+                },
+                "abc471": {
+                    "problems": {
+                        "A": {
+                            "title": "A"
+                        },
+                        "B": {
+                            "title": "B"
+                        },
+                        "C": {
+                            "title": "C"
+                        },
+                        "D": {
+                            "title": "D"
+                        },
+                        "D.cpp": {
+                            "title": "D.cpp"
+                        },
+                        "E": {
+                            "title": "E"
+                        }
+                    }
                 }
             }
         },
