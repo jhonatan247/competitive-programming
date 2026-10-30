@@ -16,7 +16,7 @@ Use **Download data** to export the current local copy as `problem-library.json`
 
 ## Git hook
 
-This project uses [Husky](https://typicode.github.io/husky/) to refresh `data/problem-library.json` before every push. If the generated data changes, the hook stages and commits only that file so the update is included in the push.
+This project uses [Husky](https://typicode.github.io/husky/) to refresh `data/problem-library.json` before every push. If the generated data changes, the hook stages and commits only that file, then stops the current push because Git has already selected the commit to send. Run `git push` again so the new generated-data commit is included.
 
 Install the dependencies from this directory to configure the hook:
 

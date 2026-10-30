@@ -18,3 +18,5 @@ fi
 
 git -C "$project_root" add -- "$data_path"
 git -C "$project_root" commit --only -m "chore: refresh problem library" -- "$data_path"
+printf '%s\n' "Problem library changed; push again to include the new commit." >&2
+exit 1

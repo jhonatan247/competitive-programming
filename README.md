@@ -164,7 +164,7 @@ Then open <http://localhost:3000>. More details are available in [`repository/RE
 
 The application should remain simple, responsive, maintainable, and consistent with its solarized-beige visual theme. Preserve existing problem data when adding features.
 
-Before pushing changes, install the app dependencies from `repository/` with `npm install`. This configures the Husky pre-push hook, which runs `scripts/refresh_data.py` and commits changes to `data/problem-library.json` when the generated problem data has changed.
+Before pushing changes, install the app dependencies from `repository/` with `npm install`. This configures the Husky pre-push hook, which runs `scripts/refresh_data.py` and commits changes to `data/problem-library.json` when the generated problem data has changed. If it creates that commit, the hook stops the current push; run `git push` again so Git sends the newly created commit.
 
 ## Configuration and Snippets
 
