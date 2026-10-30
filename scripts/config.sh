@@ -4,11 +4,6 @@
 set -euo pipefail
 
 
-# Vim Plugins
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-
 # Update ~/.zshrc
 add_to_zshrc() {
     local line="$1"
@@ -91,6 +86,14 @@ clone_or_pull() {
 # Link files and folders
 ln -s ~/ac-library/atcoder ~/cp/library/atcoder || true
 ln -s ~/cp/config/.vimrc ~/.vimrc || true
+mkdir -p ~/.vim/UltiSnips
 ln -s ~/cp/config/cpp.snippets ~/.vim/UltiSnips/cpp.snippets || true
+
+
+# Vim Plugins
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+vim +PlugInstall +qall
+
 
 echo "Config completed succesfully"
