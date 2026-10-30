@@ -69,8 +69,14 @@ expand() {
 
   printf '// >>> %s\n' "$display_path"
 
-  local line raw
+  local line raw library_lines=0
+  [[ "$path" == "$LIB_DIR"/* ]] && library_lines=3
   while IFS= read -r line || [[ -n $line ]]; do
+    if (( library_lines > 0 )); then
+      library_lines=$((library_lines - 1))
+      continue
+    fi
+
     if [[ $line =~ ^[[:space:]]*#[[:space:]]*include[[:space:]]*\"([^\"]+)\" ]]; then
       raw=${BASH_REMATCH[1]}
       expand "$(resolve "$raw" "$dir")"

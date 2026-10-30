@@ -99,7 +99,7 @@ fi
 
 # ---------- Assemble flags ----------
 # Base flags: always applied.
-FLAGS=(-O2 -std=c++23 -Wno-unknown-pragmas -Wno-unused-result -Wall -Wshadow)
+FLAGS=(-O2 -std=c++23 -DLOCAL_BUILD -Wno-unknown-pragmas -Wno-unused-result -Wall -Wshadow)
 
 # --debug: define LOCAL for #ifdef LOCAL blocks (freopen, dbg macros, etc.)
 if [ "$DEBUG" -eq 1 ]; then

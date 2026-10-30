@@ -23,9 +23,13 @@ i128
 if
 inf
 matrix
+matrix2
 minimal
 minmax
-modulo
+mod7
+mod9
+modc
+modv
 mx
 optimize
 priority
@@ -244,7 +248,7 @@ endsnippet
 
 
 
-snippet matrix "shorted types for matrixes"
+snippet matrix "shorted types for 2D matrixes"
 typedef vector<_vi> _vvi;
 typedef vector<_vb> _vvb;
 typedef vector<_vs> _vvs;
@@ -253,7 +257,11 @@ typedef vector<_vl> _vvl;
 typedef vector<_vcd> _vvcd;
 typedef vector<_vpi> _vvpi;
 typedef vector<_vpl> _vvpl;
+endsnippet
 
+
+
+snippet matrix3 "shorted types for 3D matrixes"
 typedef vector<_vvi> _vvvi;
 typedef vector<_vvb> _vvvb;
 typedef vector<_vvs> _vvvs;
@@ -286,12 +294,32 @@ endsnippet
 
 
 
-snippet modulo "modulo utilities"
+snippet mod7 "1e9 + 7 prime number"
 const _ll MOD7 = 1000000007;
-const _ll MOD9 = 1000000009;
-const _ll MOD = MOD7;
+endsnippet
+
+
+
+snippet mod9 "1e9 + 9 prime number"
+const _ll MOD7 = 1000000007;
+endsnippet
+
+
+
+snippet modc "modular utilities for constant modulo"
+const _ll MOD = ${1:MOD7};
 
 using Mint = Modular<std::integral_constant<decay<decltype(MOD)>::type, MOD>>;
+endsnippet
+
+
+
+snippet modv "modular utilities for variant modulo"
+using ModType = int;
+struct VarMod { static ModType value; };
+ModType VarMod::value;
+ModType& md = VarMod::value; // Update md before using Mint
+using Mint = Modular<VarMod>;
 endsnippet
 
 

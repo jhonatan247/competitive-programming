@@ -1,7 +1,11 @@
+#pragma once
+
 #include <bits/stdc++.h>
+
 using namespace std;
 
 const char* EXECUTION_TIME = "EXECUTION_TIME";
+const char* LOCAL_MULTI_TEST_CASE_WARNING = "LOCAL_MULTI_TEST_CASE_WARNING";
 const char* TEST_CASE_DIV_LINE = "TEST_CASE_DIV_LINE";
 
 // ---------- forward declaration ----------
@@ -15,13 +19,16 @@ void debug_print(const char* s) {
         cerr << '\n' << "finished in "
             << static_cast<double>(clock()) / CLOCKS_PER_SEC
             << " sec";
+    } else if (s == LOCAL_MULTI_TEST_CASE_WARNING) {
+        std::fprintf(stderr,
+        "\033[1;33m╔══════════════════════════════════════════════════════════════╗\n"
+        "║     LOCAL MODE — READING T FOR MULTI-TEST — HIGH WA RISK     ║\n"
+        "╚══════════════════════════════════════════════════════════════╝\033[0m\n");
     } else if (s == TEST_CASE_DIV_LINE) {
         cerr << "__________________________" << '\n';
-    }
-    else if (s) {
+    } else if (s) {
         cerr << quoted(s); 
-    }
-    else {
+    } else {
         cerr << "nullptr"; 
     }
 }

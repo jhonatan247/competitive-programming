@@ -9,8 +9,6 @@
 #include <bits/stdc++.h>
 #include <cassert>
 
-#include "algo/modular.h"
-
 using namespace std;
 
 typedef int64_t _ll;
@@ -23,7 +21,15 @@ typedef int64_t _ll;
 const char nl = '\n';
 
 void solve() {
+    int x;
+    cin >> x;
     
+    int b = x % 11;
+    if(x >= b * 111 and (x - b * 111) % 11 == 0) {
+        cout << "YES" << nl;
+    } else {
+        cout << "NO" << nl;
+    }
 }
 
 int32_t main() {

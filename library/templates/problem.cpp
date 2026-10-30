@@ -30,7 +30,7 @@ int32_t main() {
 
     int T = 1;
     #ifdef LOCAL
-    #warning "LOCAL ONLY: reading T for multi-test"
+    debug_print("LOCAL_MULTI_TEST_CASE_WARNING");
     cin >> T;
     #endif
 
