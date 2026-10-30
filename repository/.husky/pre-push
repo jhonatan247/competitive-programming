@@ -33,11 +33,7 @@ trap restore_stash EXIT
 
 if [ -n "$(git -C "$project_root" status --porcelain --untracked-files=all)" ]; then
     git -C "$project_root" stash push --include-untracked --message "pre-push refresh snapshot" >/dev/null
-    stash_ref=$(git -C "$project_root" rev-parse refs/stash)
-    if [ -z "$stash_ref" ]; then
-        printf '%s\n' "Unable to identify the temporary pre-push stash." >&2
-        exit 1
-    fi
+    stash_ref='stash@{0}'
 fi
 
 before_hash=$(git -C "$project_root" hash-object -- "$data_file" 2>/dev/null || true)
