@@ -815,6 +815,9 @@
                     "problems": {
                         "A": {
                             "title": "A"
+                        },
+                        "B": {
+                            "title": "B"
                         }
                     },
                     "title": "halloween-2026"
