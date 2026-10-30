@@ -810,6 +810,13 @@
                         }
                     },
                     "title": "olimpiatroniks"
+                },
+                "halloween-2026": {
+                    "problems": {
+                        "A": {
+                            "title": "A"
+                        }
+                    }
                 }
             }
         }
