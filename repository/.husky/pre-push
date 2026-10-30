@@ -49,5 +49,5 @@ fi
 git -C "$project_root" add -- "$data_path"
 git -C "$project_root" commit --only -m "chore: refresh problem library" -- "$data_path"
 restore_stash
-printf '%s\n' "Problem library changes were generated and committed; pushing the new commit." >&2
-CP_PRE_PUSH_REFRESHED=1 git -C "$project_root" push "$1" </dev/null
+printf '%s\n' "Problem library changes were generated and committed; run git push again to push the new commit." >&2
+exit 1
