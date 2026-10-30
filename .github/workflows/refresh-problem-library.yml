@@ -1,0 +1,41 @@
+name: Refresh problem library
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "learning/**"
+      - "training/**"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-problem-library
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PUSH_TOKEN }}
+
+      - name: Refresh problem library
+        run: python3 repository/scripts/refresh_data.py
+
+      - name: Commit generated data
+        run: |
+          if git diff --quiet -- repository/data/problem-library.json; then
+            echo "Problem library refresh generated no changes."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add repository/data/problem-library.json
+          git commit -m "chore: refresh problem library"
+          git push

@@ -14,16 +14,8 @@ Open <http://localhost:3000>. The app reads `data/problem-library.json` the firs
 
 Use **Download data** to export the current local copy as `problem-library.json`. This makes it possible to preserve future metadata edits and replace the repository data file with the downloaded file.
 
-## Git hook
+## Automatic data refresh
 
-This project uses [Husky](https://typicode.github.io/husky/) to refresh `data/problem-library.json` before every push. If the generated data changes, the hook stages and commits only that file, then stops the current push because a pre-push hook cannot safely replace the push that invoked it. Run `git push` again to send the generated-data commit. The refresh is idempotent: running it again without source changes should not create another commit.
+GitHub Actions runs `scripts/refresh_data.py` after changes are pushed to `main` under `learning/` or `training/`. If the generated `data/problem-library.json` changes, the workflow commits and pushes that file using the GitHub Actions bot.
 
-Before refreshing, the hook temporarily stashes tracked, staged, unstaged, and untracked changes so the generator sees only committed source files. It restores those changes after the refresh and preserves the temporary stash if restoration fails.
-
-Install the dependencies from this directory to configure the hook:
-
-```sh
-npm install
-```
-
-The hook requires `python3` and uses the problem sources in the parent repository. If refreshing the data or creating the generated-data commit fails, the push is stopped and the error is shown.
+The workflow runs against the committed checkout, so local uncommitted changes are never included. Its path filter excludes generated-data-only commits and prevents refresh loops.

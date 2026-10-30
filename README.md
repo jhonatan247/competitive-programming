@@ -164,9 +164,9 @@ Then open <http://localhost:3000>. More details are available in [`repository/RE
 
 The application should remain simple, responsive, maintainable, and consistent with its solarized-beige visual theme. Preserve existing problem data when adding features.
 
-Before pushing changes, install the app dependencies from `repository/` with `npm install`. This configures the Husky pre-push hook, which runs `scripts/refresh_data.py` and commits changes to `data/problem-library.json` when the generated problem data has changed. Because a pre-push hook cannot safely launch a replacement push, it stops the current push after creating the commit; run `git push` again to send it. The refresh script is idempotent, so repeated pushes without source changes do not create duplicate refresh commits.
+After changes are pushed to `main` under `learning/` or `training/`, the GitHub Actions workflow [`refresh-problem-library.yml`](.github/workflows/refresh-problem-library.yml) runs `repository/scripts/refresh_data.py`. If the generated problem data changes, it commits and pushes `repository/data/problem-library.json` automatically.
 
-The hook temporarily stashes tracked and untracked uncommitted changes while generating data, then restores them so local work remains in its original state. If restoration fails, the temporary stash is preserved and the hook reports the failure instead of discarding changes.
+The workflow runs from the committed repository state, so local uncommitted changes are never included. Its path filter prevents the generated-data commit from triggering another refresh.
 
 ## Configuration and Snippets
 
