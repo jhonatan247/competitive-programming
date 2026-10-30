@@ -6,12 +6,14 @@
 
 # 3. Do not ignore code files
 !*.cpp
+*_compiled.cpp
 !*.h
 !*.hpp
-!*.sh
+!*.md
 !*.py
-!*.vimrc
+!*.sh
 !*.snippets
+!*.vimrc
 
 # Keep a normal project-level ignore policy under repository/
 !/repository/
