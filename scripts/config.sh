@@ -34,6 +34,7 @@ add_to_zshrc "alias in='in.sh'"
 add_to_zshrc "alias gym='cd ~/cp/training/gym'"
 add_to_zshrc "alias lib='cd ~/cp/library && vim .'"
 add_to_zshrc 'alias rpc='"'"'cd ~/cp/training/rpc && cd "$(ls -d */ | sort | tail -n1)"'"'"''
+add_to_zshrc "alias repo='cd ~/cp/repository'"
 add_to_zshrc "alias scripts='cd ~/cp/scripts && vim .'"
 add_to_zshrc "alias src='source ~/.zshrc'"
 add_to_zshrc 'alias train='"'"'cd ~/cp/training/codeforces/problems && cd "$(ls -d */ | sort | tail -n1)"'"'"''
