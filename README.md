@@ -164,6 +164,8 @@ Then open <http://localhost:3000>. More details are available in [`repository/RE
 
 The application should remain simple, responsive, maintainable, and consistent with its solarized-beige visual theme. Preserve existing problem data when adding features.
 
+Before pushing changes, install the app dependencies from `repository/` with `npm install`. This configures the Husky pre-push hook, which runs `scripts/refresh_data.py` and commits changes to `data/problem-library.json` when the generated problem data has changed.
+
 ## Configuration and Snippets
 
 The [`config/`](config/) directory contains the Vim setup and C++ snippets used during contests. The snippets file is intentionally limited to short, frequently used constructs; complex algorithms belong in the library instead.

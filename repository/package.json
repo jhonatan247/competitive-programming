@@ -5,7 +5,11 @@
   "description": "A local browser manager for competitive programming problems.",
   "type": "module",
   "scripts": {
+    "prepare": "husky && git config core.hooksPath repository/.husky",
     "start": "node server.js",
     "wstart": "node \"%npm_package_json:\\package.json=\\server.js%\""
+  },
+  "devDependencies": {
+    "husky": "^9.1.7"
   }
 }

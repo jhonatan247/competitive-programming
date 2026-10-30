@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+
+set -eu
+
+repository_directory=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+project_root=$(git -C "$repository_directory" rev-parse --show-toplevel)
+data_file="$repository_directory/data/problem-library.json"
+data_path="repository/data/problem-library.json"
+
+before_hash=$(git -C "$project_root" hash-object -- "$data_file" 2>/dev/null || true)
+
+python3 "$repository_directory/scripts/refresh_data.py"
+
+after_hash=$(git -C "$project_root" hash-object -- "$data_file" 2>/dev/null || true)
+if [ "$before_hash" = "$after_hash" ]; then
+    exit 0
+fi
+
+git -C "$project_root" add -- "$data_path"
+git -C "$project_root" commit --only -m "chore: refresh problem library" -- "$data_path"
