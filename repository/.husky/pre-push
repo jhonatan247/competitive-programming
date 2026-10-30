@@ -6,6 +6,39 @@ repository_directory=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 project_root=$(git -C "$repository_directory" rev-parse --show-toplevel)
 data_file="$repository_directory/data/problem-library.json"
 data_path="repository/data/problem-library.json"
+stash_ref=""
+restore_failed=0
+
+if [ "${CP_PRE_PUSH_REFRESHED:-0}" = "1" ]; then
+    exit 0
+fi
+
+restore_stash() {
+    if [ "$restore_failed" = "1" ] || [ -z "$stash_ref" ]; then
+        return 0
+    fi
+
+    if ! git -C "$project_root" stash apply --index "$stash_ref"; then
+        restore_failed=1
+        printf '%s\n' "Unable to restore uncommitted changes. They remain preserved in stash $stash_ref." >&2
+        return 1
+    fi
+
+    restored_stash="$stash_ref"
+    stash_ref=""
+    git -C "$project_root" stash drop "$restored_stash" >/dev/null
+}
+
+trap restore_stash EXIT
+
+if [ -n "$(git -C "$project_root" status --porcelain --untracked-files=all)" ]; then
+    git -C "$project_root" stash push --include-untracked --message "pre-push refresh snapshot" >/dev/null
+    stash_ref=$(git -C "$project_root" rev-parse refs/stash)
+    if [ -z "$stash_ref" ]; then
+        printf '%s\n' "Unable to identify the temporary pre-push stash." >&2
+        exit 1
+    fi
+fi
 
 before_hash=$(git -C "$project_root" hash-object -- "$data_file" 2>/dev/null || true)
 
@@ -19,5 +52,6 @@ fi
 
 git -C "$project_root" add -- "$data_path"
 git -C "$project_root" commit --only -m "chore: refresh problem library" -- "$data_path"
-printf '%s\n' "Problem library changes were generated and committed; push again to include the new commit." >&2
-exit 1
+restore_stash
+printf '%s\n' "Problem library changes were generated and committed; pushing the new commit." >&2
+CP_PRE_PUSH_REFRESHED=1 git -C "$project_root" push "$1" </dev/null

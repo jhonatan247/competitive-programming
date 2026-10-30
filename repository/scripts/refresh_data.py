@@ -16,7 +16,10 @@ def build_template(directory: Path) -> dict[str, Any]:
 
     for entry in sorted(directory.iterdir(), key=lambda path: path.name):
         if entry.is_dir():
-            contents[entry.name] = build_template(entry)
+            contents[entry.name] = {
+                "title": entry.name,
+                **build_template(entry),
+            }
         elif (
             entry.is_file()
             and entry.suffix == ".cpp"
