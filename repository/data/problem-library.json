@@ -152,6 +152,9 @@
                         },
                         "J": {
                             "title": "J"
+                        },
+                        "K": {
+                            "title": "K"
                         }
                     },
                     "title": "num-theory-2026"
@@ -381,6 +384,23 @@
                         }
                     },
                     "title": "abc471"
+                },
+                "abc482": {
+                    "title": "abc482",
+                    "problems": {
+                        "A": {
+                            "title": "A"
+                        },
+                        "B": {
+                            "title": "B"
+                        },
+                        "C": {
+                            "title": "C"
+                        },
+                        "E": {
+                            "title": "E"
+                        }
+                    }
                 }
             }
         },
@@ -427,6 +447,26 @@
                                 }
                             },
                             "title": "2275"
+                        },
+                        "2278": {
+                            "title": "2278",
+                            "problems": {
+                                "A": {
+                                    "title": "A"
+                                },
+                                "B": {
+                                    "title": "B"
+                                },
+                                "C": {
+                                    "title": "C"
+                                },
+                                "D": {
+                                    "title": "D"
+                                },
+                                "E": {
+                                    "title": "E"
+                                }
+                            }
                         }
                     },
                     "title": "contests"
@@ -827,9 +867,28 @@
                         },
                         "E": {
                             "title": "E"
+                        },
+                        "B.cpp": {
+                            "title": "B.cpp"
+                        },
+                        "F": {
+                            "title": "F"
+                        },
+                        "G": {
+                            "title": "G"
                         }
                     },
-                    "title": "halloween-2026"
+                    "title": "halloween-2026",
+                    "contents": {
+                        "advanced": {
+                            "title": "advanced",
+                            "problems": {
+                                "F": {
+                                    "title": "F"
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
