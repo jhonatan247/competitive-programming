@@ -59,20 +59,26 @@ void solve() {
     _ld pim = pi / 2;
     debug(ta, tb, tc, pim);
 
-    _ld da = abs(pi - ta);
-    _ld db = abs(pi - tb);
-    _ld dc = abs(pi - tc);
+    _ld da = abs(pim - ta);
+    _ld db = abs(pim - tb);
+    _ld dc = abs(pim - tc);
     debug(da, db, dc);
     
     _ld mind = min({da, db, dc});
 
+    _ld ans = 0;
     if(da == mind) {
-        
+        // move p1
+        ans = b * sin(da);
     } else if(db == mind) {
-        
+        // move p3
+        ans = c * sin(db);
     } else {
-        
+        // move p2
+        ans = a * sin(dc);
     }
+
+    cout << setprecision(20) << ans << nl;
     
 }
 

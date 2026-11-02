@@ -60,6 +60,13 @@ if [ -z "$NAME" ]; then
     exit 1
 fi
 
+NAME="${NAME%.cpp}"
+if [ -z "$NAME" ]; then
+    echo "Error: a problem name is required" >&2
+    usage >&2
+    exit 1
+fi
+
 if [ -n "$FOLDER" ]; then
     mkdir -p -- "$FOLDER"
     cd -- "$FOLDER"
