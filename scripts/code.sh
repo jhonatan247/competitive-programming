@@ -87,9 +87,8 @@ if [ "$MULTI_TEST" -eq 0 ] && [ ! -e "${NAME}.cpp" ]; then
     esac
 fi
 
-VIM_ARGS=()
 if [ "$MULTI_TEST" -eq 1 ]; then
-    VIM_ARGS+=(--cmd 'let g:test_cases=1')
+    exec vim --cmd 'let g:test_cases=1' -- "${NAME}.cpp"
 fi
 
-exec vim "${VIM_ARGS[@]}" -- "${NAME}.cpp"
+exec vim -- "${NAME}.cpp"
