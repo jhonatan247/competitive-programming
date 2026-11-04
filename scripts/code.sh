@@ -5,7 +5,8 @@ usage() {
     cat <<EOF
 Usage: $(basename "$0") [-t] [-f folder] <name>
 
-Open <name>.cpp in Vim, optionally creating and entering <folder>.
+Open <name> in Vim, defaulting to the .cpp extension, optionally creating
+and entering <folder>.
 
 Options:
   -t            Treat the problem as a multi-test problem.
@@ -60,19 +61,31 @@ if [ -z "$NAME" ]; then
     exit 1
 fi
 
-NAME="${NAME%.cpp}"
-if [ -z "$NAME" ]; then
-    echo "Error: a problem name is required" >&2
-    usage >&2
-    exit 1
-fi
+SKIP_MULTI_TEST_PROMPT=0
+NAME_BASE="${NAME##*/}"
+case "$NAME_BASE" in
+    *.cpp)
+        ;;
+    *.*)
+        SKIP_MULTI_TEST_PROMPT=1
+        ;;
+    *_gen|*_int)
+        NAME="${NAME}.cpp"
+        SKIP_MULTI_TEST_PROMPT=1
+        ;;
+    *)
+        NAME="${NAME}.cpp"
+        ;;
+esac
 
 if [ -n "$FOLDER" ]; then
     mkdir -p -- "$FOLDER"
     cd -- "$FOLDER"
 fi
 
-if [ "$MULTI_TEST" -eq 0 ] && [ ! -e "${NAME}.cpp" ]; then
+if [ "$MULTI_TEST" -eq 0 ] &&
+    [ "$SKIP_MULTI_TEST_PROMPT" -eq 0 ] &&
+    [ ! -e "$NAME" ]; then
     printf 'Is this a multi-test problem? [y/N] '
     if ! IFS= read -r answer; then
         echo >&2
@@ -88,7 +101,7 @@ if [ "$MULTI_TEST" -eq 0 ] && [ ! -e "${NAME}.cpp" ]; then
 fi
 
 if [ "$MULTI_TEST" -eq 1 ]; then
-    exec vim --cmd 'let g:test_cases=1' -- "${NAME}.cpp"
+    exec vim --cmd 'let g:test_cases=1' -- "$NAME"
 fi
 
-exec vim -- "${NAME}.cpp"
+exec vim -- "$NAME"

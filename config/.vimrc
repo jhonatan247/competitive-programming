@@ -148,14 +148,30 @@ let g:netrw_localrmdir = 'rm -r'
 " Autocmd
 
 "   Append template to new C++ files
-    autocmd BufNewFile *.cpp 0r ~/cp/library/templates/problem.cpp | 
+    autocmd BufNewFile *.cpp if expand('%:t') !~# '_\(int\|gen\)\.cpp$' | 
+        \ 0r ~/cp/library/templates/problem.cpp | 
         \ if get(g:, 'test_cases', 0) | 35delete | 32,33delete | endif | 
         \ execute "normal! 24Gi\<Tab>" | 
+        \ startinsert! | 
+        \ endif
+"   Append template to new interactor files
+    autocmd BufNewFile *_int.cpp 0r ~/cp/library/templates/interactor.cpp | 
+        \ execute "normal! 29Gi\<Tab>" | 
+        \ startinsert!
+"   Append template to new generator files
+    autocmd BufNewFile *_gen.cpp 0r ~/cp/library/templates/generator.cpp | 
+        \ execute "normal! 30Gi\<Tab>" | 
+        \ startinsert!
+"   Append template to new library headers
+    autocmd BufNewFile *.h 0r ~/cp/library/templates/library.h | 
+        \ execute "normal! 9G" | 
         \ startinsert!
 "   C++ compile & run (using your build.sh workflow)
-    autocmd FileType cpp setlocal makeprg=g++\ -std=c++17\ -O2\ -Wall\ -Wextra\ -o\ %:r\ %
+    autocmd FileType cpp setlocal makeprg=g++\ -std=c++23\ -O2\ -Wall\ -Wextra\ -o\ %:r\ %
     function! BuildCpp(flags, run) abort
-        update
+        if !filereadable(expand('%')) || &modified
+            write
+        endif
         let l:src = shellescape(expand('%:r'))   " filename without extension
         let l:bin = shellescape(expand('%:t:r')) " basename without extension
         let l:cmd = '!build.sh ' . l:src . ' ' . a:flags
