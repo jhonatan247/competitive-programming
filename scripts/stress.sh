@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
- 
+
+echo "STRESS TESTING OF $1.cpp"
+echo "----------------------"
+
 for ((testNum=0;testNum<$4;testNum++))
 do
     echo "Test: " $testNum
-    echo "----------------------"
     ./$3 > input
     ./$2 < input > outSlow
     ./$1 < input > outWrong
@@ -15,10 +17,11 @@ do
         cat input
         echo "Wrong Output:"
         cat outWrong
-        echo "Slow Output:"
+        echo "Expected Output:"
         cat outSlow
         exit
     fi
+    printf '\033[0;32mPassed\033[0m\n'
+    echo "----------------------"
 done
-echo Passed $4 tests
-
+echo "Passed $4 tests"

@@ -4,6 +4,7 @@ snippet snips "all snippets"
 algo
 atc
 bin
+binr
 compf
 comps
 cross
@@ -24,6 +25,7 @@ if
 inf
 matrix
 matrix2
+memset
 minimal
 minmax
 mod7
@@ -43,6 +45,7 @@ read2v
 read3
 read4
 reads
+readt
 readv
 readv1
 readvp
@@ -93,6 +96,11 @@ T last_true(T lo, T hi, F pred) {
 		if (pred(mid)) lo = mid + 1; else hi = mid; }
 	return lo - 1;
 }
+endsnippet
+
+
+
+snippet binr "binary search real numbers"
 template <typename F>
 _ld first_true_real(_ld lo, _ld hi, F pred, int iters = 100) {
 	while (iters--) { _ld mid = (lo + hi) / 2;
@@ -100,7 +108,6 @@ _ld first_true_real(_ld lo, _ld hi, F pred, int iters = 100) {
 	return lo;
 }
 endsnippet
-
 
 
 snippet compf "comparator function"
@@ -274,6 +281,13 @@ endsnippet
 
 
 
+snippet memset "short functions for memset"
+#define fill0(a) memset(a, 0, sizeof a)
+#define fill(a, v) memset(a, v, sizeof a)
+endsnippet
+
+
+
 snippet minimal "minimalist begin"
 #include <bits/stdc++.h>
 
@@ -441,6 +455,19 @@ endsnippet
 
 
 
+snippet readt "read a tree"
+_vvi ${1:adj}(${2:n} + 1);
+F0R(i, $2 - 1) {
+	int u, v;
+	cin >> u >> v;
+	$1[u].pb(v);
+	$1[v].pb(u);
+}
+$0
+endsnippet
+
+
+
 snippet readv "read vector"
 vector<${1:int}> ${2:arr}(${3:n});
 F0R(i, $3) {
@@ -495,8 +522,6 @@ endsnippet
 
 snippet shorts "short expressions"
 #define rall(a) a.rbegin(), a.rend()
-#define fill0(a) memset(a, 0, sizeof a)
-#define fill(a, v) memset(a, v, sizeof a)
 #define mp make_pair
 #define pb push_back
 #define fr first

@@ -181,15 +181,31 @@ let g:netrw_localrmdir = 'rm -r'
 
         let base = split(expand('%:t:r'), '_')[0]
         let dir  = expand('%:p:h')
-        let cmd  = '!cd ' . dir
+        let generator = dir . '/' . base . '_gen.cpp'
+        let interactor = dir . '/' . base . '_int.cpp'
+        let cmd = '!cd ' . shellescape(dir)
 
-        if a:compile
-            let cmd .= ' && build.sh ' . base
-                  \ . ' && build.sh ' . base . '_slow'
-                  \ . ' && build.sh ' . base . '_gen'
+        if filereadable(generator)
+            if a:compile
+                let cmd .= ' && build.sh ' . shellescape(base)
+                      \ . ' && build.sh ' . shellescape(base . '_slow')
+                      \ . ' && build.sh ' . shellescape(base . '_gen')
+            endif
+            let cmd .= ' && stress.sh ' . shellescape(base) . ' '
+                  \ . shellescape(base . '_slow') . ' '
+                  \ . shellescape(base . '_gen') . ' ' . n
+        elseif filereadable(interactor)
+            if a:compile
+                let cmd .= ' && build.sh ' . shellescape(base)
+                      \ . ' && build.sh ' . shellescape(base . '_int')
+            endif
+            let cmd .= ' && interact.sh ' . shellescape(base) . ' '
+                  \ . shellescape(base . '_int') . ' ' . n
+        else
+            echoerr 'No _gen.cpp or _int.cpp file found for ' . base
+            return
         endif
 
-        let cmd .= ' && stress.sh ' . base . ' ' . base . '_slow ' . base . '_gen ' . n
         execute cmd
     endfunction
     autocmd FileType cpp nnoremap <buffer> <F7>  <Cmd>call RunStress(0)<CR>
@@ -232,4 +248,3 @@ Plug 'sirver/ultisnips'
     let g:UltiSnipsJumpForwardTrigger = '<tab>'
     let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 call plug#end()
-
