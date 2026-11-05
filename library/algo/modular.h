@@ -8,6 +8,43 @@
 #include <type_traits>
 #include <utility>
 
+namespace modular_detail {
+
+template <typename Result, typename Input>
+constexpr Result normalize(Input value, Result modulus) {
+    using wide_type = __int128_t;
+    if constexpr (std::is_signed_v<Input> ||
+                  std::is_same_v<std::remove_cv_t<Input>, __int128_t>) {
+        wide_type remainder = static_cast<wide_type>(value) %
+                              static_cast<wide_type>(modulus);
+        if (remainder < 0) remainder += modulus;
+        return static_cast<Result>(remainder);
+    } else {
+        using unsigned_wide_type = __uint128_t;
+        return static_cast<Result>(
+            static_cast<unsigned_wide_type>(value) %
+            static_cast<unsigned_wide_type>(modulus));
+    }
+}
+
+template <typename T>
+std::pair<T, T> extended_gcd(T a, T b) {
+    T x0 = 1;
+    T x1 = 0;
+    while (b != 0) {
+        T quotient = a / b;
+        T next_a = a - quotient * b;
+        a = b;
+        b = next_a;
+        T next_x = x0 - quotient * x1;
+        x0 = x1;
+        x1 = next_x;
+    }
+    return {a, x0};
+}
+
+}  // namespace modular_detail
+
 template <typename Modulus, bool modulus_is_prime = false>
 class Modular {
     static_assert(std::is_integral_v<decltype(Modulus::value)>);
@@ -148,18 +185,7 @@ public:
 
     template <typename T>
     static constexpr value_type normalize(T value) {
-        if constexpr (std::is_signed_v<T> ||
-                      std::is_same_v<std::remove_cv_t<T>, __int128_t>) {
-            wide_type remainder = static_cast<wide_type>(value) %
-                                  static_cast<wide_type>(modulus());
-            if (remainder < 0) remainder += modulus();
-            return static_cast<value_type>(remainder);
-        } else {
-            using unsigned_wide_type = __uint128_t;
-            return static_cast<value_type>(
-                static_cast<unsigned_wide_type>(value) %
-                static_cast<unsigned_wide_type>(modulus()));
-        }
+        return modular_detail::normalize<value_type>(value, modulus());
     }
 
     friend constexpr Modular operator+(Modular lhs, const Modular& rhs) {
@@ -202,19 +228,208 @@ private:
 
     static std::pair<wide_type, wide_type> extended_gcd(
         wide_type a, wide_type b) {
-        wide_type x0 = 1;
-        wide_type x1 = 0;
-        while (b != 0) {
-            wide_type quotient = a / b;
-            wide_type next_a = a - quotient * b;
-            a = b;
-            b = next_a;
-            wide_type next_x = x0 - quotient * x1;
-            x0 = x1;
-            x1 = next_x;
-        }
-        return {a, x0};
+        return modular_detail::extended_gcd(a, b);
     }
+};
+
+template <typename ValueType = long long>
+class DynamicModular {
+    static_assert(std::is_integral_v<ValueType>);
+    static_assert(std::is_signed_v<ValueType>);
+
+public:
+    using value_type = ValueType;
+    using Type = value_type;
+    using wide_type = __int128_t;
+
+    constexpr DynamicModular() : value_(0) {
+        assert(modulus_ > 0);
+    }
+
+    template <typename T>
+    constexpr DynamicModular(T value) : value_(normalize(value)) {
+        assert(modulus_ > 0);
+    }
+
+    static void set_modulus(value_type modulus) {
+        assert(modulus > 0);
+        modulus_ = modulus;
+    }
+
+    static void set_mod(value_type modulus) {
+        set_modulus(modulus);
+    }
+
+    static value_type modulus() {
+        assert(modulus_ > 0);
+        return modulus_;
+    }
+
+    static constexpr bool has_prime_modulus() {
+        return false;
+    }
+
+    constexpr value_type value() const {
+        return value_;
+    }
+
+    constexpr value_type operator()() const {
+        return value_;
+    }
+
+    constexpr bool is_zero() const {
+        return value_ == 0;
+    }
+
+    constexpr bool is_one() const {
+        return value_ == 1;
+    }
+
+    constexpr DynamicModular operator+() const {
+        return *this;
+    }
+
+    constexpr DynamicModular operator-() const {
+        return DynamicModular(value_ == 0 ? 0 : modulus() - value_);
+    }
+
+    constexpr DynamicModular& operator+=(const DynamicModular& other) {
+        value_ += other.value_;
+        if (value_ >= modulus()) value_ -= modulus();
+        return *this;
+    }
+
+    constexpr DynamicModular& operator-=(const DynamicModular& other) {
+        if (value_ < other.value_) value_ += modulus();
+        value_ -= other.value_;
+        return *this;
+    }
+
+    constexpr DynamicModular& operator*=(const DynamicModular& other) {
+        value_ = normalize(static_cast<wide_type>(value_) * other.value_);
+        return *this;
+    }
+
+    constexpr DynamicModular& operator/=(const DynamicModular& other) {
+        return *this *= other.inverse();
+    }
+
+    constexpr DynamicModular& operator++() {
+        if (++value_ == modulus()) value_ = 0;
+        return *this;
+    }
+
+    constexpr DynamicModular& operator--() {
+        if (value_ == 0) value_ = modulus();
+        --value_;
+        return *this;
+    }
+
+    constexpr DynamicModular operator++(int) {
+        DynamicModular result(*this);
+        ++*this;
+        return result;
+    }
+
+    constexpr DynamicModular operator--(int) {
+        DynamicModular result(*this);
+        --*this;
+        return result;
+    }
+
+    DynamicModular& operator=(value_type value) {
+        value_ = normalize(value);
+        return *this;
+    }
+
+    DynamicModular power(std::uint64_t exponent) const {
+        DynamicModular base = *this;
+        DynamicModular result = 1;
+        while (exponent != 0) {
+            if (exponent & 1) result *= base;
+            base *= base;
+            exponent >>= 1;
+        }
+        return result;
+    }
+
+    DynamicModular inverse(bool modulus_is_prime = false) const {
+        return modulus_is_prime ? inverse_prime() : inverse_of(value_);
+    }
+
+    static DynamicModular inverse_of(value_type value) {
+        auto [gcd, coefficient] =
+            modular_detail::extended_gcd<wide_type>(value, modulus());
+        assert(gcd == 1);
+        return DynamicModular(coefficient);
+    }
+
+    DynamicModular inverse_prime() const {
+        return inverse_prime(value_);
+    }
+
+    static DynamicModular inverse_prime(value_type value) {
+        assert(value != 0);
+        return DynamicModular(value).power(
+            static_cast<std::uint64_t>(modulus() - 2));
+    }
+
+    static DynamicModular power_of(
+        DynamicModular base, std::uint64_t exponent) {
+        return base.power(exponent);
+    }
+
+    template <typename T>
+    static value_type normalize(T value) {
+        return modular_detail::normalize<value_type>(value, modulus());
+    }
+
+    friend constexpr DynamicModular operator+(
+        DynamicModular lhs, const DynamicModular& rhs) {
+        return lhs += rhs;
+    }
+
+    friend constexpr DynamicModular operator-(
+        DynamicModular lhs, const DynamicModular& rhs) {
+        return lhs -= rhs;
+    }
+
+    friend constexpr DynamicModular operator*(
+        DynamicModular lhs, const DynamicModular& rhs) {
+        return lhs *= rhs;
+    }
+
+    friend constexpr DynamicModular operator/(
+        DynamicModular lhs, const DynamicModular& rhs) {
+        return lhs /= rhs;
+    }
+
+    friend constexpr bool operator==(
+        const DynamicModular& lhs, const DynamicModular& rhs) {
+        return lhs.value_ == rhs.value_;
+    }
+
+    friend constexpr bool operator!=(
+        const DynamicModular& lhs, const DynamicModular& rhs) {
+        return !(lhs == rhs);
+    }
+
+    friend std::ostream& operator<<(
+        std::ostream& stream, const DynamicModular& number) {
+        return stream << number.value_;
+    }
+
+    friend std::istream& operator>>(
+        std::istream& stream, DynamicModular& number) {
+        std::intmax_t input;
+        stream >> input;
+        if (stream) number = DynamicModular(input);
+        return stream;
+    }
+
+private:
+    value_type value_;
+    inline static value_type modulus_ = 0;
 };
 
 template <typename Modulus, bool modulus_is_prime = false>

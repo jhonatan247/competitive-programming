@@ -375,7 +375,7 @@ endsnippet
 
 
 snippet mod9 "1e9 + 9 prime number"
-const _ll MOD7 = 1000000007;
+const _ll MOD9 = 1000000009;
 endsnippet
 
 
@@ -383,17 +383,19 @@ endsnippet
 snippet modc "modular utilities for constant modulo"
 const _ll MOD = ${1:MOD7};
 
-using Mint = Modular<std::integral_constant<decay<decltype(MOD)>::type, MOD>>;
+using Mint = Modular<
+    std::integral_constant<std::decay_t<decltype(MOD)>, MOD>,
+    ${2:true}
+>;
+$0
 endsnippet
 
 
 
-snippet modv "modular utilities for variant modulo"
-using ModType = int;
-struct VarMod { static ModType value; };
-ModType VarMod::value;
-ModType& md = VarMod::value; // Update md before using Mint
-using Mint = Modular<VarMod>;
+snippet modv "modular utilities for runtime modulo"
+using Mint = DynamicModular<int>;
+Mint::set_modulus(${1:MOD});
+$0
 endsnippet
 
 

@@ -64,9 +64,26 @@ void test_streaming_and_wide_multiplication() {
     assert(stream.str() == "3999999992");
 }
 
+void test_dynamic_modulus() {
+    using Mint = DynamicModular<int>;
+
+    Mint::set_modulus(7);
+    assert(Mint::modulus() == 7);
+    assert((Mint(3) * Mint(5)).value() == 1);
+    assert(Mint(3).inverse().value() == 5);
+    assert(Mint(3).inverse(true).value() == 5);
+
+    Mint::set_modulus(10);
+    assert(Mint::modulus() == 10);
+    assert(Mint(-3).value() == 7);
+    assert((Mint(3) * Mint(3).inverse()).is_one());
+    assert(Mint(3).power(4).value() == 1);
+}
+
 int main() {
     test_normalization_and_accessors();
     test_arithmetic();
     test_powers_and_inverses();
     test_streaming_and_wide_multiplication();
+    test_dynamic_modulus();
 }
