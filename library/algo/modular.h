@@ -1,217 +1,221 @@
 #pragma once
 #include "local/local_library_usage_warning.h"
 
-#include <bits/stdc++.h>
 #include <cassert>
+#include <cstdint>
+#include <iostream>
+#include <limits>
+#include <type_traits>
+#include <utility>
 
-using namespace std;
-
-template <typename T>
-T inverse(T a, T m) {
-    T u = 0, v = 1;
-    while (a != 0) {
-        T t = m / a;
-        m -= t * a; swap(a, m);
-        u -= t * v; swap(u, v);
-    }
-    assert(m == 1);
-    return u;
-}
- 
-template <typename T>
+template <typename Modulus, bool modulus_is_prime = false>
 class Modular {
-    public:
-    using Type = typename decay<decltype(T::value)>::type;
- 
-    constexpr Modular() : value() {}
-    template <typename U>
-    Modular(const U& x) {
-        value = normalize(x);
-    }
- 
-    template <typename U>
-    static Type normalize(const U& x) {
-        Type v;
-        if (-mod() <= x && x < mod()) v = static_cast<Type>(x);
-        else v = static_cast<Type>(x % mod());
-        if (v < 0) v += mod();
-        return v;
-    }
- 
-    const Type& operator()() const {
-        return value; 
-    }
-    template <typename U>
-    explicit operator U() const {
-        return static_cast<U>(value); 
-    }
-    constexpr static Type mod() {
-        return T::value; 
-    }
- 
-    Modular& operator+=(const Modular& other) {
-        value += other.value; value -= (value >= mod()) * mod(); return *this; 
-    }
-    Modular& operator-=(const Modular& other) {
-        value -= other.value; value += (value < 0) * mod(); return *this; 
-    }
-    template <typename U> Modular& operator+=(const U& other) {
-        return *this += Modular(other);
-    }
-    template <typename U> Modular& operator-=(const U& other) {
-        return *this -= Modular(other);
-    }
-    Modular& operator++() {
-        return *this += 1;
-    }
-    Modular& operator--() {
-        return *this -= 1;
-    }
-    Modular operator++(int) {
-        Modular result(*this); *this += 1; return result;
-    }
-    Modular operator--(int) {
-        Modular result(*this); *this -= 1; return result;
-    }
-    Modular operator-() const {
-        return Modular(-value);
-    }
- 
-    template <typename U = T>
-    typename enable_if<is_same<typename Modular<U>::Type, int>::value, Modular>::type& operator*=(const Modular& rhs) {
-        value = normalize(static_cast<int64_t>(value) * static_cast<int64_t>(rhs.value));
-        return *this;
-    }
-    template <typename U = T>
-    typename enable_if<is_same<typename Modular<U>::Type, int64_t>::value, Modular>::type& operator*=(const Modular& rhs) {
-        int64_t q = int64_t(static_cast<long double>(value) * rhs.value / mod());
-        value = normalize(int64_t(uint64_t(value) * uint64_t(rhs.value) - uint64_t(q) * uint64_t(mod())));
-        return *this;
-    }
-    template <typename U = T>
-    typename enable_if<!is_integral<typename Modular<U>::Type>::value, Modular>::type& operator*=(const Modular& rhs) {
-        value = normalize(value * rhs.value);
-        return *this;
-    }
- 
-    Modular& operator/=(const Modular& other) {
-        return *this *= Modular(inverse(other.value, mod()));
-    }
- 
-    friend const Type& abs(const Modular& x) {
-        return x.value;
-    }
- 
-    template <typename U>
-    friend bool operator==(const Modular<U>& lhs, const Modular<U>& rhs);
- 
-    template <typename U>
-    friend bool operator<(const Modular<U>& lhs, const Modular<U>& rhs);
- 
-    template <typename V, typename U>
-    friend V& operator>>(V& stream, Modular<U>& number);
- 
-    private:
-    Type value;
-};
- 
-template <typename T> bool operator==(const Modular<T>& lhs, const Modular<T>& rhs) {
-    return lhs.value == rhs.value;
-}
-template <typename T, typename U> bool operator==(const Modular<T>& lhs, U rhs) {
-    return lhs == Modular<T>(rhs);
-}
-template <typename T, typename U> bool operator==(U lhs, const Modular<T>& rhs) {
-    return Modular<T>(lhs) == rhs;
-}
- 
-template <typename T> bool operator!=(const Modular<T>& lhs, const Modular<T>& rhs) {
-    return !(lhs == rhs);
-}
-template <typename T, typename U> bool operator!=(const Modular<T>& lhs, U rhs) {
-    return !(lhs == rhs);
-}
-template <typename T, typename U> bool operator!=(U lhs, const Modular<T>& rhs) {
-    return !(lhs == rhs);
-}
- 
-template <typename T> bool operator<(const Modular<T>& lhs, const Modular<T>& rhs) {
-    return lhs.value < rhs.value;
-}
- 
-template <typename T> Modular<T> operator+(const Modular<T>& lhs, const Modular<T>& rhs) {
-    return Modular<T>(lhs) += rhs;
-}
-template <typename T, typename U> Modular<T> operator+(const Modular<T>& lhs, U rhs) {
-    return Modular<T>(lhs) += rhs;
-}
-template <typename T, typename U> Modular<T> operator+(U lhs, const Modular<T>& rhs) {
-    return Modular<T>(lhs) += rhs;
-}
- 
-template <typename T> Modular<T> operator-(const Modular<T>& lhs, const Modular<T>& rhs) {
-    return Modular<T>(lhs) -= rhs;
-}
-template <typename T, typename U> Modular<T> operator-(const Modular<T>& lhs, U rhs) {
-    return Modular<T>(lhs) -= rhs;
-}
-template <typename T, typename U> Modular<T> operator-(U lhs, const Modular<T>& rhs) {
-    return Modular<T>(lhs) -= rhs;
-}
- 
-template <typename T> Modular<T> operator*(const Modular<T>& lhs, const Modular<T>& rhs) {
-    return Modular<T>(lhs) *= rhs;
-}
-template <typename T, typename U> Modular<T> operator*(const Modular<T>& lhs, U rhs) {
-    return Modular<T>(lhs) *= rhs;
-}
-template <typename T, typename U> Modular<T> operator*(U lhs, const Modular<T>& rhs) {
-    return Modular<T>(lhs) *= rhs;
-}
- 
-template <typename T> Modular<T> operator/(const Modular<T>& lhs, const Modular<T>& rhs) {
-    return Modular<T>(lhs) /= rhs;
-}
-template <typename T, typename U> Modular<T> operator/(const Modular<T>& lhs, U rhs) {
-    return Modular<T>(lhs) /= rhs;
-}
-template <typename T, typename U> Modular<T> operator/(U lhs, const Modular<T>& rhs) {
-    return Modular<T>(lhs) /= rhs;
-}
- 
-template<typename T, typename U>
-Modular<T> power(const Modular<T>& a, const U& b) {
-    assert(b >= 0);
-    Modular<T> x = a, res = 1;
-    U p = b;
-    while (p > 0) {
-        if (p & 1) res *= x;
-        x *= x;
-        p >>= 1;
-    }
-    return res;
-}
- 
-template <typename T>
-bool IsZero(const Modular<T>& number) {
-    return number() == 0;
-}
- 
-template <typename T>
-string to_string(const Modular<T>& number) {
-    return to_string(number());
-}
- 
-template <typename U, typename T>
-U& operator<<(U& stream, const Modular<T>& number) {
-    return stream << number();
-}
- 
-template <typename U, typename T>
-U& operator>>(U& stream, Modular<T>& number) {
-    typename common_type<typename Modular<T>::Type, int64_t>::type x;
-    stream >> x;
-    number.value = Modular<T>::normalize(x);
-    return stream;
-}
+    static_assert(std::is_integral_v<decltype(Modulus::value)>);
+    static_assert(Modulus::value > 0);
 
+public:
+    using value_type = std::remove_cv_t<decltype(Modulus::value)>;
+    using Type = value_type;
+    using wide_type = __int128_t;
+
+    constexpr Modular() : value_(0) {}
+
+    template <typename T>
+    constexpr Modular(T value) : value_(normalize(value)) {}
+
+    static constexpr value_type modulus() {
+        return static_cast<value_type>(Modulus::value);
+    }
+
+    static constexpr bool has_prime_modulus() {
+        return modulus_is_prime;
+    }
+
+    constexpr value_type value() const {
+        return value_;
+    }
+
+    constexpr value_type operator()() const {
+        return value_;
+    }
+
+    constexpr bool is_zero() const {
+        return value_ == 0;
+    }
+
+    constexpr bool is_one() const {
+        return value_ == 1;
+    }
+
+    constexpr Modular operator+() const {
+        return *this;
+    }
+
+    constexpr Modular operator-() const {
+        return Modular(value_ == 0 ? 0 : modulus() - value_);
+    }
+
+    constexpr Modular& operator+=(const Modular& other) {
+        value_ += other.value_;
+        if (value_ >= modulus()) value_ -= modulus();
+        return *this;
+    }
+
+    constexpr Modular& operator-=(const Modular& other) {
+        if (value_ < other.value_) value_ += modulus();
+        value_ -= other.value_;
+        return *this;
+    }
+
+    constexpr Modular& operator*=(const Modular& other) {
+        value_ = normalize(static_cast<wide_type>(value_) * other.value_);
+        return *this;
+    }
+
+    constexpr Modular& operator/=(const Modular& other) {
+        return *this *= other.inverse();
+    }
+
+    constexpr Modular& operator++() {
+        if (++value_ == modulus()) value_ = 0;
+        return *this;
+    }
+
+    constexpr Modular& operator--() {
+        if (value_ == 0) value_ = modulus();
+        --value_;
+        return *this;
+    }
+
+    constexpr Modular operator++(int) {
+        Modular result(*this);
+        ++*this;
+        return result;
+    }
+
+    constexpr Modular operator--(int) {
+        Modular result(*this);
+        --*this;
+        return result;
+    }
+
+    Modular& operator=(value_type value) {
+        value_ = normalize(value);
+        return *this;
+    }
+
+    Modular power(std::uint64_t exponent) const {
+        Modular base = *this;
+        Modular result = 1;
+        while (exponent != 0) {
+            if (exponent & 1) result *= base;
+            base *= base;
+            exponent >>= 1;
+        }
+        return result;
+    }
+
+    Modular inverse() const {
+        if constexpr (modulus_is_prime) {
+            return inverse_prime(value_);
+        }
+        return inverse_of(value_);
+    }
+
+    static Modular inverse_of(value_type value) {
+        auto [gcd, coefficient] = extended_gcd(value, modulus());
+        assert(gcd == 1);
+        return Modular(coefficient);
+    }
+
+    static Modular inverse_prime(value_type value) {
+        assert(value != 0);
+        assert(modulus_is_prime);
+        return Modular(value).power(static_cast<std::uint64_t>(modulus() - 2));
+    }
+
+    static Modular power_of(Modular base, std::uint64_t exponent) {
+        return base.power(exponent);
+    }
+
+    static constexpr value_type normalize(value_type value) {
+        value %= modulus();
+        if constexpr (std::is_signed_v<value_type>) {
+            if (value < 0) value += modulus();
+        }
+        return value;
+    }
+
+    template <typename T>
+    static constexpr value_type normalize(T value) {
+        if constexpr (std::is_signed_v<T> ||
+                      std::is_same_v<std::remove_cv_t<T>, __int128_t>) {
+            wide_type remainder = static_cast<wide_type>(value) %
+                                  static_cast<wide_type>(modulus());
+            if (remainder < 0) remainder += modulus();
+            return static_cast<value_type>(remainder);
+        } else {
+            using unsigned_wide_type = __uint128_t;
+            return static_cast<value_type>(
+                static_cast<unsigned_wide_type>(value) %
+                static_cast<unsigned_wide_type>(modulus()));
+        }
+    }
+
+    friend constexpr Modular operator+(Modular lhs, const Modular& rhs) {
+        return lhs += rhs;
+    }
+
+    friend constexpr Modular operator-(Modular lhs, const Modular& rhs) {
+        return lhs -= rhs;
+    }
+
+    friend constexpr Modular operator*(Modular lhs, const Modular& rhs) {
+        return lhs *= rhs;
+    }
+
+    friend constexpr Modular operator/(Modular lhs, const Modular& rhs) {
+        return lhs /= rhs;
+    }
+
+    friend constexpr bool operator==(const Modular& lhs, const Modular& rhs) {
+        return lhs.value_ == rhs.value_;
+    }
+
+    friend constexpr bool operator!=(const Modular& lhs, const Modular& rhs) {
+        return !(lhs == rhs);
+    }
+
+    friend std::ostream& operator<<(std::ostream& stream, const Modular& number) {
+        return stream << number.value_;
+    }
+
+    friend std::istream& operator>>(std::istream& stream, Modular& number) {
+        std::intmax_t input;
+        stream >> input;
+        if (stream) number = Modular(input);
+        return stream;
+    }
+
+private:
+    value_type value_;
+
+    static std::pair<wide_type, wide_type> extended_gcd(
+        wide_type a, wide_type b) {
+        wide_type x0 = 1;
+        wide_type x1 = 0;
+        while (b != 0) {
+            wide_type quotient = a / b;
+            wide_type next_a = a - quotient * b;
+            a = b;
+            b = next_a;
+            wide_type next_x = x0 - quotient * x1;
+            x0 = x1;
+            x1 = next_x;
+        }
+        return {a, x0};
+    }
+};
+
+template <typename Modulus, bool modulus_is_prime = false>
+using modular = Modular<Modulus, modulus_is_prime>;
