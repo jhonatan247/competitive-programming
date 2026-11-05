@@ -2,6 +2,7 @@ snippet snips "all snippets"
 /*
 {
 algo
+anglecomp
 atc
 bin
 binr
@@ -9,22 +10,24 @@ compf
 comps
 cross
 cycles
+dist2
+dot
 f0r
-f0rz
 f0rd
 f0rdz
+f0rz
 for
-forz
 ford
 fordz
 foreach
 foreachd
+forz
 gcd
+half
 i128
-if
 inf
 matrix
-matrix2
+matrix3
 memset
 minimal
 minmax
@@ -33,6 +36,7 @@ mod9
 modc
 modv
 mx
+norm2
 optimize
 priority
 rand
@@ -42,6 +46,7 @@ read
 read2
 read2s
 read2v
+read2v1
 read3
 read4
 reads
@@ -50,14 +55,13 @@ readv
 readv1
 readvp
 readvt
-sieve
-sievel
 sets
 shorts
+sieve
+sievel
 treeset
 tuples
 types
-while
 */
 endsnippet
 
@@ -73,6 +77,34 @@ endsnippet
 
 snippet algo "include from library"
 #include "algo/${1:modular}.h"
+endsnippet
+
+
+
+snippet anglecomp "compare angles ab and cd for integers"
+// compares angles AB and CD, returning true if AB is less than CD or false otherwise
+bool angle_comparator(${1:_pl} &a, $1 &b, $1 &c, $1 &d) {
+	${2:_i128} dot_ab = dot(a, b);
+	$2 dot_cd = dot(c, d);
+
+	$2 norm_ab = norm2(a) * norm2(b);
+	$2 norm_cd = norm2(c) * norm2(d);
+
+	if(dot_ab >= 0 and dot_cd < 0) return true;
+
+	if(dot_ab < 0 and dot_cd >= 0) return false;
+
+	$2 angle_ab = dot_ab * dot_ab * norm_cd;
+	$2 angle_cd = dot_cd * dot_cd * norm_ab;
+
+
+	if(dot_ab >= 0) {
+		return angle_ab > angle_cd;
+	} else {
+		return angle_ab < angle_cd;
+	}
+}
+$0
 endsnippet
 
 
@@ -131,9 +163,10 @@ endsnippet
 
 
 snippet cross "corss product"
-_l$1 cross(_p${1:l} &a, _p$1 &b) { 
+${1:_ll} cross(pair<$1,$1> &a, pair<$1,$1> &b) { 
 	return  a.fr * b.sc - a.sc * b.fr;
-} 
+}
+$0
 endsnippet
 
 
@@ -148,16 +181,26 @@ endsnippet
 
 
 
-snippet f0r "for from 0 to n"
-F0R(${1:i}, ${2:n}) {
-	$0
+snippet dist2 "cuadratic distance between 2 points"
+${1:_ll} dist2(pair<$1,$1> &a, pair<$1,$1> &b) { 
+	return  (a.fr - b.fr) * (a.fr - b.fr) + (a.sc - b.sc) * (a.sc - b.sc);
 }
+$0
 endsnippet
 
 
 
-snippet f0rz "for from 0 to sz(arr)"
-F0R(${1:i}, sz(${2:arr})) {
+snippet dot "dot product"
+${1:_ll} dot(pair<$1,$1> &a, pair<$1,$1> &b) { 
+	return  a.fr * b.fr + a.sc * b.sc;
+}
+$0
+endsnippet
+
+
+
+snippet f0r "for from 0 to n"
+F0R(${1:i}, ${2:n}) {
 	$0
 }
 endsnippet
@@ -180,16 +223,16 @@ endsnippet
 
 
 
-snippet for "custom for"
-FOR(${1:i}, ${2:1}, ${3:n}) {
+snippet f0rz "for from 0 to sz(arr)"
+F0R(${1:i}, sz(${2:arr})) {
 	$0
 }
 endsnippet
 
 
 
-snippet forz "custom for to sz(arr)"
-FOR(${1:i}, ${2:1}, sz(${3:arr})) {
+snippet for "custom for"
+FOR(${1:i}, ${2:1}, ${3:n}) {
 	$0
 }
 endsnippet
@@ -229,6 +272,14 @@ endsnippet
 
 
 
+snippet forz "custom for to sz(arr)"
+FOR(${1:i}, ${2:1}, sz(${3:arr})) {
+	$0
+}
+endsnippet
+
+
+
 snippet gcd "gcd"
 template<typename T>
 T gcd(T a, T b) {
@@ -238,6 +289,15 @@ T gcd(T a, T b) {
 	}
 	return b;
 }
+endsnippet
+
+
+
+snippet half "function to get to which half of the plane a point belongs"
+${1:_ll} cross(pair<$1,$1> &a, pair<$1,$1> &b) { 
+	return p.sc > 0 or (p.sc == 0 and p.fr > 0);
+}
+$0
 endsnippet
 
 
@@ -344,6 +404,15 @@ endsnippet
 
 
 
+snippet norm2 "cuadratic lenght of a vector"
+${1:_ll} norm2(pair<$1,$1> &p) { 
+	return  p.fr * p.fr + p.sc * p.sc;
+}
+$0
+endsnippet
+
+
+
 snippet optimize "optimization instructions"
 #pragma GCC optimize ("O3")
 #pragma GCC optimize("unroll-loops")
@@ -419,7 +488,7 @@ endsnippet
 
 
 
-snippet read2v1 "read 2 vectors simultaneously from 1"
+snippet read2v1 "read 2 vectors simultaneously starting from 1"
 vector<${1:int}> ${2:arr1}(${3:n + 1});
 vector<$1> ${4:arr2}($3);
 FOR(i, 1, $3) {
@@ -623,4 +692,3 @@ typedef vector<_cd> _vcd;
 typedef vector<_pi> _vpi;
 typedef vector<_pl> _vpl;
 endsnippet
-

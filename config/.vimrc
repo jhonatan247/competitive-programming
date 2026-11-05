@@ -94,7 +94,6 @@ let g:netrw_localrmdir = 'rm -r'
 
 
 " Leader mappings
-
     let mapleader = "\<Space>"
 "   Save current file
     nnoremap <Leader>w :write<CR>
@@ -139,14 +138,13 @@ let g:netrw_localrmdir = 'rm -r'
     endfunction
     nnoremap <Leader>t :call <SID>CPNextTest()<CR>
 
-" Comands
 
+" Comands
 "   Debug build
-    command! Gdb !g++ -std=c++17 -O0 -g -o %< % && ./%<
+    command! Gdb !g++ -std=c++23 -O0 -g -o %< % && ./%<
 
 
 " Autocmd
-
 "   Append template to new C++ files
     autocmd BufNewFile *.cpp if expand('%:t') !~# '_\(int\|gen\)\.cpp$' | 
         \ 0r ~/cp/library/templates/problem.cpp | 
@@ -205,7 +203,7 @@ let g:netrw_localrmdir = 'rm -r'
             if a:compile
                 let cmd .= ' && build.sh ' . shellescape(base)
                       \ . ' && build.sh ' . shellescape(base . '_slow')
-                      \ . ' && build.sh ' . shellescape(base . '_gen')
+                      \ . ' && build.sh --debug ' . shellescape(base . '_gen')
             endif
             let cmd .= ' && stress.sh ' . shellescape(base) . ' '
                   \ . shellescape(base . '_slow') . ' '
@@ -213,7 +211,7 @@ let g:netrw_localrmdir = 'rm -r'
         elseif filereadable(interactor)
             if a:compile
                 let cmd .= ' && build.sh ' . shellescape(base)
-                      \ . ' && build.sh ' . shellescape(base . '_int')
+                      \ . ' && build.sh --debug ' . shellescape(base . '_int')
             endif
             let cmd .= ' && interact.sh ' . shellescape(base) . ' '
                   \ . shellescape(base . '_int') . ' ' . n
@@ -250,6 +248,7 @@ let g:netrw_localrmdir = 'rm -r'
     autocmd FileType cpp nnoremap <silent> <buffer> <F4> <Cmd>call CPInline()<CR>
     autocmd FileType cpp inoremap <silent> <buffer> <F4> <Cmd>call CPInline()<CR>
     autocmd FileType cpp vnoremap <silent> <buffer> <F4> <Cmd>call CPInline()<CR>
+
 
 " Plugin management (vim-plug only)
 call plug#begin('~/.vim/plugged')
