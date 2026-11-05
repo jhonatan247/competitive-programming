@@ -19,7 +19,10 @@ The [`scripts/`](../scripts/) directory contains utilities used while programmin
 - Optimize for a smooth competitive programming experience and fast feedback.
 - Follow robust scripting practices: quote paths, validate inputs, use clear exit statuses, avoid unnecessary external dependencies, and preserve useful error messages.
 - Keep behavior portable between WSL Ubuntu and macOS.
-- Preserve executable permissions where applicable.
+- Use LF (`\n`) line endings for shell scripts and every file with a shebang. Never create or save them with CRLF (`\r\n`), because Unix interpreters reject shebangs containing a carriage return.
+- After creating or editing a shell script, verify its line endings and preserve executable permissions where applicable.
+- When operating from Windows, run Linux commands inside WSL with an explicit Linux working directory, for example `wsl.exe --distribution Ubuntu --cd /home/taklamakan/cp -- bash -lc 'bash scripts/test.sh'`; do not rely on a Windows UNC path as the current directory.
+- Before claiming a WSL command was run, execute it through `wsl.exe` and inspect its exit status and output. If WSL fails to start, report that environment failure clearly and continue with static validation where possible.
 - Consider how scripts compose with one another, especially compilation, local testing, stress testing, validation, and submission workflows.
 - Keep [`scripts/compile.sh`](../scripts/compile.sh) compatible with library includes and its generated single-file online-judge submission output.
 
