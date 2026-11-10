@@ -48,6 +48,7 @@ read2s
 read2v
 read2v1
 read3
+read3v
 read4
 reads
 readt
@@ -177,6 +178,7 @@ snippet cycles "short cycles"
 #define FORd(i,a,b) for (_ll i = (b)-1; i >= a; i--)
 #define TRAV(a,x) for (auto& a : x)
 #define TRAVd(a,x) for (auto a = x.rbegin(); a != x.rend(); ++a)
+#define P_TRAV(k, a, x) for (auto& [k, a] : x)
 endsnippet
 
 
@@ -255,7 +257,7 @@ endsnippet
 
 
 
-snippet foreach "for iterating over a collection"
+snippet foreach "traverse a collection"
 TRAV(${1:e}, ${2:arr}) {
 	$0
 }
@@ -263,9 +265,17 @@ endsnippet
 
 
 
-snippet foreachd "for iterating over a collection in reverse order"
+snippet foreachd "traverse a collection in reverse order"
 TRAVd(${1:e}It, ${2:arr}) {
 	auto $1 = *$1It;
+	$0
+}
+endsnippet
+
+
+
+snippet forp "traverse a collection containing pairs"
+P_TRAV(${1:k}, ${2:e}, ${3:arr}) {
 	$0
 }
 endsnippet
@@ -482,8 +492,7 @@ snippet read2v "read 2 vectors simultaneously"
 vector<${1:int}> ${2:arr1}(${3:n});
 vector<$1> ${4:arr2}($3);
 F0R(i, $3) {
-	cin >> $2[i];
-	cin >> $4[i];
+	cin >> $2[i] >> $4[i];
 }
 $0
 endsnippet
@@ -494,8 +503,7 @@ snippet read2v1 "read 2 vectors simultaneously starting from 1"
 vector<${1:int}> ${2:arr1}(${3:n + 1});
 vector<$1> ${4:arr2}($3);
 FOR(i, 1, $3) {
-	cin >> $2[i];
-	cin >> $4[i];
+	cin >> $2[i] >> $4[i];
 }
 $0
 endsnippet
@@ -505,6 +513,18 @@ endsnippet
 snippet read3 "read 3 variables"
 ${1:int} ${2:n}, ${3:m}, ${4:l};
 cin >> $2 >> $3 >> $4;
+$0
+endsnippet
+
+
+
+snippet read3v "read 3 vectors simultaneously"
+vector<${1:int}> ${2:arr1}(${3:n});
+vector<$1> ${4:arr2}($3);
+vector<$1> ${5:arr3}($3);
+F0R(i, $3) {
+	cin >> $2[i] >> $4[i] >> $5[i];
+}
 $0
 endsnippet
 

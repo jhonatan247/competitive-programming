@@ -1,5 +1,4 @@
 #ifdef LOCAL
-    #define _GLIBCXX_DEBUG
     #include <local/debug.h>
 #else
     #define debug(...) ((void)0)

@@ -50,30 +50,21 @@ void solve() {
     int n;
     cin >> n;
     
-    _vi A(n);
     int min_a = INT_MAX;
     int max_a = INT_MIN;
     F0R(i, n) {
-        cin >> A[i];
-        min_a = min(min_a, A[i]);
-        max_a = max(max_a, A[i]);
+        int a;
+        cin >> a;
+        min_a = min(min_a, a);
+        max_a = max(max_a, a);
     }
 
     int max_bit = highest_set_bit_index(max_a);
 
-    if(max_bit < 0) {
-        cout << 0 << nl;
-        return;
-    }
-
-    if(min_a < (1 << max_bit)) {
-        cout << ((1 << (max_bit + 1)) - 1) << nl;
-        return;
-    }
-
     int ans = 0;
     bool diff = false;
     int curr_pow = 1 << max_bit;
+
     while(curr_pow) {
         if((max_a & curr_pow) != (min_a & curr_pow)) {
             diff = true;

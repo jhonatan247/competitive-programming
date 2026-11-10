@@ -148,8 +148,8 @@ let g:netrw_localrmdir = 'rm -r'
 "   Append template to new C++ files
     autocmd BufNewFile *.cpp if expand('%:t') !~# '_\(int\|gen\)\.cpp$' | 
         \ 0r ~/cp/library/templates/problem.cpp | 
-        \ if get(g:, 'test_cases', 0) | 35delete | 32,33delete | endif | 
-        \ execute "normal! 24Gi\<Tab>" | 
+        \ if get(g:, 'test_cases', 0) | 34delete | 31,32delete | endif | 
+        \ execute "normal! 23Gi\<Tab>" | 
         \ startinsert! | 
         \ endif
 "   Append template to new interactor files
@@ -178,12 +178,12 @@ let g:netrw_localrmdir = 'rm -r'
         endif
         execute l:cmd
     endfunction
-    autocmd FileType cpp nnoremap <buffer> <F10> <Cmd>call BuildCpp('--debug', 1)<CR>
-    autocmd FileType cpp inoremap <buffer> <F10> <Cmd>call BuildCpp('--debug', 1)<CR>
-    autocmd FileType cpp vnoremap <buffer> <F10> <Cmd>call BuildCpp('--debug', 1)<CR>
-    autocmd FileType cpp nnoremap <buffer> <F9>  <Cmd>call BuildCpp('--verbose --debug', 1)<CR>
-    autocmd FileType cpp inoremap <buffer> <F9>  <Cmd>call BuildCpp('--verbose --debug', 1)<CR>
-    autocmd FileType cpp vnoremap <buffer> <F9>  <Cmd>call BuildCpp('--verbose --debug', 1)<CR>
+    autocmd FileType cpp nnoremap <buffer> <F10> <Cmd>call BuildCpp('--verbose --debug', 1)<CR>
+    autocmd FileType cpp inoremap <buffer> <F10> <Cmd>call BuildCpp('--verbose --debug', 1)<CR>
+    autocmd FileType cpp vnoremap <buffer> <F10> <Cmd>call BuildCpp('--verbose --debug', 1)<CR>
+    autocmd FileType cpp nnoremap <buffer> <F9>  <Cmd>call BuildCpp('--debug', 1)<CR>
+    autocmd FileType cpp inoremap <buffer> <F9>  <Cmd>call BuildCpp('--debug', 1)<CR>
+    autocmd FileType cpp vnoremap <buffer> <F9>  <Cmd>call BuildCpp('--debug', 1)<CR>
     autocmd FileType cpp nnoremap <buffer> <F8>  <Cmd>call BuildCpp('', 0)<CR>
     autocmd FileType cpp inoremap <buffer> <F8>  <Cmd>call BuildCpp('', 0)<CR>
     autocmd FileType cpp vnoremap <buffer> <F8>  <Cmd>call BuildCpp('', 0)<CR>
@@ -201,17 +201,17 @@ let g:netrw_localrmdir = 'rm -r'
 
         if filereadable(generator)
             if a:compile
-                let cmd .= ' && build.sh ' . shellescape(base)
+                let cmd .= ' && build.sh --verbose ' . shellescape(base)
                       \ . ' && build.sh ' . shellescape(base . '_slow')
-                      \ . ' && build.sh --debug ' . shellescape(base . '_gen')
+                      \ . ' && build.sh --verbose --debug ' . shellescape(base . '_gen')
             endif
             let cmd .= ' && stress.sh ' . shellescape(base) . ' '
                   \ . shellescape(base . '_slow') . ' '
                   \ . shellescape(base . '_gen') . ' ' . n
         elseif filereadable(interactor)
             if a:compile
-                let cmd .= ' && build.sh ' . shellescape(base)
-                      \ . ' && build.sh --debug ' . shellescape(base . '_int')
+                let cmd .= ' && build.sh --verbose ' . shellescape(base)
+                      \ . ' && build.sh --verbose --debug ' . shellescape(base . '_int')
             endif
             let cmd .= ' && interact.sh ' . shellescape(base) . ' '
                   \ . shellescape(base . '_int') . ' ' . n

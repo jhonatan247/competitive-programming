@@ -1,7 +1,3 @@
-#ifdef LOCAL
-    #define _GLIBCXX_DEBUG
-#endif
-
 #include <bits/stdc++.h>
  
 using namespace std;
@@ -52,27 +48,15 @@ void solve() {
     string s1, s2;
     cin >> s1 >> s2;
 
-    _vvi cnt(2, _vi(2, 0));
+    _vi s1_cnt(2, 0);
+    _vi s2_cnt(2, 0);
 
     F0R(i, n) {
-        if(i % 2){
-            cnt[0][0] += s1[i] == '1';
-            cnt[1][0] += s2[i] == '1';
-        }
-        else {
-            cnt[0][1] += s1[i] == '1';
-            cnt[1][1] += s2[i] == '1';
-        }
-        
+        s1_cnt[i % 2] += s1[i] == '1';
+        s2_cnt[i % 2] += s2[i] == '1';
     }
     
-    bool viable = true;
-
-    F0R(i, 2) {
-        viable = viable and cnt[0][i] == cnt[1][i];
-    }
-
-    if(viable) {
+    if(s1_cnt[0] == s2_cnt[0] and s1_cnt[1] == s2_cnt[1]) {
         cout << "yes" << nl;
     } else {
         cout << "no" << nl;

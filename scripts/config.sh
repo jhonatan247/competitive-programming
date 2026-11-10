@@ -32,8 +32,9 @@ add_to_zshrc "alias code='code.sh'"
 add_to_zshrc "alias commit='clean.sh && git add -A && git commit -m '"
 add_to_zshrc "alias config='bash ~/cp/scripts/config.sh'"
 add_to_zshrc "alias count='count.sh'"
-add_to_zshrc "alias in='in.sh'"
+add_to_zshrc 'lookup() { cd -- "$(find.sh "$@")"; }'
 add_to_zshrc "alias gym='cd ~/cp/training/gym'"
+add_to_zshrc "alias in='in.sh'"
 add_to_zshrc "alias lib='cd ~/cp/library && vim .'"
 add_to_zshrc 'alias rpc='"'"'cd ~/cp/training/rpc && cd "$(ls -d */ | sort | tail -n1)"'"'"''
 add_to_zshrc "alias repo='cd ~/cp/repository'"

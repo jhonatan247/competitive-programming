@@ -108,7 +108,7 @@ fi
 
 # --verbose: enable comprehensive warnings, tuned per OS.
 if [ "$VERBOSE" -eq 1 ]; then
-    FLAGS+=(-g -Wextra -Wconversion -fsanitize=address,undefined)
+    FLAGS+=(-g -D_GLIBCXX_DEBUG -Wextra -Wconversion -fsanitize=address,undefined)
 
     if [ "$OS" = "Darwin" ] && [ "$ARCH" = "arm64" ]; then
         # Apple Silicon: GCC/clang here has no SSE4, so <x86intrin.h> pragmas
