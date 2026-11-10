@@ -102,6 +102,19 @@ def merge_source(
             )
 
 
+def count_problems(entry: dict[str, Any]) -> int:
+    problems = entry.get("problems", {})
+    count = len(problems) if isinstance(problems, dict) else 0
+
+    count += sum(
+        count_problems(child)
+        for key, child in entry.items()
+        if key != "problems" and isinstance(child, dict)
+    )
+
+    return count
+
+
 def main() -> None:
     existing = load_existing(OUTPUT_PATH)
     for source_name in ("learning", "training"):
@@ -114,6 +127,16 @@ def main() -> None:
     with OUTPUT_PATH.open("w", encoding="utf-8", newline="\n") as file:
         json.dump(existing, file, indent=4, ensure_ascii=False)
         file.write("\n")
+
+    source_details = ", ".join(
+        f"{source}: {count_problems(data)} problems"
+        for source in ("learning", "training")
+        if isinstance((data := existing.get(source)), dict)
+    )
+    print(
+        f"Successfully refreshed {OUTPUT_PATH} "
+        f"({OUTPUT_PATH.stat().st_size} bytes; {source_details})."
+    )
 
 
 if __name__ == "__main__":
