@@ -118,6 +118,9 @@
                         },
                         "S": {
                             "title": "S"
+                        },
+                        "T": {
+                            "title": "T"
                         }
                     }
                 },
@@ -180,6 +183,71 @@
                         },
                         "S": {
                             "title": "S"
+                        }
+                    }
+                }
+            }
+        },
+        "codeforces": {
+            "title": "codeforces",
+            "contents": {
+                "data-structures": {
+                    "title": "data-structures",
+                    "problems": {
+                        "443A": {
+                            "title": "443A"
+                        },
+                        "4C": {
+                            "title": "4C"
+                        },
+                        "706B": {
+                            "title": "706B"
+                        }
+                    }
+                },
+                "greedy": {
+                    "title": "greedy",
+                    "problems": {
+                        "10E": {
+                            "title": "10E"
+                        },
+                        "996A": {
+                            "title": "996A"
+                        }
+                    }
+                },
+                "introduction": {
+                    "title": "introduction",
+                    "problems": {
+                        "4A": {
+                            "title": "4A"
+                        }
+                    }
+                }
+            }
+        },
+        "itmo": {
+            "title": "itmo",
+            "contents": {
+                "binary-search": {
+                    "title": "binary-search",
+                    "contents": {
+                        "practice-1": {
+                            "title": "practice-1",
+                            "problems": {
+                                "A": {
+                                    "title": "A"
+                                },
+                                "B": {
+                                    "title": "B"
+                                },
+                                "C": {
+                                    "title": "C"
+                                },
+                                "D": {
+                                    "title": "D"
+                                }
+                            }
                         }
                     }
                 }
@@ -425,6 +493,26 @@
                             "title": "C"
                         }
                     }
+                },
+                "abc484": {
+                    "title": "abc484",
+                    "problems": {
+                        "A": {
+                            "title": "A"
+                        },
+                        "B": {
+                            "title": "B"
+                        },
+                        "C": {
+                            "title": "C"
+                        },
+                        "D": {
+                            "title": "D"
+                        },
+                        "E": {
+                            "title": "E"
+                        }
+                    }
                 }
             }
         },
@@ -503,6 +591,72 @@
                                     "title": "E"
                                 }
                             }
+                        },
+                        "2094": {
+                            "title": "2094",
+                            "problems": {
+                                "A": {
+                                    "title": "A"
+                                },
+                                "B": {
+                                    "title": "B"
+                                },
+                                "C": {
+                                    "title": "C"
+                                },
+                                "D": {
+                                    "title": "D"
+                                },
+                                "E": {
+                                    "title": "E"
+                                },
+                                "F": {
+                                    "title": "F"
+                                }
+                            }
+                        },
+                        "2227": {
+                            "title": "2227",
+                            "problems": {
+                                "A": {
+                                    "title": "A"
+                                },
+                                "B": {
+                                    "title": "B"
+                                },
+                                "C": {
+                                    "title": "C"
+                                },
+                                "D": {
+                                    "title": "D"
+                                },
+                                "E": {
+                                    "title": "E"
+                                }
+                            }
+                        },
+                        "2290": {
+                            "title": "2290",
+                            "problems": {
+                                "A": {
+                                    "title": "A"
+                                },
+                                "B": {
+                                    "title": "B"
+                                },
+                                "C": {
+                                    "title": "C"
+                                },
+                                "D": {
+                                    "title": "D"
+                                },
+                                "E": {
+                                    "title": "E"
+                                },
+                                "F": {
+                                    "title": "F"
+                                }
+                            }
                         }
                     }
                 },
@@ -529,6 +683,9 @@
                                 },
                                 "2263B": {
                                     "title": "2263B"
+                                },
+                                "2185C": {
+                                    "title": "2185C"
                                 }
                             }
                         },
@@ -698,6 +855,9 @@
                                 },
                                 "2276C": {
                                     "title": "2276C"
+                                },
+                                "2184B": {
+                                    "title": "2184B"
                                 }
                             }
                         },
@@ -724,6 +884,23 @@
                                 },
                                 "2254C2": {
                                     "title": "2254C2"
+                                },
+                                "2190A": {
+                                    "title": "2190A"
+                                },
+                                "2196A": {
+                                    "title": "2196A"
+                                },
+                                "2210C1": {
+                                    "title": "2210C1"
+                                }
+                            }
+                        },
+                        "0800": {
+                            "title": "0800",
+                            "problems": {
+                                "71A": {
+                                    "title": "71A"
                                 }
                             }
                         }
@@ -773,6 +950,9 @@
                             "title": "I"
                         }
                     }
+                },
+                "regional-2026": {
+                    "title": "regional-2026"
                 }
             }
         },
@@ -845,6 +1025,9 @@
                         },
                         "K": {
                             "title": "K"
+                        },
+                        "I": {
+                            "title": "I"
                         }
                     }
                 }
