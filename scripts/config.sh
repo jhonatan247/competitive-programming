@@ -27,6 +27,8 @@ add_to_zshrc 'export CPLUS_INCLUDE_PATH=~/cp/library:$CPLUS_INCLUDE_PATH'
 add_to_zshrc "alias atc='cd ~/cp/training/atcoder'"
 add_to_zshrc "alias cfc='cd ~/cp/training/codeforces/contests'"
 add_to_zshrc "alias cfp='cd ~/cp/training/codeforces/problems'"
+add_to_zshrc "alias cfl='cd ~/cp/learning/codeforces'"
+add_to_zshrc "alias cses='cd ~/cp/learning/cses'"
 add_to_zshrc "alias clean='clean.sh'"
 add_to_zshrc "alias code='code.sh'"
 add_to_zshrc "alias commit='clean.sh && git add -A && git commit -m '"
@@ -35,6 +37,8 @@ add_to_zshrc "alias count='count.sh'"
 add_to_zshrc 'lookup() { cd -- "$(find.sh "$@")"; }'
 add_to_zshrc "alias gym='cd ~/cp/training/gym'"
 add_to_zshrc "alias in='in.sh'"
+add_to_zshrc "alias itmo='cd ~/cp/learning/itmo'"
+add_to_zshrc "alias learn='cd ~/cp/learning'"
 add_to_zshrc "alias lib='cd ~/cp/library && vim .'"
 add_to_zshrc 'alias rpc='"'"'cd ~/cp/training/rpc && cd "$(ls -d */ | sort | tail -n1)"'"'"''
 add_to_zshrc "alias repo='cd ~/cp/repository'"

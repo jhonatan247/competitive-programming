@@ -12,7 +12,7 @@ using namespace std;
 
 typedef int64_t _ll;
 
-#define F0R(i, a) for (_ll i=0; i<(a); i++)
+#define F0R(i, a) for (int i=0; i<(a); i++)
 
 #define sz(x) (int)(x).size()
 #define all(x) x.begin(), x.end()
